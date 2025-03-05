@@ -99,12 +99,12 @@ const Navbar = () => {
           <div className="hidden md:block">
             <div className="absolute inset-y-0 right-0 flex items-center gap-4 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               {/* Login Section */}
-              <button className="px-4 py-2 rounded-lg ring-2 ring-purple-300 text-purple-300 font-semibold hover:bg-purple-300 hover:ring-offset-4 hover:ring-offset-[#060911] transition-all duration-300 hover:cursor-pointer hover:text-black">
+              <button className="px-4 py-2 rounded-lg ring-2 ring-purple-300 text-purple-300 font-semibold hover:bg-purple-300 transition-all duration-300 hover:cursor-pointer hover:text-black">
                 Login
               </button>
 
               {/* Register Section */}
-              <button className="px-4 py-2 rounded-lg ring-2 ring-offset-0 ring-purple-300 bg-purple-300 font-semibold hover:ring-2 hover:ring-offset-4 hover:ring-offset-[#060911] transition-all duration-300 hover:cursor-pointer hover:text-black">
+              <button className="px-4 py-2 rounded-lg bg-purple-300 font-semibold hover:cursor-pointer hover:text-black">
                 Register
               </button>
             </div>
