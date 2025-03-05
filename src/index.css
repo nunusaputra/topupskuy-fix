@@ -1,0 +1,85 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: "Plus Jakarta Sans", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+@layer components {
+  .container {
+    @apply max-w-full w-[1440px] px-28 mx-auto;
+  }
+
+  .md {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .shadow-custom {
+    box-shadow: 5px 5px black;
+  }
+
+  .background-dots {
+    background-image: radial-gradient(circle, #4c0487 2px, transparent 1px);
+    background-size: 30px 30px;
+  }
+
+  .shadow-custom {
+    box-shadow: 5px 5px rgb(168 85 247 / 0.6);
+  }
+}
+
+@layer base {
+  section {
+    @apply py-[75px];
+  }
+}
+
+@media only screen and (max-width: 374px) {
+  .mini-card {
+    @apply w-[8.75rem] h-[11.25rem];
+  }
+
+  .mini-img {
+    @apply w-[6.5rem] h-[6.5rem];
+  }
+
+  .mini-text {
+    @apply text-[13px];
+  }
+
+  .mini-text-2 {
+    @apply text-center text-[14px];
+  }
+}
+
+@media only screen and (max-width: 361px) {
+  .text-mini {
+    @apply text-[0.6rem];
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .container {
+    @apply w-full px-8;
+  }
+
+  section {
+    @apply py-[35px];
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .container {
+    @apply w-full px-5;
+  }
+
+  section {
+    @apply py-[25px];
+  }
+}
