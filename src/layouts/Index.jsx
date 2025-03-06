@@ -5,7 +5,7 @@ import Footer from "../components/Footer";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-[#060911] background-dots">
+    <div className="min-h-screen bg-primary background-dots">
       <Navbar />
       <div className="">
         <Outlet />

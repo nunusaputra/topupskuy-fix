@@ -34,7 +34,7 @@ const OrderDetail = () => {
   return (
     <div className="relative mb-10">
       <CoverHeader data={data} />
-      <div className="container relative w-full mx-auto lg:flex lg:gap-10">
+      <div className="container relative w-full min-h-screen mx-auto lg:flex lg:gap-10">
         <SideContent />
         <DetailContent />
       </div>

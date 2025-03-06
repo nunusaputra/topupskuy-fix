@@ -37,7 +37,7 @@ const Promo = () => {
 
   return (
     <div className="relative z-30">
-      <div className="w-full p-4 md:px-8 md:py-6 bg-slate-900/80 backdrop-blur-4xl rounded-xl">
+      <div className="w-full p-4 md:px-8 md:py-6 bg-secondary/80 backdrop-blur-4xl rounded-xl">
         {/* Promo Content */}
         <div className="flex items-center gap-7 sm:justify-between">
           <div className="flex items-center gap-5">
@@ -52,15 +52,15 @@ const Promo = () => {
             />
           </div>
           <div className="flex gap-1">
-            <div className="w-6 sm:w-10 h-6 sm:h-10 bg-purple-300 rounded-md sm:rounded-lg overflow-hidden flex justify-center items-center">
+            <div className="w-6 sm:w-10 h-6 sm:h-10 bg-third rounded-md sm:rounded-lg overflow-hidden flex justify-center items-center">
               <h1 className="text-sm sm:text-xl font-bold">{today.hours}</h1>
             </div>
             <div className="text-sm sm:text-xl text-white self-center">:</div>
-            <div className="w-6 sm:w-10 h-6 sm:h-10 bg-purple-300 rounded-md sm:rounded-lg overflow-hidden flex justify-center items-center">
+            <div className="w-6 sm:w-10 h-6 sm:h-10 bg-third rounded-md sm:rounded-lg overflow-hidden flex justify-center items-center">
               <h1 className="text-sm sm:text-xl font-bold">{today.minutes}</h1>
             </div>
             <div className="text-sm sm:text-xl text-white self-center">:</div>
-            <div className="w-6 sm:w-10 h-6 sm:h-10 bg-purple-300 rounded-md sm:rounded-lg overflow-hidden flex justify-center items-center">
+            <div className="w-6 sm:w-10 h-6 sm:h-10 bg-third rounded-md sm:rounded-lg overflow-hidden flex justify-center items-center">
               <h1 className="text-sm sm:text-xl font-bold">{today.seconds}</h1>
             </div>
           </div>
@@ -112,7 +112,7 @@ const Promo = () => {
         </div>
       </div>
       {/* Neon Design */}
-      <div className="absolute -bottom-1 md:-bottom-5 right-5 w-[90%] md:w-[95%] h-[6.5rem] bg-purple-500/30 blur-xl rounded-md -z-50"></div>
+      <div className="absolute -bottom-1 md:-bottom-5 right-5 w-[90%] md:w-[95%] h-[6.5rem] bg-sixth/30 blur-xl rounded-md -z-50"></div>
     </div>
   );
 };

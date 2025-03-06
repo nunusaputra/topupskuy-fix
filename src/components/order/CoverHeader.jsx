@@ -17,7 +17,7 @@ const CoverHeader = ({ data }) => {
       </div>
 
       {/* Cover Content */}
-      <div className="relative w-full bg-slate-600/80 h-[7.5rem] xl:h-40">
+      <div className="relative w-full bg-fourth/80 h-[7.5rem] xl:h-40">
         <div className="absolute -bottom-20 left-40 md:left-[10.5rem] lg:left-[13.5rem] xl:-bottom-11 xl:left-[26rem] w-full h-[12.5rem] z-10 py-2 flex flex-col gap-3">
           <div className="">
             <h1 className="text-white text-xl font-bold">{data.name}</h1>

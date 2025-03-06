@@ -30,8 +30,8 @@ const MainContent = () => {
         });
       } else if (window.innerWidth >= 1280) {
         setSize({
-          min: 30,
-          max: 20,
+          min: 20,
+          max: 18,
         });
       } else {
         setSize({
@@ -48,7 +48,7 @@ const MainContent = () => {
   }, []);
 
   return (
-    <div className="w-full p-4 md:px-8 md:py-6 bg-slate-900/80 backdrop-blur-4xl rounded-xl flex flex-col gap-20 mb-[10rem]">
+    <div className="w-full p-4 md:px-8 md:py-6 bg-secondary/80 backdrop-blur-4xl rounded-xl flex flex-col gap-20 mb-[10rem]">
       {/* Games */}
       <div className="flex flex-col gap-5">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-5">
@@ -77,7 +77,7 @@ const MainContent = () => {
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-5 lg:gap-7">
           {dataList.map((item) => (
             <a href={`/order/${item.id}`} key={item.id}>
-              <div className="w-[100%] h-[12.5] md:h-[16.5rem] flex flex-col bg-[#060911] rounded-lg ring-2 ring-purple-500 ring-offset-0 transition-all duration-300 hover:ring-offset-8 hover:rotate-3 hover:ring-offset-[#060911] hover:cursor-pointer overflow-hidden">
+              <div className="w-[100%] h-[12.5] md:h-[16.5rem] flex flex-col bg-[#060911] rounded-lg ring-2 ring-purple-500 ring-offset-0 transition-all duration-300 hover:ring-offset-8 hover:rotate-3 hover:ring-offset-secondary hover:cursor-pointer overflow-hidden">
                 <div className="w-full h-[8.8rem] md:h-[12.5rem] bg-red-500">
                   <img
                     src={item.image}
@@ -85,7 +85,7 @@ const MainContent = () => {
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <div className="w-full h-16 bg-purple-500/20 px-2 py-1 flex flex-col">
+                <div className="w-full h-16 bg-sixth/20 px-2 py-1 flex flex-col">
                   <h1 className="text-white text-md sm:text-lg font-bold">
                     {item.name.length > size.min
                       ? `${item.name.substring(0, size.max)}...`

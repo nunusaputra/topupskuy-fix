@@ -55,12 +55,12 @@ const DetailContent = () => {
             />
           </div>
         </div>
-        <div
-          className="w-full h-10 rounded-xl bg-slate-700 flex items-center gap-2 px-4 hover:cursor-pointer"
-          onClick={() => setOpen(true)}
-        >
-          <IoMdInformationCircle className="text-xl text-white" />
-          <p className="text-sm text-white">Cara Menemukan ID</p>
+        <div className="">
+          <p className="text-xs sm:text-sm text-slate-400">
+            Untuk mengetahui User ID kamu, klik menu profile pada menu game.
+            User ID terlihat pada bagian bawah nama karakter kamu. Silahkan
+            masukan User ID dan Server ID untuk menyelesaikan transaksi.
+          </p>
         </div>
       </div>
 
@@ -75,7 +75,7 @@ const DetailContent = () => {
         <div className="grid grid-cols-2 sm:grid-cols-3 2xl:grid-cols-4 gap-5">
           {diamondPass.map((item) => (
             <div
-              className="w-full min-h-20 bg-slate-600/30 backdrop-blur-xl border border-slate-600 shadow-md shadow-slate-900 rounded-lg px-4 py-2 flex flex-col gap-1 justify-center hover:cursor-pointer hover:bg-orange-500"
+              className="w-full min-h-20 bg-fourth/30 backdrop-blur-xl border border-slate-600 shadow-md shadow-slate-900 rounded-lg px-4 py-2 flex flex-col gap-1 justify-center hover:cursor-pointer hover:bg-seventh"
               key={item.id}
             >
               <h1 className="text-white text-xs sm:text-sm font-semibold">
@@ -98,7 +98,7 @@ const DetailContent = () => {
           </h1>
         </div>
         {/* E-wallet dan qris */}
-        <div className="w-full min-h-10 bg-slate-600/30 backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
+        <div className="w-full min-h-10 bg-fourth/30 backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
           <div
             className="flex justify-between items-center px-4 py-2"
             onClick={() => handleShow(1)}
@@ -160,7 +160,7 @@ const DetailContent = () => {
         </div>
 
         {/* Convenience Store */}
-        <div className="w-full min-h-10 bg-slate-600/30 backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
+        <div className="w-full min-h-10 bg-fourth/30 backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
           <div
             className="flex justify-between items-center px-4 py-2"
             onClick={() => handleShow(2)}
@@ -218,7 +218,7 @@ const DetailContent = () => {
         </div>
 
         {/* Bank */}
-        <div className="w-full min-h-10 bg-slate-600/30 backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
+        <div className="w-full min-h-10 bg-fourth/30 backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
           <div
             className="flex justify-between items-center px-4 py-2"
             onClick={() => handleShow(3)}
@@ -291,7 +291,7 @@ const DetailContent = () => {
               className="lg:col-span-2 w-full h-9 border border-white/70 bg-transparent rounded-md px-4 py-1 text-white text-sm"
               placeholder="Masukan Kode Promo"
             />
-            <button className=" bg-orange-500 py-1 lg:py-0 rounded-lg text-white font-semibold shadow-md shadow-slate-900">
+            <button className=" bg-seventh py-1 lg:py-0 rounded-lg text-white font-semibold shadow-md shadow-slate-900">
               Apply Code
             </button>
           </div>

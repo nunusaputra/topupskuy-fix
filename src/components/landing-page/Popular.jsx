@@ -50,7 +50,7 @@ const Popular = () => {
   }, []);
   return (
     <section className="">
-      <div className="w-full p-4 md:px-8 md:py-6 bg-slate-900/80 backdrop-blur-4xl rounded-xl">
+      <div className="w-full p-4 md:px-8 md:py-6 bg-secondary/80 backdrop-blur-4xl rounded-xl">
         <div className="flex gap-2 mb-5">
           <FaFire className="text-2xl text-purple-300 mt-1" />
           <div className="flex flex-col">
@@ -67,7 +67,7 @@ const Popular = () => {
             .filter((rank) => rank.count_buy >= 1500)
             .map((item) => (
               <a href={`/order/${item.id}`} key={item.id}>
-                <div className="relative w-full h-20 md:h-[6.5rem] bg-purple-500/40 rounded-lg flex gap-2 p-2 ring-2 ring-purple-500 ring-offset-0 transition-all duration-300 hover:ring-offset-4 hover:ring-offset-[#060911] group hover:cursor-pointer overflow-hidden">
+                <div className="relative w-full h-20 md:h-[6.5rem] bg-sixth/40 rounded-lg flex gap-2 p-2 ring-2 ring-purple-500 ring-offset-0 transition-all duration-300 hover:ring-offset-4 hover:ring-offset-[#060911] group hover:cursor-pointer overflow-hidden">
                   <div className="w-28 sm:w-[6.5rem] h-full bg-red-500 rounded-lg group-hover:scale-95 transition-all duration-300 overflow-hidden z-10">
                     <img
                       src={item.image}
