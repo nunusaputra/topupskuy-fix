@@ -6,7 +6,7 @@ const Transaction = () => {
   return (
     <div className="container">
       <section className="">
-        <div className="relative w-full min-h-30 bg-fourth/50 px-4 py-10 rounded-2xl flex items-center justify-center overflow-hidden">
+        <div className="w-full min-h-30 bg-secondary/80 backdrop-blur-4xl px-4 py-10 rounded-2xl flex items-center justify-center overflow-hidden">
           <div className="w-full min-h-20 flex flex-col items-center gap-10 z-20">
             <div className="flex flex-col items-center gap-2">
               <h1 className="text-xl text-center xl:text-left xl:text-3xl text-white font-bold">
@@ -21,25 +21,25 @@ const Transaction = () => {
                 Cari detail pembelian kamu disini
               </h1>
               <div className="flex flex-col gap-2">
-                <input
-                  type="text"
-                  className="w-full h-10 rounded-md px-4 border-2 border-slate-400 text-white text-sm"
-                  placeholder="Masukan nomer whatsapp kamu (Contoh: 083815499134)"
-                />
+                <div className="flex flex-col gap-1">
+                  <label htmlFor="wa" className="text-sm text-white">
+                    No. Whatsapp
+                  </label>
+                  <div className="flex items-center border bg-white border-gray-300 rounded-lg p-2 w-full overflow-hidden">
+                    <span className="mr-2">+62</span>
+                    <input
+                      type="tel"
+                      className="outline-none flex-1 bg-transparent text-sm"
+                      placeholder="81234567890"
+                    />
+                  </div>
+                </div>
                 <button className="w-full py-2 bg-seventh text-white font-semibold rounded-lg flex items-center justify-center gap-2 hover:cursor-pointer">
                   <MdOutlineContentPasteSearch className="text-white text-xl" />
                   <p>Cari Pesanan</p>
                 </button>
               </div>
             </div>
-          </div>
-
-          <div className="w-full h-full absolute z-10">
-            <img
-              src={coverBottom}
-              alt=""
-              className="w-full h-full object-cover"
-            />
           </div>
         </div>
       </section>

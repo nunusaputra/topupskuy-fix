@@ -1,4 +1,5 @@
 import React from "react";
+import logo from "../assets/images/logo-fix.png";
 
 const Footer = (props) => {
   const logoFooter = props.metadata?.images.find((item) => item.id === "LOGO-FOOTER")?.value_ || "";
@@ -192,7 +193,7 @@ const Footer = (props) => {
             © Copyright 2025 Lorem Inc. All rights reserved.
           </p>
           <div className="flex items-center mt-4 space-x-4 sm:mt-0">
-            {props.metadata?.socialMedias.map((x) => (
+{props.metadata?.socialMedias.map((x) => (
               <a key={x.id} href={x.link} title={x.id}>
                 <i
                   className={`${x.logo} text-white transition-colors duration-300 tall text-smep-purple-100 hover:text-purple-300`}

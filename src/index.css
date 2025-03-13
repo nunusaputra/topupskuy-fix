@@ -16,11 +16,6 @@
     @apply max-w-full w-[1440px] px-28 mx-auto;
   }
 
-  .md {
-    font-size: 16px;
-    line-height: 24px;
-  }
-
   .shadow-custom {
     box-shadow: 5px 5px black;
   }

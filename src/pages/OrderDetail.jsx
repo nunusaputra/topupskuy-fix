@@ -41,7 +41,7 @@ const OrderDetail = () => {
 
   return (
     <div className="relative mb-10">
-      {product != null && (
+{product != null && (
         <>
           <CoverHeader data={product.product} features={product?.trxFeatures} />
           <div className="container relative w-full min-h-screen mx-auto lg:flex lg:gap-10">
@@ -58,7 +58,6 @@ const OrderDetail = () => {
           </div>
         </>
       )}
-
     </div>
   );
 };

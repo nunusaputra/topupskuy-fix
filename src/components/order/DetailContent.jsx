@@ -6,7 +6,7 @@ import {
   TbCircleNumber4Filled,
   TbCircleNumber5Filled,
 } from "react-icons/tb";
-import { dataPayment, diamondPass } from "../../services/index";
+import { dataList, dataPayment, diamondPass } from "../../services/index";
 import {
   IoIosArrowDown,
   IoIosArrowUp,
@@ -48,7 +48,7 @@ const DetailContent = ({ data, product, attributes, myItems, payment, token }) =
 
   const [show, setShow] = useState(null);
   const [open, setOpen] = useState(false);
-  const [openInstruction, setOpenInstruction] = useState(false);
+ const [openInstruction, setOpenInstruction] = useState(false);
 
   const [selected, setSelected] = useState({
     itemId: null,
@@ -152,9 +152,9 @@ const DetailContent = ({ data, product, attributes, myItems, payment, token }) =
   }
 
   return (
-    <>
+<>
       <div className="lg:w-[35%] lg:min-h-screen">
-        <div className="flex flex-col gap-5 lg:overflow-auto lg:sticky lg:top-32">
+        <div className="flex flex-col gap-5 lg:overflow-auto lg:sticky lg:top-32">development
           <div className="w-full h-20 bg-slate-800 rounded-lg flex items-center px-4 gap-2 overflow-hidden">
             <div className="w-14 h-14 flex items-center justify-center">
               <ImHeadphones className="text-4xl text-white" />
@@ -167,7 +167,7 @@ const DetailContent = ({ data, product, attributes, myItems, payment, token }) =
             </div>
           </div>
 
-          <div
+<div
             className="w-full h-10 bg-slate-800 rounded-lg flex items-center justify-between px-4 gap-2 hover:cursor-pointer"
             onClick={() => setOpenInstruction(!openInstruction)}
           >
@@ -260,9 +260,8 @@ const DetailContent = ({ data, product, attributes, myItems, payment, token }) =
             <p>Pesan Sekarang!</p>
           </button>
         </div>
-      </div>
 
-      <div className="w-full relative lg:w-[65%] mt-6 lg:mt-0 flex flex-col gap-10">
+<div className="w-full relative lg:w-[65%] mt-6 lg:mt-0 flex flex-col gap-10">
         {data.length > 0 && data?.map((item, index) => {
           return (
             <>
@@ -793,7 +792,7 @@ const DetailContent = ({ data, product, attributes, myItems, payment, token }) =
                   </p>
                 </div>
               </div>
-            </>
+</>
           );
         })}
 
@@ -917,7 +916,6 @@ const DetailContent = ({ data, product, attributes, myItems, payment, token }) =
         </div>
       </Modal>
     </>
-
   );
 };
 
