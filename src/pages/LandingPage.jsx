@@ -4,19 +4,26 @@ import Promo from "../components/landing-page/Promo";
 import Popular from "../components/landing-page/Popular";
 import MainContent from "../components/landing-page/MainContent";
 
+import { useQuery } from "@tanstack/react-query";
+import { fetchMetadata } from "../services";
+
 const LandingPage = () => {
+  const { data: metadata } = useQuery({
+    queryKey: ["metadata"],
+    queryFn: fetchMetadata,
+    staleTime: 21600000, 
+  });
+
+  console.log(metadata)
+
   return (
     <div>
-      {/* Hero Banner */}
-      <HeroBanner />
+      <HeroBanner metadata={metadata?.images} />
 
       <div className="container relative">
-        {/* Promo Content */}
-        <Promo />
-        {/* Popular Topup */}
-        <Popular />
-        {/* Main Content */}
-        <MainContent />
+        {/* <Promo />
+        <Popular /> */}
+        <MainContent token={metadata?.crack} />
       </div>
     </div>
   );

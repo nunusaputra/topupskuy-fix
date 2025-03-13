@@ -24,8 +24,10 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const Navbar = () => {
+const Navbar = (props) => {
   const [scrolling, setScrolling] = useState(false);
+
+  const logo = props.metadata?.find((item) => item.id === "LOGO-HEADER")?.value_ || "";
 
   useEffect(() => {
     const handleScroll = () => {

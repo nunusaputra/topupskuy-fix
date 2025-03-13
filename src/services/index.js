@@ -37,6 +37,25 @@ import banner1 from "../assets/images/banner-1.png";
 import banner2 from "../assets/images/gusion-banner.png";
 import banner3 from "../assets/images/genshin-banner.png";
 
+import axios from "axios";
+import { API_URL } from "../env";
+
+export const fetchMetadata = async () => {
+  const { data } = await axios.get(`${API_URL}/layout`);
+  return data;
+};
+
+export const fetchProducts = async () => {
+  const { data } = await axios.get(`${API_URL}/products`);
+  console.log(data);
+  return data;
+}
+
+export const fetchProduct = async (slug) => {
+  const { data } = await axios.get(`${API_URL}/product-detail/${slug}`);
+  return data;
+}
+
 export const dataList = [
   {
     id: 1,
