@@ -15,10 +15,10 @@ const Payment = () => {
         </div>
         <div className="w-[80%] h-40">
           <div className="w-full flex flex-col items-center gap-2">
-            <h1 className="text-4xl font-bold text-purple-900/90">
+            <h1 className="text-xl xl:text-4xl font-bold text-purple-900/90">
               Menunggu Pembayaran
             </h1>
-            <p className="text-md text-purple-900/80 font-medium">
+            <p className="text-sm text-center sm:text-start sm:text-md text-purple-900/80 font-medium">
               Silahkan untuk melakukan pembayaran dengan metode yang kamu pilih.
             </p>
           </div>
@@ -33,47 +33,55 @@ const Payment = () => {
             <h1 className="text-white text-md font-bold">30 Menit</h1>
             <h1 className="text-white text-md font-bold">12 Detik</h1>
           </div>
-          <div className="w-full min-h-30 grid grid-cols-2 gap-10">
+          <div className="w-full min-h-32 grid grid-cols-1 lg:grid-cols-2 gap-10">
             <div className="flex flex-col gap-6">
               {/* Informasi Akun */}
               <div className="relative w-full min-h-50 rounded-lg flex flex-col gap-4 group hover:cursor-pointer bg-fourth/30 backdrop-blur-2xl ring-2 ring-slate-700 overflow-hidden">
                 <div className="w-full h-full flex gap-2 items-center z-20 p-4">
-                  <div className="w-[40%] h-40 rounded-xl overflow-hidden flex flex-col ring-2 ring-slate-600 shadow-lg shadow-slate-950">
-                    <div className="w-full h-27 bg-amber-400 group-hover:scale-110 transition-all duration-200">
+                  <div className="w-[50%] h-28 sm:w-[40%] sm:h-40 rounded-xl overflow-hidden flex flex-col ring-2 ring-slate-600 shadow-lg shadow-slate-950">
+                    <div className="w-full h-full bg-amber-400 group-hover:scale-110 transition-all duration-200">
                       <img
                         src={ml}
                         alt=""
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    <div className="w-full h-13 bg-secondary px-2 flex flex-col justify-center">
-                      <h1 className="text-sm text-white font-semibold">
+                    <div className="hidden w-full h-12 bg-secondary px-2 sm:flex sm:flex-col sm:justify-center">
+                      <h1 className="text-xs sm:text-sm text-white font-semibold">
                         Mobile Legends
                       </h1>
-                      <p className="text-xs text-white">Weekly Diamond Pass</p>
+                      <p className="text-zs sm:text-xs text-white">
+                        Weekly Diamond Pass
+                      </p>
                     </div>
                   </div>
                   <div className="w-full h-full rounded-lg flex flex-col gap-1 px-2">
-                    <h1 className="text-lg text-white font-bold mb-2">
+                    <h1 className="text-md sm:text-lg text-white font-bold mb-2">
                       Informasi Akun
                     </h1>
-                    <div className="flex gap-14">
-                      <h1 className="text-md text-white font-medium">
+                    <div className="flex items-center">
+                      <h1 className="w-[50%] text-sm sm:text-md text-white font-medium">
                         Nickname
                       </h1>
-                      <h1 className="text-md text-white font-medium">
+                      <h1 className="w-[50%] text-sm sm:text-md text-white font-medium">
                         : P'Star7
                       </h1>
                     </div>
-                    <div className="flex gap-29">
-                      <h1 className="text-md text-white font-medium">ID</h1>
-                      <h1 className="text-md text-white font-medium">
+                    <div className="flex items-center">
+                      <h1 className="w-[50%] text-sm sm:text-md text-white font-medium">
+                        ID
+                      </h1>
+                      <h1 className="w-[50%] text-sm sm:text-md text-white font-medium">
                         : 270862646
                       </h1>
                     </div>
-                    <div className="flex gap-20">
-                      <h1 className="text-md text-white font-medium">Server</h1>
-                      <h1 className="text-md text-white font-medium">: 2262</h1>
+                    <div className="flex items-center">
+                      <h1 className="w-[50%] text-sm sm:text-md text-white font-medium">
+                        Server
+                      </h1>
+                      <h1 className="w-[50%] text-sm sm:text-md text-white font-medium">
+                        : 2262
+                      </h1>
                     </div>
                   </div>
                 </div>
@@ -99,66 +107,94 @@ const Payment = () => {
               {/* Konten Rincian Pembayaran */}
               <div className="w-full min-h-10 bg-fourth/30 backdrop-blur-2xl rounded-lg flex flex-col p-6 gap-6">
                 <div className="w-full flex justify-between">
-                  <h1 className="text-white text-md font-semibold">Harga</h1>
-                  <h1 className="text-white text-md font-medium">Rp. 15.000</h1>
+                  <h1 className="text-white text-sm sm:text-md font-semibold">
+                    Harga
+                  </h1>
+                  <h1 className="text-white text-sm sm:text-md font-medium">
+                    Rp. 15.000
+                  </h1>
                 </div>
                 <div className="w-full flex justify-between">
-                  <h1 className="text-white text-md font-semibold">Diskon</h1>
-                  <h1 className="text-white text-md font-medium">30%</h1>
+                  <h1 className="text-white text-sm sm:text-md font-semibold">
+                    Diskon
+                  </h1>
+                  <h1 className="text-white text-sm sm:text-md font-medium">
+                    30%
+                  </h1>
                 </div>
                 <div className="w-full flex justify-between">
-                  <h1 className="text-white text-md font-semibold">Subtotal</h1>
-                  <h1 className="text-white text-md font-medium">Rp. 10.500</h1>
+                  <h1 className="text-white text-sm sm:text-md font-semibold">
+                    Subtotal
+                  </h1>
+                  <h1 className="text-white text-sm sm:text-md font-medium">
+                    Rp. 10.500
+                  </h1>
                 </div>
                 <div className="w-full flex justify-between">
-                  <h1 className="text-white text-md font-semibold">
+                  <h1 className="text-white text-sm sm:text-md font-semibold">
                     Payment Fee
                   </h1>
-                  <h1 className="text-white text-md font-medium">Rp. 111</h1>
+                  <h1 className="text-white text-sm sm:text-md font-medium">
+                    Rp. 111
+                  </h1>
                 </div>
               </div>
 
               {/* Rincian Pembayaran */}
-              <div className="w-full h-15 bg-fourth/30 backdrop-blur-2xl rounded-lg flex justify-between items-center px-6">
-                <h1 className="text-lg text-white font-medium">
+              <div className="w-full h-16 bg-fourth/30 backdrop-blur-2xl rounded-lg flex justify-between items-center px-6">
+                <h1 className="text-sm sm:text-lg text-white font-medium">
                   Total Pembayaran
                 </h1>
-                <h1 className="text-lg text-white font-bold">Rp. 11.611</h1>
+                <h1 className="text-sm sm:text-lg text-white font-bold">
+                  Rp. 11.611
+                </h1>
               </div>
             </div>
-            <div className="w-full min-h-50 rounded-lg flex flex-col gap-4">
+            <div className="bg-fourth/30 p-6 backdrop-blur-2xl w-full min-h-50 rounded-lg flex flex-col gap-4">
               <div>
-                <h1 className="text-md text-white font-semibold">
+                <h1 className="text-sm sm:text-md text-white font-semibold">
                   Metode Pembayaran
                 </h1>
-                <h1 className="text-md text-white font-bold">
+                <h1 className="text-sm sm:text-md text-white font-bold">
                   QRIS (All Payment)
                 </h1>
               </div>
 
               {/* Informasi Pembayaran */}
               <div className="flex flex-col gap-3">
-                <div className="flex gap-22">
-                  <h1 className="text-md text-white">Nomor Invoice</h1>
-                  <h1 className="text-md text-white font-semibold">
+                <div className="flex flex-col sm:flex-row items-center">
+                  <h1 className="w-full sm:w-[50%] text-sm sm:text-md text-white">
+                    Nomor Invoice
+                  </h1>
+                  <h1 className="w-full sm:w-[50%] text-sm sm:text-md text-white font-semibold">
                     BJO7C17E758B8333A24788080
                   </h1>
                 </div>
-                <div className="flex gap-12">
-                  <h1 className="text-md text-white">Status Pembayaran</h1>
-                  <span className="px-6 py-1 bg-pink-300 rounded-full text-xs text-red-600 font-bold tracking-wider">
-                    UNPAID
-                  </span>
+                <div className="flex flex-col sm:flex-row items-center">
+                  <h1 className="w-full sm:w-[50%] text-sm sm:text-md text-white">
+                    Status Pembayaran
+                  </h1>
+                  <div className="w-full sm:w-[50%]">
+                    <span className="px-6 py-1 bg-pink-300 rounded-full text-xs text-red-600 font-bold tracking-wider">
+                      UNPAID
+                    </span>
+                  </div>
                 </div>
-                <div className="flex gap-19">
-                  <h1 className="text-md text-white">Status Transaksi</h1>
-                  <span className="px-6 py-1 bg-yellow-300 rounded-full text-xs text-orange-500 font-bold tracking-wider">
-                    PENDING
-                  </span>
+                <div className="flex flex-col sm:flex-row items-center">
+                  <h1 className="w-full sm:w-[50%] text-sm sm:text-md text-white">
+                    Status Transaksi
+                  </h1>
+                  <div className="w-full sm:w-[50%]">
+                    <span className="px-6 py-1 bg-yellow-300 rounded-full text-xs text-orange-500 font-bold tracking-wider">
+                      PENDING
+                    </span>
+                  </div>
                 </div>
-                <div className="flex gap-38">
-                  <h1 className="text-md text-white">Pesan</h1>
-                  <h1 className="text-md text-white font-semibold">
+                <div className="flex flex-col sm:flex-row items-center">
+                  <h1 className="w-full sm:w-[50%] text-sm sm:text-md text-white">
+                    Pesan
+                  </h1>
+                  <h1 className="w-full sm:w-[50%] text-sm text-white font-semibold">
                     Silakan untuk melakukan pembayaran dengan metode yang kamu
                     pilih.
                   </h1>
@@ -167,17 +203,18 @@ const Payment = () => {
 
               {/* QRIS */}
               <div className="flex flex-col gap-2">
-                <div className="w-[40%] h-60 bg-white rounded-xl mt-5 overflow-hidden">
+                <div className="w-[50%] sm:w-[38%] h-40 sm:h-48 bg-white rounded-xl mt-5 overflow-hidden">
                   <img
+                    h-60
                     src={qr}
                     alt=""
                     className="w-full h-full object-contain"
                   />
                 </div>
-                <button className="w-[40%] h-10 py-2 bg-seventh text-sm text-white font-bold shadow-md shadow-slate-900 rounded-2xl">
+                <button className="w-[50%] sm:w-[40%] h-10 py-2 bg-seventh text-sm text-white font-bold shadow-md shadow-slate-900 rounded-2xl">
                   Unduh Kode QR
                 </button>
-                <p className="w-[40%] text-center text-xs text-white">
+                <p className="w-[50%] sm:w-[40%] text-center text-xs text-white">
                   Screenshot jika QR Code tidak bisa di download.
                 </p>
               </div>
@@ -194,8 +231,8 @@ const Payment = () => {
               </p>
               <IoIosArrowUp className="text-xl text-white" />
             </div>
-            <div className="w-full h-15 bg-fourth/30 backdrop-blur-2xl rounded-lg flex items-center px-6">
-              <h1 className="text-md text-white font-semibold">
+            <div className="w-full min-h-14 bg-fourth/30 backdrop-blur-2xl rounded-lg flex items-center px-6">
+              <h1 className="text-sm text-white font-semibold">
                 Gunakan Ewallet atau aplikasi mobile banking yang tersedia scan
                 QRIS
               </h1>

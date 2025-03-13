@@ -55,7 +55,7 @@ const SideContent = (data) => {
         {/* Order Section */}
         <div className="w-full min-h-20 bg-slate-800 rounded-lg flex flex-col gap-2 px-4 py-3">
           <div className="w-full h-20 flex gap-4 items-center">
-            <div className="w-24 h-14 rounded-md overflow-hidden">
+            <div className="w-28 h-16 rounded-md overflow-hidden">
               <img
                 src={data.data.logo.path}
                 alt=""
