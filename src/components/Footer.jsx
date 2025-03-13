@@ -1,7 +1,11 @@
 import React from "react";
 import logo from "../assets/images/logo-fix.png";
 
-const Footer = () => {
+const Footer = (props) => {
+  const logoFooter = props.metadata?.images.find((item) => item.id === "LOGO-FOOTER")?.value_ || "";
+  const applicationName = props.metadata?.settings.find((item) => item.id === "APPLICATION_NAME")?.value_ || "";
+  const address = props.metadata?.settings.find((item) => item.id === "FOOTER_ADDRESS")?.value_ || "";
+  const email = props.metadata?.settings.find((item) => item.id === "FOOTER_EMAIL")?.value_ || "";
   return (
     <div className="relative mt-16 bg-secondary/40 backdrop-blur-2xl">
       <div className="px-4 pt-12 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
@@ -13,22 +17,19 @@ const Footer = () => {
               title="Company"
               className="inline-flex items-center"
             >
-              <div className="w-14 h-14">
-                <img src={logo} alt="" className="w-full h-full object-cover" />
+              <div className="w-14 h-14 overflow-hidden">
+                <img src={logoFooter} alt="" className="w-full h-full object-cover" />
               </div>
               <span className="ml-2 text-xl font-bold tracking-wide uppercase text-white">
-                Barge Ghost
+                {applicationName}
               </span>
             </a>
             <div className="mt-4 lg:max-w-sm">
               <p className="text-sm text-white">
-                Jl. Kemanggisan Ilir Gg. 3 No.25, RT.4/RW.13, Palmerah, Kec.
-                Palmerah, Kemanggisan, Jakarta Barat, 11480, ID
+                {address}
               </p>
               <p className="mt-4 text-sm text-white">
-                Top-up cepat, aman, dan murah! Nikmati saldo langsung masuk
-                tanpa ribet. Level up sekarang dan jadilah yang terdepan di
-                setiap permainan!" 🚀🎮
+                {email}
               </p>
             </div>
           </div>
@@ -192,15 +193,13 @@ const Footer = () => {
             © Copyright 2025 Lorem Inc. All rights reserved.
           </p>
           <div className="flex items-center mt-4 space-x-4 sm:mt-0">
-            <a href="/">
-              <i className="bi bi-twitter-x text-white transition-colors duration-300 tall text-smep-purple-100 hover:text-purple-300"></i>
-            </a>
-            <a href="/">
-              <i className="bi bi-instagram transition-colors duration-300 tall text-smep-purple-100 text-white hover:text-purple-300"></i>
-            </a>
-            <a href="/">
-              <i className="bi bi-facebook text-lg transition-colors duration-300 tall text-smep-purple-100 text-white hover:text-purple-300"></i>
-            </a>
+{props.metadata?.socialMedias.map((x) => (
+              <a key={x.id} href={x.link} title={x.id}>
+                <i
+                  className={`${x.logo} text-white transition-colors duration-300 tall text-smep-purple-100 hover:text-purple-300`}
+                ></i>
+              </a>
+            ))}
           </div>
         </div>
       </div>

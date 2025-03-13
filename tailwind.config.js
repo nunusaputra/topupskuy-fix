@@ -15,8 +15,8 @@ export default {
       fontSize: {
         md: "1.125rem",
         tm: "0.825rem",
-        zs: "0.6rem",
-      },
+        zs: "0.675rem",
+      },
     },
   },
   plugins: [],

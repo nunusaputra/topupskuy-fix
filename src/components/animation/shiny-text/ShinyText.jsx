@@ -1,6 +1,6 @@
 import "./ShinyText.css";
 
-const ShinyText = ({ text, disabled = false, speed = 5, className = "" }) => {
+const ShinyText = ({ text, disabled = false, speed = 5, className = "", onClick }) => {
   const animationDuration = `${speed}s`;
 
   return (
@@ -9,6 +9,7 @@ const ShinyText = ({ text, disabled = false, speed = 5, className = "" }) => {
         disabled ? "disabled" : ""
       } ${className}`}
       style={{ animationDuration }}
+      onClick={!disabled ? onClick : undefined}
     >
       {text}
     </button>
