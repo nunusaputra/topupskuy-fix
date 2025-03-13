@@ -34,13 +34,9 @@ const OrderDetail = () => {
   return (
     <div className="relative mb-10">
       <CoverHeader data={data} />
-      <div className="container relative w-full min-h-screen mx-auto lg:flex lg:gap-10">
-        <SideContent />
-        <DetailContent />
-      </div>
-
+      <DetailContent />
       <div
-        className={`fixed flex items-center justify-center bottom-5 right-5 w-12 h-12 rounded-full bg-white ring-2 ring-orange-500 ring-offset-0 hover:ring-offset-4 hover:ring-offset-[#060911] transition-all duration-300 hover:cursor-pointer z-[100] ${
+        className={`fixed flex items-center justify-center bottom-5 right-5 w-8 h-8 sm:w-14 sm:h-14 rounded-full bg-white ring-2 ring-orange-500 ring-offset-0 hover:ring-offset-4 hover:ring-offset-[#060911] transition-all duration-300 hover:cursor-pointer z-[100] ${
           showButton ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
         onClick={scrollToTop}
