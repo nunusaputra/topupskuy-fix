@@ -49,12 +49,12 @@ export const fetchProducts = async () => {
   const { data } = await axios.get(`${API_URL}/products`);
   console.log(data);
   return data;
-}
+};
 
 export const fetchProduct = async (slug) => {
   const { data } = await axios.get(`${API_URL}/product-detail/${slug}`);
   return data;
-}
+};
 
 export const dataList = [
   {
@@ -633,6 +633,7 @@ export const historyPayment = [
     paymentMethod: "Gopay",
     date: "02 Maret 2025",
     status: "Success",
+    color: "#00FF00",
   },
   {
     id: 2,
@@ -643,6 +644,7 @@ export const historyPayment = [
     paymentMethod: "QRIS",
     date: "01 Maret 2025",
     status: "Failed",
+    color: "#FF0000",
   },
   {
     id: 3,
@@ -653,5 +655,6 @@ export const historyPayment = [
     paymentMethod: "Dana",
     date: "28 Februari 2025",
     status: "Belum Bayar",
+    color: "#FFFF00",
   },
 ];

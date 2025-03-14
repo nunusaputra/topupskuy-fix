@@ -18,7 +18,7 @@ const Payment = () => {
             <h1 className="text-xl xl:text-4xl font-bold text-purple-900/90">
               Menunggu Pembayaran
             </h1>
-            <p className="text-sm text-center sm:text-start sm:text-md text-purple-900/80 font-medium">
+            <p className="text-sm text-center md:text-start sm:text-md text-purple-900/80 font-medium">
               Silahkan untuk melakukan pembayaran dengan metode yang kamu pilih.
             </p>
           </div>
