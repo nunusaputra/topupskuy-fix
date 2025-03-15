@@ -15,8 +15,7 @@ import { MdOutlineLogin } from "react-icons/md";
 
 const navigation = [
   { name: "Topup", href: "/", current: false },
-  { name: "Cek Transaction", href: "/#", current: false },
-  { name: "History", href: "#", current: false },
+  { name: "Cek Transaction", href: "/transaction", current: false },
   { name: "Calculator MLBB", href: "#", current: false },
 ];
 

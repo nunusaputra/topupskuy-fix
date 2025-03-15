@@ -1,11 +1,46 @@
 import React from "react";
 import pattern from "../assets/images/pattern.png";
 import { MdHistory } from "react-icons/md";
-import { historyPayment } from "../services";
+import { fetchHistory } from "../services";
 import { FaRegCreditCard } from "react-icons/fa";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
+import { useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 
 const History = () => {
+  const { phone } = useParams();
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+  const { data: history } = useQuery({
+    queryKey: ["data", phone],
+    queryFn: phone ? () => fetchHistory(phone) : () => Promise.resolve(null),
+    staleTime: 21600000,
+  });
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = history?.slice(indexOfFirstItem, indexOfLastItem);
+
+  const totalPages = Math.ceil((history?.length || 0) / itemsPerPage);
+
+  const nextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const goto = (id) => {
+    window.location.href = `/payment/${id}`
+  }
+
   return (
     <div className="container">
       <section className="">
@@ -14,23 +49,24 @@ const History = () => {
             <MdHistory className="text-2xl text-white" />
             <h1 className="text-xl font-bold text-white">Riwayat Pesanan</h1>
           </div>
-          {historyPayment.map((item) => (
+          {currentItems?.map((item) => (
             <div
               className="relative w-full min-h-[7.5rem] bg-sixth/40 rounded-lg ring-2 ring-purple-500 ring-offset-0 transition-all duration-300 hover:ring-offset-8 hover:ring-offset-secondary flex flex-col xl:flex-row px-4 py-2 gap-2 mb-8 hover:cursor-pointer overflow-hidden"
               key={item.id}
+              onClick={() => goto(item.id)}
             >
               <div className="w-full flex flex-col md:flex-row items-center gap-6 md:gap-8 z-20">
                 <div className="w-full xl:w-[40%] flex items-center justify-between border-b-2 border-white md:border-none pb-2 md:pb-0">
                   <div className="w-[35%] sm:w-[25%] md:w-[45%] lg:w-[35%] h-20 md:h-28 bg-red-500 rounded-lg overflow-hidden">
                     <img
-                      src={item.image}
+                      src={item.path}
                       alt=""
                       className="w-full h-full object-cover"
                     />
                   </div>
                   <div className="w-[60%] sm:w-[72%] md:w-[50%] lg:w-[60%] flex flex-col items-start gap-1 md:gap-2 xl:gap-3">
                     <h1 className="text-sm xl:text-lg font-bold text-white">
-                      {item.paket}
+                      {item.title}
                     </h1>
                     <h1 className="text-sm xl:text-lg text-white">
                       {item.name}
@@ -46,10 +82,10 @@ const History = () => {
                 <div className="w-full xl:w-[60%] h-full">
                   <div className="flex flex-col items-end gap-2 xl:gap-3 xl:pt-2">
                     <h1 className="text-xs font-semibold xl:text-lg text-white">
-                      ML-0000000367-X16ENPDZGG4OGUC
+                      {item.id}
                     </h1>
                     <h1 className="text-xs xl:text-[16px] text-white">
-                      {item.date}
+                      {new Intl.DateTimeFormat("id-ID", { day: "2-digit", month: "long", year: "numeric" }).format(new Date(item.purchaseDate))}
                     </h1>
                     <div
                       className="px-4 py-1 text-sm rounded-md font-semibold"
@@ -74,90 +110,25 @@ const History = () => {
 
           {/* Pagination */}
           <div className="flex items-center justify-between border-t border-slate-400 bg-slate-800 px-4 py-3 sm:px-6">
-            <div className="flex flex-1 justify-between sm:hidden">
-              <a
-                href="#"
-                className="relative inline-flex items-center rounded-md border border-gray-300 bg-slate-800 px-4 py-2 text-sm font-medium text-white hover:bg-gray-50"
-              >
-                Previous
-              </a>
-              <a
-                href="#"
-                className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-slate-800 px-4 py-2 text-sm font-medium text-white hover:bg-gray-50"
-              >
-                Next
-              </a>
-            </div>
-            <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-              <div>
-                <p className="text-sm text-white">
-                  Showing <span className="font-medium">1</span> to{" "}
-                  <span className="font-medium">10</span> of{" "}
-                  <span className="font-medium">97</span> results
-                </p>
-              </div>
-              <div>
-                <nav
-                  aria-label="Pagination"
-                  className="isolate inline-flex -space-x-px rounded-md shadow-xs"
-                >
-                  <a
-                    href="#"
-                    className="relative inline-flex items-center rounded-l-md px-2 py-2 text-white hover:text-black ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-                  >
-                    <span className="sr-only">Previous</span>
-                    <BiChevronLeft aria-hidden="true" className="size-5" />
-                  </a>
-                  <a
-                    href="#"
-                    aria-current="page"
-                    className="relative z-10 inline-flex items-center bg-indigo-600 px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                  >
-                    1
-                  </a>
-                  <a
-                    href="#"
-                    className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-white hover:text-black ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-                  >
-                    2
-                  </a>
-                  <a
-                    href="#"
-                    className="relative hidden items-center px-4 py-2 text-sm font-semibold text-white hover:text-black ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex"
-                  >
-                    3
-                  </a>
-                  <span className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-white ring-1 ring-gray-300 ring-inset focus:outline-offset-0">
-                    ...
-                  </span>
-                  <a
-                    href="#"
-                    className="relative hidden items-center px-4 py-2 text-sm font-semibold text-white hover:text-black ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex"
-                  >
-                    8
-                  </a>
-                  <a
-                    href="#"
-                    className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-white hover:text-black ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-                  >
-                    9
-                  </a>
-                  <a
-                    href="#"
-                    className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-white hover:text-black ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-                  >
-                    10
-                  </a>
-                  <a
-                    href="#"
-                    className="relative inline-flex items-center rounded-r-md px-2 py-2 text-white hover:text-black ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-                  >
-                    <span className="sr-only">Next</span>
-                    <BiChevronRight aria-hidden="true" className="size-5" />
-                  </a>
-                </nav>
-              </div>
-            </div>
+            <button
+              onClick={prevPage}
+              disabled={currentPage === 1}
+              className={`px-4 py-2 text-sm font-medium text-white ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-50 hover:text-black"}`}
+            >
+              Previous
+            </button>
+
+            <span className="text-white">
+              Page {currentPage} of {totalPages}
+            </span>
+
+            <button
+              onClick={nextPage}
+              disabled={currentPage === totalPages}
+              className={`px-4 py-2 text-sm font-medium text-white ${currentPage === totalPages ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-50 hover:text-black"}`}
+            >
+              Next
+            </button>
           </div>
         </div>
       </section>

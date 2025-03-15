@@ -16,7 +16,7 @@ const Routers = () => {
           <Route path="/order/:slug" element={<OrderDetail />} />
           <Route path="/transaction" element={<Transaction />} />
           <Route path="/history/:phone" element={<History />} />
-          <Route path="/payment" element={<Payment />} />
+          <Route path="/payment/:orderId" element={<Payment />} />
         </Route>
       </Routes>
     </div>
