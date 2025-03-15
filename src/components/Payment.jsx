@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import payment from "../assets/images/payment.gif";
 import ml from "../assets/images/ml.jpeg";
 import coverBottom from "../assets/images/cover-bottom.png";
@@ -6,6 +6,8 @@ import { IoIosArrowUp } from "react-icons/io";
 import qr from "../assets/images/qrCode.jpg";
 
 const Payment = () => {
+  const [showPayment, setShowPayment] = useState(true);
+  const [showInstruction, setShowInstruction] = useState(true);
   return (
     <div className="min-h-screen">
       {/* Timer */}
@@ -18,7 +20,7 @@ const Payment = () => {
             <h1 className="text-xl xl:text-4xl font-bold text-purple-900/90">
               Menunggu Pembayaran
             </h1>
-            <p className="text-sm text-center sm:text-start sm:text-md text-purple-900/80 font-medium">
+            <p className="text-sm text-center md:text-start sm:text-md text-purple-900/80 font-medium">
               Silahkan untuk melakukan pembayaran dengan metode yang kamu pilih.
             </p>
           </div>
@@ -38,7 +40,7 @@ const Payment = () => {
               {/* Informasi Akun */}
               <div className="relative w-full min-h-50 rounded-lg flex flex-col gap-4 group hover:cursor-pointer bg-fourth/30 backdrop-blur-2xl ring-2 ring-slate-700 overflow-hidden">
                 <div className="w-full h-full flex gap-2 items-center z-20 p-4">
-                  <div className="w-[50%] h-28 sm:w-[40%] sm:h-40 rounded-xl overflow-hidden flex flex-col ring-2 ring-slate-600 shadow-lg shadow-slate-950">
+                  <div className="w-[50%] h-28 sm:w-[40%] sm:h-[7.5rem] rounded-xl overflow-hidden flex flex-col ring-2 ring-slate-600 shadow-lg shadow-slate-950">
                     <div className="w-full h-full bg-amber-400 group-hover:scale-110 transition-all duration-200">
                       <img
                         src={ml}
@@ -46,40 +48,32 @@ const Payment = () => {
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    <div className="hidden w-full h-12 bg-secondary px-2 sm:flex sm:flex-col sm:justify-center">
-                      <h1 className="text-xs sm:text-sm text-white font-semibold">
-                        Mobile Legends
-                      </h1>
-                      <p className="text-zs sm:text-xs text-white">
-                        Weekly Diamond Pass
-                      </p>
-                    </div>
                   </div>
-                  <div className="w-full h-full rounded-lg flex flex-col gap-1 px-2">
-                    <h1 className="text-md sm:text-lg text-white font-bold mb-2">
+                  <div className="w-full h-full rounded-lg flex flex-col gap-1 sm:gap-2 px-2">
+                    <h1 className="text-sm sm:text-lg text-white font-bold mb-2">
                       Informasi Akun
                     </h1>
                     <div className="flex items-center">
-                      <h1 className="w-[50%] text-sm sm:text-md text-white font-medium">
-                        Nickname
+                      <h1 className="w-[35%] sm:w-[50%] text-xs sm:text-[15px] text-white font-medium">
+                        Item
                       </h1>
-                      <h1 className="w-[50%] text-sm sm:text-md text-white font-medium">
-                        : P'Star7
+                      <h1 className="w-[65%] sm:w-[50%] text-xs sm:text-[15px] text-white font-medium">
+                        : 12 Diamonds (11+ 1 Bonus)
                       </h1>
                     </div>
                     <div className="flex items-center">
-                      <h1 className="w-[50%] text-sm sm:text-md text-white font-medium">
-                        ID
+                      <h1 className="w-[35%] sm:w-[50%] text-xs sm:text-[15px] text-white font-medium">
+                        User ID
                       </h1>
-                      <h1 className="w-[50%] text-sm sm:text-md text-white font-medium">
+                      <h1 className="w-[65%] sm:w-[50%] text-xs sm:text-[15px] text-white font-medium">
                         : 270862646
                       </h1>
                     </div>
                     <div className="flex items-center">
-                      <h1 className="w-[50%] text-sm sm:text-md text-white font-medium">
-                        Server
+                      <h1 className="w-[35%] sm:w-[50%] text-xs sm:text-[15px] text-white font-medium">
+                        Zone ID
                       </h1>
-                      <h1 className="w-[50%] text-sm sm:text-md text-white font-medium">
+                      <h1 className="w-[65%] sm:w-[50%] text-xs sm:text-[15px] text-white font-medium">
                         : 2262
                       </h1>
                     </div>
@@ -97,65 +91,66 @@ const Payment = () => {
               </div>
 
               {/* Rincian Pembayaran */}
-              <div className="w-full h-10 bg-fourth/30 backdrop-blur-2xl rounded-lg flex justify-between items-center px-4">
-                <h1 className="text-sm text-white font-semibold">
+              <div
+                className="w-full h-10 bg-fourth/30 backdrop-blur-2xl rounded-lg flex justify-between items-center px-4 hover:cursor-pointer"
+                onClick={() => setShowPayment(!showPayment)}
+              >
+                <h1 className="text-sm sm:text-[15px] text-white font-semibold">
                   Rincian Pembayaran
                 </h1>
-                <IoIosArrowUp className="text-white" />
+                <IoIosArrowUp
+                  className={`text-white ${
+                    showPayment && "rotate-180"
+                  } transition-all duration-300`}
+                />
               </div>
 
               {/* Konten Rincian Pembayaran */}
-              <div className="w-full min-h-10 bg-fourth/30 backdrop-blur-2xl rounded-lg flex flex-col p-6 gap-6">
-                <div className="w-full flex justify-between">
-                  <h1 className="text-white text-sm sm:text-md font-semibold">
-                    Harga
-                  </h1>
-                  <h1 className="text-white text-sm sm:text-md font-medium">
-                    Rp. 15.000
-                  </h1>
+              {showPayment && (
+                <div className="w-full min-h-10 bg-fourth/30 backdrop-blur-2xl rounded-lg flex flex-col p-6 gap-6">
+                  <div className="w-full flex justify-between">
+                    <h1 className="text-white text-sm sm:text-[15px] font-semibold">
+                      Price
+                    </h1>
+                    <h1 className="text-white text-sm sm:text-[15px] font-medium">
+                      Rp. 15.000
+                    </h1>
+                  </div>
+                  <div className="w-full flex justify-between">
+                    <h1 className="text-white text-sm sm:text-[15px] font-semibold">
+                      Fee
+                    </h1>
+                    <h1 className="text-white text-sm sm:text-[15px] font-medium">
+                      Rp. 102,00
+                    </h1>
+                  </div>
+                  <div className="w-full flex justify-between">
+                    <h1 className="text-white text-sm sm:text-[15px] font-semibold">
+                      Unique Code
+                    </h1>
+                    <h1 className="text-white text-sm sm:text-[15px] font-medium">
+                      Rp. 634,00
+                    </h1>
+                  </div>
                 </div>
-                <div className="w-full flex justify-between">
-                  <h1 className="text-white text-sm sm:text-md font-semibold">
-                    Diskon
-                  </h1>
-                  <h1 className="text-white text-sm sm:text-md font-medium">
-                    30%
-                  </h1>
-                </div>
-                <div className="w-full flex justify-between">
-                  <h1 className="text-white text-sm sm:text-md font-semibold">
-                    Subtotal
-                  </h1>
-                  <h1 className="text-white text-sm sm:text-md font-medium">
-                    Rp. 10.500
-                  </h1>
-                </div>
-                <div className="w-full flex justify-between">
-                  <h1 className="text-white text-sm sm:text-md font-semibold">
-                    Payment Fee
-                  </h1>
-                  <h1 className="text-white text-sm sm:text-md font-medium">
-                    Rp. 111
-                  </h1>
-                </div>
-              </div>
+              )}
 
               {/* Rincian Pembayaran */}
-              <div className="w-full h-16 bg-fourth/30 backdrop-blur-2xl rounded-lg flex justify-between items-center px-6">
-                <h1 className="text-sm sm:text-lg text-white font-medium">
+              <div className="w-full h-16 bg-fourth/30 backdrop-blur-2xl rounded-lg flex justify-between items-center px-4">
+                <h1 className="text-sm sm:text-[15px] text-white font-bold">
                   Total Pembayaran
                 </h1>
-                <h1 className="text-sm sm:text-lg text-white font-bold">
+                <h1 className="text-sm sm:text-[15px] text-white font-bold">
                   Rp. 11.611
                 </h1>
               </div>
             </div>
             <div className="bg-fourth/30 p-6 backdrop-blur-2xl w-full min-h-50 rounded-lg flex flex-col gap-4">
               <div>
-                <h1 className="text-sm sm:text-md text-white font-semibold">
+                <h1 className="text-sm sm:text-[15px] text-white font-semibold">
                   Metode Pembayaran
                 </h1>
-                <h1 className="text-sm sm:text-md text-white font-bold">
+                <h1 className="text-sm sm:text-[15px] text-white font-bold">
                   QRIS (All Payment)
                 </h1>
               </div>
@@ -163,47 +158,36 @@ const Payment = () => {
               {/* Informasi Pembayaran */}
               <div className="flex flex-col gap-3">
                 <div className="flex flex-col sm:flex-row items-center">
-                  <h1 className="w-full sm:w-[50%] text-sm sm:text-md text-white">
-                    Nomor Invoice
+                  <h1 className="w-full sm:w-[35%] text-sm sm:text-[15px] text-white">
+                    Order Number
                   </h1>
-                  <h1 className="w-full sm:w-[50%] text-sm sm:text-md text-white font-semibold">
-                    BJO7C17E758B8333A24788080
+                  <h1 className="w-full sm:w-[65%] text-sm sm:text-[15px] text-white font-semibold">
+                    ML-0000000424-K8QAYPCBVHGLRJM
                   </h1>
                 </div>
                 <div className="flex flex-col sm:flex-row items-center">
-                  <h1 className="w-full sm:w-[50%] text-sm sm:text-md text-white">
-                    Status Pembayaran
+                  <h1 className="w-full sm:w-[35%] text-sm sm:text-[15px] text-white">
+                    Order Status
                   </h1>
-                  <div className="w-full sm:w-[50%]">
+                  <div className="w-full sm:w-[65%]">
                     <span className="px-6 py-1 bg-pink-300 rounded-full text-xs text-red-600 font-bold tracking-wider">
                       UNPAID
                     </span>
                   </div>
                 </div>
                 <div className="flex flex-col sm:flex-row items-center">
-                  <h1 className="w-full sm:w-[50%] text-sm sm:text-md text-white">
-                    Status Transaksi
+                  <h1 className="w-full sm:w-[35%] text-sm sm:text-[15px] text-white">
+                    Purcase Date
                   </h1>
-                  <div className="w-full sm:w-[50%]">
-                    <span className="px-6 py-1 bg-yellow-300 rounded-full text-xs text-orange-500 font-bold tracking-wider">
-                      PENDING
-                    </span>
-                  </div>
-                </div>
-                <div className="flex flex-col sm:flex-row items-center">
-                  <h1 className="w-full sm:w-[50%] text-sm sm:text-md text-white">
-                    Pesan
-                  </h1>
-                  <h1 className="w-full sm:w-[50%] text-sm text-white font-semibold">
-                    Silakan untuk melakukan pembayaran dengan metode yang kamu
-                    pilih.
+                  <h1 className="w-full sm:w-[65%] text-sm sm:text-[15px] text-white font-semibold">
+                    15 Mar 2025
                   </h1>
                 </div>
               </div>
 
               {/* QRIS */}
               <div className="flex flex-col gap-2">
-                <div className="w-[50%] sm:w-[38%] h-40 sm:h-48 bg-white rounded-xl mt-5 overflow-hidden">
+                <div className="w-[50%] sm:w-[40%] h-40 sm:h-48 bg-white rounded-xl mt-5 overflow-hidden">
                   <img
                     h-60
                     src={qr}
@@ -214,9 +198,6 @@ const Payment = () => {
                 <button className="w-[50%] sm:w-[40%] h-10 py-2 bg-seventh text-sm text-white font-bold shadow-md shadow-slate-900 rounded-2xl">
                   Unduh Kode QR
                 </button>
-                <p className="w-[50%] sm:w-[40%] text-center text-xs text-white">
-                  Screenshot jika QR Code tidak bisa di download.
-                </p>
               </div>
             </div>
           </div>
@@ -225,18 +206,27 @@ const Payment = () => {
             <h1 className="text-md text-white font-semibold">
               Instruksi Pembayaran
             </h1>
-            <div className="w-full h-10 bg-fourth/30 backdrop-blur-2xl rounded-lg flex justify-between items-center px-6 hover:cursor-pointer">
+            <div
+              className="w-full h-10 bg-fourth/30 backdrop-blur-2xl rounded-lg flex justify-between items-center px-6 hover:cursor-pointer"
+              onClick={() => setShowInstruction(!showInstruction)}
+            >
               <p className="text-sm text-white font-semibold">
                 Cara Melakukan Pembayaran
               </p>
-              <IoIosArrowUp className="text-xl text-white" />
+              <IoIosArrowUp
+                className={`text-xl text-white transition-all duration-300 ${
+                  showInstruction && "rotate-180"
+                }`}
+              />
             </div>
-            <div className="w-full min-h-14 bg-fourth/30 backdrop-blur-2xl rounded-lg flex items-center px-6">
-              <h1 className="text-sm text-white font-semibold">
-                Gunakan Ewallet atau aplikasi mobile banking yang tersedia scan
-                QRIS
-              </h1>
-            </div>
+            {showInstruction && (
+              <div className="w-full min-h-14 bg-fourth/30 backdrop-blur-2xl rounded-lg flex items-center px-6">
+                <h1 className="text-sm text-white font-semibold">
+                  Gunakan Ewallet atau aplikasi mobile banking yang tersedia
+                  scan QRIS
+                </h1>
+              </div>
+            )}
           </div>
         </section>
       </div>
