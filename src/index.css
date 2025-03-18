@@ -28,6 +28,12 @@
   .shadow-custom {
     box-shadow: 5px 5px rgb(168 85 247 / 0.6);
   }
+
+  .box-timer {
+    @apply w-full h-20 bg-red-500/60 backdrop-opacity-10 ring-2 ring-red-500 hover:ring-offset-4 
+                          hover:ring-offset-slate-800 transition-all duration-200 hover:cursor-pointer ring-offset-0
+                          rounded-md;
+  }
 }
 
 @layer base {
