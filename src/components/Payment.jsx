@@ -191,7 +191,7 @@ const Payment = () => {
                     Metode Pembayaran
                   </h1>
                   <h1 className="text-sm sm:text-[15px] text-white font-bold">
-                    {data.paymentMethod}
+                    {purchase.paymentDTO.paymentMethod}
                   </h1>
                 </div>
 
@@ -227,7 +227,7 @@ const Payment = () => {
 
                 <div className="w-full">
                   {/* QRIS Method */}
-                  {data.paymentMethod === "QRIS" && (
+                  {purchase.paymentDTO.paymentMethod === "QRIS" && (
                     <div className="w-full min-h-[11.5rem] flex flex-col gap-3 items-center overflow-hidden">
                       <div className="w-[40%] p-2 h-full rounded-lg bg-white">
                         <img
@@ -243,14 +243,14 @@ const Payment = () => {
                   )}
 
                   {/* E-Wallet Method */}
-                  {data.paymentMethod === "E-Wallet" && (
+                  {purchase.paymentDTO.paymentMethod === "E-Wallet" && (
                     <button className="w-full h-10 py-2 bg-seventh text-sm text-white font-bold shadow-md shadow-slate-900 rounded-lg">
                       Klik di sini untuk melakukan pembayaran
                     </button>
                   )}
 
                   {/* VA Method */}
-                  {data.paymentMethod === "VA" && (
+                  {purchase.paymentDTO.paymentMethod === "VA" && (
                     <div className="w-full flex flex-col items-center justify-center gap-2">
                       <h1 className="text-md font-semibold text-white">
                         8189359708540097
