@@ -61,6 +61,11 @@ export const fetchHistory = async (phone) => {
   return data;
 }
 
+export const fetchPurchaseDetail = async (slug) => {
+  const { data } = await axios.get(`${API_URL}/purchase-detail/${slug}`);
+  return data;
+}
+
 export const dataList = [
   {
     id: 1,
