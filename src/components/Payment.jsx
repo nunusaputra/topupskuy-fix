@@ -33,7 +33,7 @@ const Payment = () => {
       {purchase?.paymentDTO && (
         <div className="container">
           <section className="flex flex-col gap-4">
-            <div className="w-full min-h-32 grid grid-cols-1 lg:grid-cols-2 gap-10">
+            <div className="w-full min-h-32 grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
               <div className="flex flex-col gap-6">
                 {/* Informasi Akun */}
                 <div className="relative w-full min-h-50 rounded-lg flex flex-col gap-4 group hover:cursor-pointer bg-fourth/30 backdrop-blur-2xl ring-2 ring-slate-700 overflow-hidden">
@@ -185,7 +185,7 @@ const Payment = () => {
               </div>
 
               {/* Metode Pembayaran */}
-              <div className="bg-fourth/30 p-6 backdrop-blur-2xl w-full min-h-10 rounded-lg flex flex-col gap-4">
+              <div className="bg-fourth/30 p-6 backdrop-blur-2xl w-full rounded-lg flex flex-col gap-4">
                 <div>
                   <h1 className="text-sm sm:text-[15px] text-white font-semibold">
                     Metode Pembayaran
@@ -196,7 +196,7 @@ const Payment = () => {
                 </div>
 
                 {/* Informasi Pembayaran */}
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-3 border-b-2 border-white pb-5">
                   <div className="flex flex-col sm:flex-row items-center">
                     <h1 className="w-full sm:w-[35%] text-sm sm:text-[15px] text-white">
                       Order Number
@@ -225,59 +225,50 @@ const Payment = () => {
                   </div>
                 </div>
 
-                <div className="w-full flex items-center justify-between gap-2">
-                  <div className="w-[50%]">
-                    <div className="w-full sm:w-[90%] h-[11.5rem] px-2 bg-white rounded-xl mt-5 overflow-hidden">
-                      <img
-                        h-60
-                        src={data.paymentMethod === "QRIS" ? qr : dana}
-                        alt=""
-                        className="w-full h-full object-contain"
-                      />
+                <div className="w-full">
+                  {/* QRIS Method */}
+                  {data.paymentMethod === "QRIS" && (
+                    <div className="w-full min-h-[11.5rem] flex flex-col gap-3 items-center overflow-hidden">
+                      <div className="w-[40%] p-2 h-full rounded-lg bg-white">
+                        <img
+                          src={qr}
+                          alt=""
+                          className="w-full h-full object-contain"
+                        />
+                      </div>
+                      <button className="w-full h-10 py-2 bg-seventh text-sm text-white font-bold shadow-md shadow-slate-900 rounded-lg">
+                        Unduh Kode QR
+                      </button>
                     </div>
-                  </div>
+                  )}
 
-                  <div className="w-[50%] h-full px-1 sm:px-2">
-                    <div className="grid grid-cols-2 gap-3 mt-7">
-                      <div className="box-timer flex flex-col items-center justify-center">
-                        <h1 className="text-xl sm:text-2xl font-bold text-white">
-                          02
-                        </h1>
-                        <h2 className="text-sm sm:text-lg font-semibold text-white">
-                          Hours
-                        </h2>
-                      </div>
-                      <div className="box-timer flex flex-col items-center justify-center">
-                        <h1 className="text-xl sm:text-2xl font-bold text-white">
-                          30
-                        </h1>
-                        <h2 className="text-sm sm:text-lg font-semibold text-white">
-                          Minutes
-                        </h2>
-                      </div>
-                      <div className="col-span-2 box-timer flex flex-col items-center justify-center">
-                        <h1 className="text-xl sm:text-2xl font-bold text-white">
-                          59
-                        </h1>
-                        <h2 className="text-sm sm:text-lg font-semibold text-white">
-                          Second
-                        </h2>
-                      </div>
+                  {/* E-Wallet Method */}
+                  {data.paymentMethod === "E-Wallet" && (
+                    <button className="w-full h-10 py-2 bg-seventh text-sm text-white font-bold shadow-md shadow-slate-900 rounded-lg">
+                      Klik di sini untuk melakukan pembayaran
+                    </button>
+                  )}
+
+                  {/* VA Method */}
+                  {data.paymentMethod === "VA" && (
+                    <div className="w-full flex flex-col items-center justify-center gap-2">
+                      <h1 className="text-md font-semibold text-white">
+                        8189359708540097
+                      </h1>
+                      <button className="w-full h-10 py-2 bg-seventh text-sm text-white font-bold shadow-md shadow-slate-900 rounded-lg">
+                        Copy to clipboard
+                      </button>
                     </div>
+                  )}
+                  <div className="mt-3 w-full h-10 bg-red-500/60 backdrop-opacity-10 ring-2 ring-red-500 hover:ring-offset-4 hover:ring-offset-[#060911] transition-all duration-200 hover:cursor-pointer ring-offset-0 rounded-lg flex items-center justify-center gap-2">
+                    <h1 className="text-white text-md font-bold">02 Jam</h1>
+                    <h1 className="text-white text-md font-bold">30 Menit</h1>
+                    <h1 className="text-white text-md font-bold">12 Detik</h1>
                   </div>
                 </div>
-
-                {data.paymentMethod === "QRIS" ? (
-                  <button className="w-full h-10 py-2 bg-seventh text-sm text-white font-bold shadow-md shadow-slate-900 rounded-2xl">
-                    Unduh Kode QR
-                  </button>
-                ) : (
-                  <button className="w-full h-10 py-2 bg-seventh text-sm text-white font-bold shadow-md shadow-slate-900 rounded-2xl">
-                    Klik di sini untuk melakukan pembayaran
-                  </button>
-                )}
               </div>
             </div>
+
             {/* Payment Instruction */}
             <div className="flex flex-col gap-3 mt-6">
               <h1 className="text-md text-white font-semibold">
