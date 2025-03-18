@@ -56,6 +56,16 @@ export const fetchProduct = async (slug) => {
   return data;
 };
 
+export const fetchHistory = async (phone) => {
+  const { data } = await axios.get(`${API_URL}/purchases/${phone}`);
+  return data;
+}
+
+export const fetchPurchaseDetail = async (slug) => {
+  const { data } = await axios.get(`${API_URL}/purchase-detail/${slug}`);
+  return data;
+}
+
 export const dataList = [
   {
     id: 1,
