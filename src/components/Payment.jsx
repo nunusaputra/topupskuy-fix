@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import payment from "../assets/images/payment.gif";
 import ml from "../assets/images/ml.jpeg";
 import coverBottom from "../assets/images/cover-bottom.png";
@@ -7,19 +7,37 @@ import qr from "../assets/images/qrCode.jpg";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { fetchPurchaseDetail, historyPayment } from "../services";
+import Canceled from "../assets/images/canceled.png";
+import Expired from "../assets/images/expired.png";
+import Failed from "../assets/images/failed.png";
+import Paid from "../assets/images/paid.png";
+import Pending from "../assets/images/pending.png";
+import Processing from "../assets/images/processing.png";
+import Refunded from "../assets/images/refund.png";
+import Success from "../assets/images/success2.png";
 
 const Payment = () => {
   const { orderId } = useParams();
   const qrCodeRef = useRef(null);
 
   const [expiredDate, setExpiredDate] = useState()
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
   const [showPayment, setShowPayment] = useState(true);
   const [showInstruction, setShowInstruction] = useState(true);
   const [copied, setCopied] = useState(false);
 
   const data = historyPayment.find((item) => item.id === parseInt(orderId));
   const nickname = localStorage.getItem("nickname") ? localStorage.getItem("nickname") : "-";
+
+  const statusImages = {
+    Canceled,
+    Expired,
+    Failed,
+    Paid,
+    Pending,
+    Processing,
+    Refunded,
+    Success,
+  };
 
   const { data: purchase } = useQuery({
     queryKey: ["data", orderId],
@@ -29,6 +47,8 @@ const Payment = () => {
     staleTime: 60000,
     refetchInterval: 60000
   });
+  
+  const imageSrc = useMemo(() => statusImages[purchase?.paymentDTO.status] || null, [purchase?.paymentDTO.status]);
 
   const calculateTimeLeft = () => {
     const now = new Date().getTime();
@@ -45,6 +65,8 @@ const Payment = () => {
       seconds: Math.floor((difference / 1000) % 60),
     };
   };
+
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
   const handleCopy = (paymentNumber) => {
     if (paymentNumber) {
@@ -281,68 +303,83 @@ const Payment = () => {
 
                 <div className="w-full">
                   {/* QRIS Method */}
-                  {(purchase.paymentDTO.categoryPayment === "QRIS" || purchase.paymentDTO.categoryPayment === "Bank") && (
-                    <div className="w-full min-h-[11.5rem] flex flex-col gap-3 items-center overflow-hidden">
-                      <div className="w-[40%] p-2 h-full rounded-lg bg-white">
-                        <img
-                          ref={qrCodeRef}
-                          src={`https://api.qrserver.com/v1/create-qr-code/?data=${purchase?.paymentDTO.paymentNumber}`}
-                          alt=""
-                          className="w-full h-full object-contain"
-                        />
+                  {(purchase.paymentDTO.status === "Unpaid") ?
+                    <>
+                      {(purchase.paymentDTO.categoryPayment === "QRIS" || purchase.paymentDTO.categoryPayment === "Bank") && (
+                        <div className="w-full min-h-[11.5rem] flex flex-col gap-3 items-center overflow-hidden">
+                          <div className="w-[40%] p-2 h-full rounded-lg bg-white">
+                            <img
+                              ref={qrCodeRef}
+                              src={`https://api.qrserver.com/v1/create-qr-code/?data=${purchase?.paymentDTO.paymentNumber}`}
+                              alt=""
+                              className="w-full h-full object-contain"
+                            />
+                          </div>
+                          <button className="w-full h-10 py-2 bg-seventh text-sm text-white font-bold shadow-md shadow-slate-900 rounded-lg" onClick={() => download()}>
+                            Unduh Kode QR
+                          </button>
+                        </div>
+                      )}
+
+                      {/* E-Wallet Method */}
+                      {purchase.paymentDTO.categoryPayment === "E-Wallet" && (
+                        <button
+                          className="w-full h-10 py-2 bg-seventh text-sm text-white font-bold shadow-md shadow-slate-900 rounded-lg"
+                          onClick={() => window.location.href = purchase?.paymentDTO.paymentNumber}
+                        >
+                          Klik di sini untuk melakukan pembayaran
+                        </button>
+                      )}
+
+                      {/* VA Method */}
+                      {purchase.paymentDTO.categoryPayment === "Virtual Account" && (
+                        <div className="w-full flex flex-col items-center justify-center gap-2">
+                          <h1 className="text-md font-semibold text-white">
+                            {purchase?.paymentDTO.paymentNumber}
+                          </h1>
+                          <button
+                            className="w-full h-10 py-2 bg-seventh text-sm text-white font-bold shadow-md shadow-slate-900 rounded-lg"
+                            onClick={() => handleCopy(purchase?.paymentDTO.paymentNumber)}
+                          >
+                            {copied ? "Copied!" : "Copy to clipboard"}
+                          </button>
+                        </div>
+                      )}
+
+                      {purchase.paymentDTO.categoryPayment === "Convenience Store" && (
+                        <div className="w-full flex flex-col items-center justify-center gap-2">
+                          <h1 className="text-md font-semibold text-white">
+                            {purchase?.paymentDTO.paymentNumber}
+                          </h1>
+                          <button
+                            className="w-full h-10 py-2 bg-seventh text-sm text-white font-bold shadow-md shadow-slate-900 rounded-lg"
+                            onClick={() => handleCopy(purchase?.paymentDTO.paymentNumber)}
+                          >
+                            {copied ? "Copied!" : "Copy to clipboard"}
+                          </button>
+                        </div>
+                      )}
+
+                      {purchase.paymentDTO.categoryPayment !== "Saldo" && (
+                        <div className="mt-3 w-full h-10 bg-red-500/60 backdrop-opacity-10 ring-2 ring-red-500 hover:ring-offset-4 hover:ring-offset-[#060911] transition-all duration-200 hover:cursor-pointer ring-offset-0 rounded-lg flex items-center justify-center gap-2">
+                          <h1 className="text-white text-md font-bold">{String(timeLeft.hours).padStart(2, '0')} Jam</h1>
+                          <h1 className="text-white text-md font-bold">{String(timeLeft.minutes).padStart(2, '0')} Menit</h1>
+                          <h1 className="text-white text-md font-bold">{String(timeLeft.seconds).padStart(2, '0')} Detik</h1>
+                        </div>
+                      )}
+                    </> :
+                    <>
+                      <div className="w-full min-h-[11.5rem] flex flex-col gap-3 items-center overflow-hidden">
+                        <div className="w-[40%] p-2 h-full rounded-lg bg-white">
+                          <img
+                            src={imageSrc}
+                            alt=""
+                            className="w-full h-full object-contain"
+                          />
+                        </div>
                       </div>
-                      <button className="w-full h-10 py-2 bg-seventh text-sm text-white font-bold shadow-md shadow-slate-900 rounded-lg" onClick={() => download()}>
-                        Unduh Kode QR
-                      </button>
-                    </div>
-                  )}
+                    </>}
 
-                  {/* E-Wallet Method */}
-                  {purchase.paymentDTO.categoryPayment === "E-Wallet" && (
-                    <button
-                      className="w-full h-10 py-2 bg-seventh text-sm text-white font-bold shadow-md shadow-slate-900 rounded-lg"
-                      onClick={() => window.location.href = purchase?.paymentDTO.paymentNumber}
-                    >
-                      Klik di sini untuk melakukan pembayaran
-                    </button>
-                  )}
-
-                  {/* VA Method */}
-                  {purchase.paymentDTO.categoryPayment === "Virtual Account" && (
-                    <div className="w-full flex flex-col items-center justify-center gap-2">
-                      <h1 className="text-md font-semibold text-white">
-                        {purchase?.paymentDTO.paymentNumber}
-                      </h1>
-                      <button
-                        className="w-full h-10 py-2 bg-seventh text-sm text-white font-bold shadow-md shadow-slate-900 rounded-lg"
-                        onClick={() => handleCopy(purchase?.paymentDTO.paymentNumber)}
-                      >
-                        {copied ? "Copied!" : "Copy to clipboard"}
-                      </button>
-                    </div>
-                  )}
-
-                  {purchase.paymentDTO.categoryPayment === "Convenience Store" && (
-                    <div className="w-full flex flex-col items-center justify-center gap-2">
-                      <h1 className="text-md font-semibold text-white">
-                        {purchase?.paymentDTO.paymentNumber}
-                      </h1>
-                      <button
-                        className="w-full h-10 py-2 bg-seventh text-sm text-white font-bold shadow-md shadow-slate-900 rounded-lg"
-                        onClick={() => handleCopy(purchase?.paymentDTO.paymentNumber)}
-                      >
-                        {copied ? "Copied!" : "Copy to clipboard"}
-                      </button>
-                    </div>
-                  )}
-
-                  {purchase.paymentDTO.categoryPayment !== "Saldo" && (
-                    <div className="mt-3 w-full h-10 bg-red-500/60 backdrop-opacity-10 ring-2 ring-red-500 hover:ring-offset-4 hover:ring-offset-[#060911] transition-all duration-200 hover:cursor-pointer ring-offset-0 rounded-lg flex items-center justify-center gap-2">
-                      <h1 className="text-white text-md font-bold">{String(timeLeft.hours).padStart(2, '0')} Jam</h1>
-                      <h1 className="text-white text-md font-bold">{String(timeLeft.minutes).padStart(2, '0')} Menit</h1>
-                      <h1 className="text-white text-md font-bold">{String(timeLeft.seconds).padStart(2, '0')} Detik</h1>
-                    </div>
-                  )}
                 </div>
               </div>
             </div>
