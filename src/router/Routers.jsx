@@ -6,11 +6,15 @@ import OrderDetail from "../pages/OrderDetail";
 import Transaction from "../components/Transaction";
 import History from "../components/History";
 import Payment from "../components/Payment";
+import Login from "../pages/Login";
+import Register from "../pages/Register";
 
 const Routers = () => {
   return (
     <div>
       <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route element={<Index />}>
           <Route path="/" element={<LandingPage />} />
           <Route path="/order/:slug" element={<OrderDetail />} />

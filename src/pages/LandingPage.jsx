@@ -11,10 +11,10 @@ const LandingPage = () => {
   const { data: metadata } = useQuery({
     queryKey: ["metadata"],
     queryFn: fetchMetadata,
-    staleTime: 21600000, 
+    staleTime: 21600000,
   });
 
-  console.log(metadata)
+  console.log(metadata);
 
   return (
     <div>
