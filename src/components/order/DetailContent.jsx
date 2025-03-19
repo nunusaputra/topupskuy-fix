@@ -153,11 +153,11 @@ const DetailContent = ({
 
   const order = () => {
     let object = null;
-    if(selected.zoneInputFF !== null) {
+    if (selected.zoneInputFF !== null) {
       object = {
         myItem: selected.itemId,
         number: selected.phone,
-        payment: selected.payment,
+        payment: selected.paymentCode,
         user: 0,
         formField: [
           {
@@ -174,7 +174,7 @@ const DetailContent = ({
       object = {
         myItem: selected.itemId,
         number: selected.phone,
-        payment: selected.payment,
+        payment: selected.paymentCode,
         user: 0,
         formField: [
           {
@@ -190,7 +190,7 @@ const DetailContent = ({
         headers: { "X-TOKEN-AUTH": token, "Content-Type": "application/json" },
       })
       .then((response) => {
-        if(response.data !== "goodbye") {
+        if (response.data !== "goodbye") {
           window.location.href = `/payment/${response.data}`
         } else {
           window.alert("terjadi kesalahan pada saat order, silahkan kontak admin")
@@ -198,7 +198,7 @@ const DetailContent = ({
       })
       .catch((error) => {
         window.alert("terjadi kesalahan pada saat order, silahkan kontak admin")
-       });
+      });
   };
 
   const setItem = () => {
@@ -214,7 +214,7 @@ const DetailContent = ({
   }
 
   useEffect(() => {
-    if(selected.item != null && selected.itemId && selected.price != null) {
+    if (selected.item != null && selected.itemId && selected.price != null) {
       if (paymentRef.current) {
         paymentRef.current.scrollIntoView({ behavior: 'smooth' });
       }
@@ -543,20 +543,22 @@ const DetailContent = ({
                                     className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${selected.payment === value.id
                                       ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
                                       : "bg-white"
-                                      }`}
+                                      } ${selected.price < value.minAmount ? "pointer-events-none opacity-50" : ""}`}
                                     key={value.id}
                                     onClick={() => {
-                                      setPromo()
-                                      setSelected({
-                                        ...selected,
-                                        payment: value.id,
-                                        paymentName: value.name,
-                                        feePayment: (
-                                          selected.price *
-                                          (value.feePercent / 100) +
-                                          value.feeFlat
-                                        ).toFixed(2),
-                                      })
+                                      if (selected.price >= value.minAmount) {
+                                        setPromo()
+                                        setSelected({
+                                          ...selected,
+                                          payment: value.id, paymentCode: value.code,
+                                          paymentName: value.name,
+                                          feePayment: (
+                                            selected.price *
+                                            (value.feePercent / 100) +
+                                            value.feeFlat
+                                          ).toFixed(2),
+                                        })
+                                      }
                                     }}
                                   >
                                     <div
@@ -667,20 +669,23 @@ const DetailContent = ({
                                     className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${selected.payment === value.id
                                       ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
                                       : "bg-white"
-                                      }`}
+                                      } ${selected.price < value.minAmount ? "pointer-events-none opacity-50" : ""}`}
+
                                     key={value.id}
                                     onClick={() => {
-                                      setPromo()
-                                      setSelected({
-                                        ...selected,
-                                        payment: value.id,
-                                        paymentName: value.name,
-                                        feePayment: (
-                                          selected.price *
-                                          (value.feePercent / 100) +
-                                          value.feeFlat
-                                        ).toFixed(2),
-                                      })
+                                      if (selected.price >= value.minAmount) {
+                                        setPromo()
+                                        setSelected({
+                                          ...selected,
+                                          payment: value.id, paymentCode: value.code,
+                                          paymentName: value.name,
+                                          feePayment: (
+                                            selected.price *
+                                            (value.feePercent / 100) +
+                                            value.feeFlat
+                                          ).toFixed(2),
+                                        })
+                                      }
                                     }}
                                   >
                                     <div
@@ -793,20 +798,22 @@ const DetailContent = ({
                                     className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${selected.payment === value.id
                                       ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
                                       : "bg-white"
-                                      }`}
+                                      } ${selected.price < value.minAmount ? "pointer-events-none opacity-50" : ""}`}
                                     key={value.id}
                                     onClick={() => {
-                                      setPromo()
-                                      setSelected({
-                                        ...selected,
-                                        payment: value.id,
-                                        paymentName: value.name,
-                                        feePayment: (
-                                          selected.price *
-                                          (value.feePercent / 100) +
-                                          value.feeFlat
-                                        ).toFixed(2),
-                                      })
+                                      if (selected.price >= value.minAmount) {
+                                        setPromo()
+                                        setSelected({
+                                          ...selected,
+                                          payment: value.id, paymentCode: value.code,
+                                          paymentName: value.name,
+                                          feePayment: (
+                                            selected.price *
+                                            (value.feePercent / 100) +
+                                            value.feeFlat
+                                          ).toFixed(2),
+                                        })
+                                      }
                                     }}
                                   >
                                     <div
@@ -920,20 +927,22 @@ const DetailContent = ({
                                     className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${selected.payment === value.id
                                       ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
                                       : "bg-white"
-                                      }`}
+                                      } ${selected.price < value.minAmount ? "pointer-events-none opacity-50" : ""}`}
                                     key={value.id}
                                     onClick={() => {
-                                      setPromo()
-                                      setSelected({
-                                        ...selected,
-                                        payment: value.id,
-                                        paymentName: value.name,
-                                        feePayment: (
-                                          selected.price *
-                                          (value.feePercent / 100) +
-                                          value.feeFlat
-                                        ).toFixed(2),
-                                      })
+                                      if (selected.price >= value.minAmount) {
+                                        setPromo()
+                                        setSelected({
+                                          ...selected,
+                                          payment: value.id, paymentCode: value.code,
+                                          paymentName: value.name,
+                                          feePayment: (
+                                            selected.price *
+                                            (value.feePercent / 100) +
+                                            value.feeFlat
+                                          ).toFixed(2),
+                                        })
+                                      }
                                     }}
                                   >
                                     <div
@@ -1049,20 +1058,22 @@ const DetailContent = ({
                                     className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${selected.payment === value.id
                                       ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
                                       : "bg-white"
-                                      }`}
+                                      } ${selected.price < value.minAmount ? "pointer-events-none opacity-50" : ""}`}
                                     key={value.id}
                                     onClick={() => {
-                                      setPromo()
-                                      setSelected({
-                                        ...selected,
-                                        payment: value.id,
-                                        paymentName: value.name,
-                                        feePayment: (
-                                          selected.price *
-                                          (value.feePercent / 100) +
-                                          value.feeFlat
-                                        ).toFixed(2),
-                                      })
+                                      if (selected.price >= value.minAmount) {
+                                        setPromo()
+                                        setSelected({
+                                          ...selected,
+                                          payment: value.id, paymentCode: value.code,
+                                          paymentName: value.name,
+                                          feePayment: (
+                                            selected.price *
+                                            (value.feePercent / 100) +
+                                            value.feeFlat
+                                          ).toFixed(2),
+                                        })
+                                      }
                                     }}
                                   >
                                     <div
@@ -1174,22 +1185,24 @@ const DetailContent = ({
                                 .map((value) => (
                                   <div
                                     className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${selected.payment === value.id
-                                      ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
-                                      : "bg-white"
-                                      }`}
+                                        ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
+                                        : "bg-white"
+                                      } ${selected.price < value.minAmount ? "pointer-events-none opacity-50" : ""}`}
                                     key={value.id}
                                     onClick={() => {
-                                      setPromo()
-                                      setSelected({
-                                        ...selected,
-                                        payment: value.id,
-                                        paymentName: value.name,
-                                        feePayment: (
-                                          selected.price *
-                                          (value.feePercent / 100) +
-                                          value.feeFlat
-                                        ).toFixed(2),
-                                      })
+                                      if (selected.price >= value.minAmount) {
+                                        setPromo()
+                                        setSelected({
+                                          ...selected,
+                                          payment: value.id, paymentCode: value.code,
+                                          paymentName: value.name,
+                                          feePayment: (
+                                            selected.price *
+                                            (value.feePercent / 100) +
+                                            value.feeFlat
+                                          ).toFixed(2),
+                                        })
+                                      }
                                     }}
                                   >
                                     <div
