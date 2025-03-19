@@ -33,8 +33,9 @@ const SideContent = (data) => {
         >
           <p className="text-sm text-white">Tata cara topup</p>
           <IoIosArrowUp
-            className={`text-xl text-white transition-all duration-300 ${openInstruction ? "rotate-180" : ""
-              }`}
+            className={`text-xl text-white transition-all duration-300 ${
+              openInstruction ? "rotate-180" : ""
+            }`}
           />
         </div>
 
@@ -42,11 +43,15 @@ const SideContent = (data) => {
           <div className="w-full bg-slate-800 min-h-[7.5rem] flex flex-col gap-2 rounded-lg overflow-hidden">
             <div className="mb-5">
               <div className="w-full h-8 bg-fourth/30 backdrop-blur-xl px-3 py-2">
-                <h1 className="text-white text-sm font-semibold">CARA TOP UP</h1>
+                <h1 className="text-white text-sm font-semibold">
+                  CARA TOP UP
+                </h1>
               </div>
               <div className="text-white px-4 text-sm">
-                <ol className="list-decimal space-y-2 pl-5 mt-5" dangerouslySetInnerHTML={{ __html: data.data.description }}>
-                </ol>
+                <ol
+                  className="list-decimal space-y-2 pl-5 mt-5"
+                  dangerouslySetInnerHTML={{ __html: data.data.description }}
+                ></ol>
               </div>
             </div>
           </div>
