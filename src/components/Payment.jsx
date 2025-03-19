@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import payment from "../assets/images/payment.gif";
 import ml from "../assets/images/ml.jpeg";
 import coverBottom from "../assets/images/cover-bottom.png";
@@ -10,22 +10,77 @@ import { fetchPurchaseDetail, historyPayment } from "../services";
 
 const Payment = () => {
   const { orderId } = useParams();
+  const qrCodeRef = useRef(null);
+
+  const [expiredDate, setExpiredDate] = useState()
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+  const [showPayment, setShowPayment] = useState(true);
+  const [showInstruction, setShowInstruction] = useState(true);
+  const [copied, setCopied] = useState(false);
+
   const data = historyPayment.find((item) => item.id === parseInt(orderId));
-  const nickname = localStorage.getItem("nickname")
-    ? localStorage.getItem("nickname")
-    : "-";
+  const nickname = localStorage.getItem("nickname") ? localStorage.getItem("nickname") : "-";
+
   const { data: purchase } = useQuery({
     queryKey: ["data", orderId],
     queryFn: orderId
       ? () => fetchPurchaseDetail(orderId)
       : () => Promise.resolve(null),
-    staleTime: 21600000,
+    staleTime: 60000,
+    refetchInterval: 60000
   });
 
-  console.log(purchase?.paymentDTO);
+  const calculateTimeLeft = () => {
+    const now = new Date().getTime();
+    const expiryTime = new Date(purchase?.paymentDTO.expiredDate).getTime();
+    const difference = expiryTime - now;
 
-  const [showPayment, setShowPayment] = useState(true);
-  const [showInstruction, setShowInstruction] = useState(true);
+    if (difference <= 0) {
+      return { hours: 0, minutes: 0, seconds: 0 };
+    }
+
+    return {
+      hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+      minutes: Math.floor((difference / (1000 * 60)) % 60),
+      seconds: Math.floor((difference / 1000) % 60),
+    };
+  };
+
+  const handleCopy = (paymentNumber) => {
+    if (paymentNumber) {
+      navigator.clipboard.writeText(paymentNumber)
+        .then(() => {
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2000); // Reset setelah 2 detik
+        })
+        .catch(err => window.alert(err));
+    }
+  };
+
+  const download = () => {
+    const imageUrl = qrCodeRef.current.src;
+    const filename = 'qr_code.png';
+
+    fetch(imageUrl)
+      .then((response) => response.blob())
+      .then((blob) => {
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      })
+      .catch((error) => alert('Error downloading the image:', error));
+  }
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [purchase?.paymentDTO.expiredDate]);
 
   return (
     <div className="min-h-screen">
@@ -109,9 +164,8 @@ const Payment = () => {
                     Rincian Pembayaran
                   </h1>
                   <IoIosArrowUp
-                    className={`text-white ${
-                      showPayment && "rotate-180"
-                    } transition-all duration-300`}
+                    className={`text-white ${showPayment && "rotate-180"
+                      } transition-all duration-300`}
                   />
                 </div>
 
@@ -120,7 +174,7 @@ const Payment = () => {
                   <div className="w-full min-h-10 bg-fourth/30 backdrop-blur-2xl rounded-lg flex flex-col p-6 gap-6">
                     <div className="w-full flex justify-between">
                       <h1 className="text-white text-sm sm:text-[15px] font-semibold">
-                        Product
+                        Produk
                       </h1>
                       <h1 className="text-white text-sm sm:text-[15px] font-medium">
                         {purchase.paymentDTO.title}
@@ -136,7 +190,7 @@ const Payment = () => {
                     </div>
                     <div className="w-full flex justify-between">
                       <h1 className="text-white text-sm sm:text-[15px] font-semibold">
-                        Price
+                        Harga
                       </h1>
                       <h1 className="text-white text-sm sm:text-[15px] font-medium">
                         {new Intl.NumberFormat("id-ID", {
@@ -147,7 +201,7 @@ const Payment = () => {
                     </div>
                     <div className="w-full flex justify-between">
                       <h1 className="text-white text-sm sm:text-[15px] font-semibold">
-                        Fee
+                        Biaya Tambahan
                       </h1>
                       <h1 className="text-white text-sm sm:text-[15px] font-medium">
                         {new Intl.NumberFormat("id-ID", {
@@ -158,7 +212,7 @@ const Payment = () => {
                     </div>
                     <div className="w-full flex justify-between">
                       <h1 className="text-white text-sm sm:text-[15px] font-semibold">
-                        Unique Code
+                        Kode Unik
                       </h1>
                       <h1 className="text-white text-sm sm:text-[15px] font-medium">
                         {new Intl.NumberFormat("id-ID", {
@@ -199,72 +253,96 @@ const Payment = () => {
                 <div className="flex flex-col gap-3 border-b-2 border-white pb-5">
                   <div className="flex flex-col sm:flex-row items-center">
                     <h1 className="w-full sm:w-[35%] text-sm sm:text-[15px] text-white">
-                      Order Number
+                      Nomor Pesanan
                     </h1>
                     <h1 className="w-full sm:w-[65%] text-sm sm:text-[15px] text-white font-semibold">
-                      ML-0000000424-K8QAYPCBVHGLRJM
+                      {purchase.paymentDTO.id}
                     </h1>
                   </div>
                   <div className="flex flex-col sm:flex-row items-center">
                     <h1 className="w-full sm:w-[35%] text-sm sm:text-[15px] text-white">
-                      Order Status
+                      Status Pesanan
                     </h1>
                     <div className="w-full sm:w-[65%]">
-                      <span className="px-6 py-1 bg-pink-300 rounded-full text-xs text-red-600 font-bold tracking-wider">
-                        UNPAID
-                      </span>
+                      <h1 className="w-full sm:w-[35%] text-sm sm:text-[15px] text-white">
+                        {purchase?.paymentDTO.status}
+                      </h1>
                     </div>
                   </div>
                   <div className="flex flex-col sm:flex-row items-center">
                     <h1 className="w-full sm:w-[35%] text-sm sm:text-[15px] text-white">
-                      Purcase Date
+                      Tanggal Pembelian
                     </h1>
                     <h1 className="w-full sm:w-[65%] text-sm sm:text-[15px] text-white font-semibold">
-                      15 Mar 2025
+                      {new Intl.DateTimeFormat("id-ID", { day: "2-digit", month: "long", year: "numeric" }).format(new Date(purchase.paymentDTO.purchaseDate))}
                     </h1>
                   </div>
                 </div>
 
                 <div className="w-full">
                   {/* QRIS Method */}
-                  {purchase.paymentDTO.paymentMethod === "QRIS" && (
+                  {(purchase.paymentDTO.categoryPayment === "QRIS" || purchase.paymentDTO.categoryPayment === "Bank") && (
                     <div className="w-full min-h-[11.5rem] flex flex-col gap-3 items-center overflow-hidden">
                       <div className="w-[40%] p-2 h-full rounded-lg bg-white">
                         <img
-                          src={qr}
+                          ref={qrCodeRef}
+                          src={`https://api.qrserver.com/v1/create-qr-code/?data=${purchase?.paymentDTO.paymentNumber}`}
                           alt=""
                           className="w-full h-full object-contain"
                         />
                       </div>
-                      <button className="w-full h-10 py-2 bg-seventh text-sm text-white font-bold shadow-md shadow-slate-900 rounded-lg">
+                      <button className="w-full h-10 py-2 bg-seventh text-sm text-white font-bold shadow-md shadow-slate-900 rounded-lg" onClick={() => download()}>
                         Unduh Kode QR
                       </button>
                     </div>
                   )}
 
                   {/* E-Wallet Method */}
-                  {purchase.paymentDTO.paymentMethod === "E-Wallet" && (
-                    <button className="w-full h-10 py-2 bg-seventh text-sm text-white font-bold shadow-md shadow-slate-900 rounded-lg">
+                  {purchase.paymentDTO.categoryPayment === "E-Wallet" && (
+                    <button
+                      className="w-full h-10 py-2 bg-seventh text-sm text-white font-bold shadow-md shadow-slate-900 rounded-lg"
+                      onClick={() => window.location.href = purchase?.paymentDTO.paymentNumber}
+                    >
                       Klik di sini untuk melakukan pembayaran
                     </button>
                   )}
 
                   {/* VA Method */}
-                  {purchase.paymentDTO.paymentMethod === "VA" && (
+                  {purchase.paymentDTO.categoryPayment === "Virtual Account" && (
                     <div className="w-full flex flex-col items-center justify-center gap-2">
                       <h1 className="text-md font-semibold text-white">
-                        8189359708540097
+                        {purchase?.paymentDTO.paymentNumber}
                       </h1>
-                      <button className="w-full h-10 py-2 bg-seventh text-sm text-white font-bold shadow-md shadow-slate-900 rounded-lg">
-                        Copy to clipboard
+                      <button
+                        className="w-full h-10 py-2 bg-seventh text-sm text-white font-bold shadow-md shadow-slate-900 rounded-lg"
+                        onClick={() => handleCopy(purchase?.paymentDTO.paymentNumber)}
+                      >
+                        {copied ? "Copied!" : "Copy to clipboard"}
                       </button>
                     </div>
                   )}
-                  <div className="mt-3 w-full h-10 bg-red-500/60 backdrop-opacity-10 ring-2 ring-red-500 hover:ring-offset-4 hover:ring-offset-[#060911] transition-all duration-200 hover:cursor-pointer ring-offset-0 rounded-lg flex items-center justify-center gap-2">
-                    <h1 className="text-white text-md font-bold">02 Jam</h1>
-                    <h1 className="text-white text-md font-bold">30 Menit</h1>
-                    <h1 className="text-white text-md font-bold">12 Detik</h1>
-                  </div>
+
+                  {purchase.paymentDTO.categoryPayment === "Convenience Store" && (
+                    <div className="w-full flex flex-col items-center justify-center gap-2">
+                      <h1 className="text-md font-semibold text-white">
+                        {purchase?.paymentDTO.paymentNumber}
+                      </h1>
+                      <button
+                        className="w-full h-10 py-2 bg-seventh text-sm text-white font-bold shadow-md shadow-slate-900 rounded-lg"
+                        onClick={() => handleCopy(purchase?.paymentDTO.paymentNumber)}
+                      >
+                        {copied ? "Copied!" : "Copy to clipboard"}
+                      </button>
+                    </div>
+                  )}
+
+                  {purchase.paymentDTO.categoryPayment !== "Saldo" && (
+                    <div className="mt-3 w-full h-10 bg-red-500/60 backdrop-opacity-10 ring-2 ring-red-500 hover:ring-offset-4 hover:ring-offset-[#060911] transition-all duration-200 hover:cursor-pointer ring-offset-0 rounded-lg flex items-center justify-center gap-2">
+                      <h1 className="text-white text-md font-bold">{String(timeLeft.hours).padStart(2, '0')} Jam</h1>
+                      <h1 className="text-white text-md font-bold">{String(timeLeft.minutes).padStart(2, '0')} Menit</h1>
+                      <h1 className="text-white text-md font-bold">{String(timeLeft.seconds).padStart(2, '0')} Detik</h1>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -282,9 +360,8 @@ const Payment = () => {
                   Cara Melakukan Pembayaran
                 </p>
                 <IoIosArrowUp
-                  className={`text-xl text-white transition-all duration-300 ${
-                    showInstruction && "rotate-180"
-                  }`}
+                  className={`text-xl text-white transition-all duration-300 ${showInstruction && "rotate-180"
+                    }`}
                 />
               </div>
               {showInstruction && (
