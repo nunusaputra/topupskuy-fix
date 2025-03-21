@@ -84,4 +84,8 @@
   section {
     @apply py-[25px];
   }
+
+  .icon-close {
+    @apply absolute top-10 left-7;
+  }
 }
