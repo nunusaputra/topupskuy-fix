@@ -52,22 +52,32 @@ const AuthLayouts = (props) => {
 const Navigation = ({ type }) => {
   if (type === "login" || type === "Login") {
     return (
+      <>
       <p className="text-xs lg:text-sm text-white text-center mt-5">
-        Don't have an account?{" "}
+        Lupa Password?{" "}
+        <Link
+          className="text-white hover:text-seventh font-bold"
+        >
+          Klik disini
+        </Link>
+      </p>
+      <p className="text-xs lg:text-sm text-white text-center mt-5">
+        Tidak memiliki akun?{" "}
         <Link
           to="/register"
           className="text-white hover:text-seventh font-bold"
         >
-          Register
+          Daftar disini
         </Link>
       </p>
+      </>
     );
   } else {
     return (
       <p className="text-xs lg:text-sm text-white text-center mt-5">
-        Already have an account?{" "}
+        Sudah punya akun?{" "}
         <Link to="/login" className="text-white hover:text-seventh font-bold">
-          Login
+          Login disini
         </Link>
       </p>
     );

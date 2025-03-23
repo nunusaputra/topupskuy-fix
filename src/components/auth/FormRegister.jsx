@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import InputForm from "../element/InputForms/InputForm";
 import InputPassword from "../element/InputForms/InputPassword";
+import axios from "axios";
+import { API_URL } from "../../env";
 
 const FormRegister = () => {
   const [input, setInput] = useState({
@@ -17,13 +19,37 @@ const FormRegister = () => {
     });
   };
 
+  const submitRegister = () => {
+    const object = {
+      name: input.nama,
+      password: input.password,
+      phoneNumber: input.telpon
+    }
+
+    axios
+      .post(`${API_URL}/user/registration`, JSON.stringify(object), {
+        headers: { "Content-Type": "application/json" },
+      })
+      .then((response) => {
+        if(response.data.data.message === "Register Success") {
+          // tampilkan form/modal utk OTP
+        } else {
+          // tampilkan notif kalau register gagal
+        }
+      })
+      .catch((error) => {
+        window.alert("terjadi kesalahan pada saat order, silahkan kontak admin")
+      });
+  }
+
   const nameRef = useRef(null);
 
   useEffect(() => {
     nameRef.current.focus();
   }, []);
+
   return (
-    <form>
+    <div>
       <InputForm
         label="Nama Lengkap"
         type="text"
@@ -35,7 +61,7 @@ const FormRegister = () => {
         onChange={handleInput}
       />
       <InputForm
-        label="No Handphone"
+        label="Nomor Telp"
         type="tel"
         name="telpon"
         id="telpon"
@@ -52,17 +78,17 @@ const FormRegister = () => {
         onChange={handleInput}
       />
       <InputPassword
-        label={"Confirm Password"}
-        name={"password"}
+        label={"Konfirmasi Password"}
+        name={"confPassword"}
         id={"confPassword"}
         margin={"mt-6 mb-6"}
         value={input.confPassword}
         onChange={handleInput}
       />
-      <button className="bg-seventh text-white w-full px-4 py-1 h-10 rounded-md font-semibold">
-        Register
+      <button onClick={() => submitRegister()} className="bg-seventh text-white w-full px-4 py-1 h-10 rounded-md font-semibold">
+        Daftar
       </button>
-    </form>
+    </div>
   );
 };
 

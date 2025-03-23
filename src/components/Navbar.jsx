@@ -30,6 +30,10 @@ const Navbar = (props) => {
   const logo =
     props.metadata?.find((item) => item.id === "LOGO-HEADER")?.value_ || "";
 
+  const login = () => {
+    alert("im clicked")
+  }
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -46,13 +50,12 @@ const Navbar = (props) => {
   return (
     <Disclosure
       as="nav"
-      className={`sticky top-0 z-[100] py-2 w-full transition-all duration-300
-            ${
-              scrolling
-                ? "bg-fourth/30 backdrop-blur-2xl"
-                : "bg-fifth/20 backdrop-blur-xl"
-            }
-        }`}
+      className={`sticky top-0 z-[100] py-2 w-full transition-all duration-300 overflow-hidden
+            ${scrolling
+          ? "bg-fourth/30 backdrop-blur-2xl"
+          : "bg-fifth/20 backdrop-blur-xl"
+        }
+       }`}
     >
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
@@ -169,11 +172,11 @@ const Navbar = (props) => {
                 </Menu>
               ) : (
                 <div className="hidden md:flex items-center gap-3">
-                  <button className="px-4 py-2 rounded-lg ring-2 ring-purple-300 text-purple-300 font-semibold hover:bg-third transition-all duration-300 hover:cursor-pointer hover:text-black">
+                  <button href="/login" className="px-4 py-2 rounded-lg ring-2 ring-purple-300 text-purple-300 font-semibold hover:bg-third transition-all duration-300 hover:cursor-pointer hover:text-black">
                     Login
                   </button>
 
-                  <button className="px-4 py-2 ring-2 ring-purple-300 rounded-lg bg-third font-semibold hover:cursor-pointer hover:text-black">
+                  <button href="/register" className="px-4 py-2 ring-2 ring-purple-300 rounded-lg bg-third font-semibold hover:cursor-pointer hover:text-black">
                     Register
                   </button>
                 </div>
@@ -201,6 +204,15 @@ const Navbar = (props) => {
               {item.name}
             </DisclosureButton>
           ))}
+          <a href="/login">
+            <DisclosureButton
+              as="a"
+              className="block md:hidden rounded-md px-3 py-2 text-base text-gray-300 hover:bg-gray-700 hover:text-white font-medium"
+            >
+              Login
+            </DisclosureButton>
+          </a>
+
           <DisclosureButton
             as="a"
             href="/login"

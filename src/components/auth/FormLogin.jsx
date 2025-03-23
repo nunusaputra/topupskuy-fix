@@ -1,12 +1,33 @@
 import React, { useEffect, useRef, useState } from "react";
 import InputForm from "../element/InputForms/InputForm";
 import InputPassword from "../element/InputForms/InputPassword";
+import axios from "axios";
+import { API_URL } from "../../env";
 
 const FormLogin = () => {
   const [input, setInput] = useState({
     email: "",
     password: "",
   });
+
+  const submitLogin = () => {
+    const object = {
+      username: input.email,
+      password: input.password
+    }
+
+    axios
+      .post(`${API_URL}/user/authentication/member`, JSON.stringify(object), {
+        headers: { "Content-Type": "application/json" },
+      })
+      .then((response) => {
+        localStorage.setItem("unique-code", response.data.data.id);
+        window.location.href = "/";
+      })
+      .catch((error) => {
+        window.alert("terjadi kesalahan pada saat order, silahkan kontak admin")
+      });
+  }
 
   const handleInput = (e) => {
     setInput({
@@ -21,13 +42,13 @@ const FormLogin = () => {
     emailRef.current.focus();
   }, []);
   return (
-    <form>
+    <div>
       <InputForm
-        label="Email"
-        type="email"
+        label="Nomor Telp"
+        type="telp"
         name="email"
         id="email"
-        placeholder="jhondoe@example.com"
+        placeholder="+628123456789"
         ref={emailRef}
         value={input.email}
         onChange={handleInput}
@@ -40,10 +61,10 @@ const FormLogin = () => {
         value={input.password}
         onChange={handleInput}
       />
-      <button className="bg-seventh text-white w-full px-4 py-1 h-10 rounded-md font-semibold">
-        Login
+      <button onClick={() => submitLogin()} className="bg-seventh text-white w-full px-4 py-1 h-10 rounded-md font-semibold">
+        Masuk
       </button>
-    </form>
+    </div>
   );
 };
 
