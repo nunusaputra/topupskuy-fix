@@ -28,6 +28,10 @@ const Navbar = (props) => {
 
   const logo = props.metadata?.find((item) => item.id === "LOGO-HEADER")?.value_ || "";
 
+  const login = () => {
+    alert("im clicked")
+  }
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -45,11 +49,10 @@ const Navbar = (props) => {
     <Disclosure
       as="nav"
       className={`sticky top-0 z-[100] py-2 w-full transition-all duration-300 overflow-hidden
-            ${
-              scrolling
-                ? "bg-fourth/30 backdrop-blur-2xl"
-                : "bg-fifth/20 backdrop-blur-xl"
-            }
+            ${scrolling
+          ? "bg-fourth/30 backdrop-blur-2xl"
+          : "bg-fifth/20 backdrop-blur-xl"
+        }
         }`}
     >
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -99,15 +102,12 @@ const Navbar = (props) => {
           </div>
           <div className="hidden md:block">
             <div className="absolute inset-y-0 right-0 flex items-center gap-4 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-              {/* Login Section */}
-              <button className="px-4 py-2 rounded-lg ring-2 ring-purple-300 text-purple-300 font-semibold hover:bg-third transition-all duration-300 hover:cursor-pointer hover:text-black">
+              <a href="/login" className="px-4 py-2 rounded-lg ring-2 ring-purple-300 text-purple-300 font-semibold hover:bg-third transition-all duration-300 hover:cursor-pointer hover:text-black">
                 Login
-              </button>
-
-              {/* Register Section */}
-              <button className="px-4 py-2 rounded-lg bg-third font-semibold hover:cursor-pointer hover:text-black">
+              </a>
+              <a href="/register" className="px-4 py-2 rounded-lg bg-third font-semibold hover:cursor-pointer hover:text-black">
                 Register
-              </button>
+              </a>
             </div>
           </div>
         </div>
@@ -131,14 +131,18 @@ const Navbar = (props) => {
               {item.name}
             </DisclosureButton>
           ))}
+          <a href="/login">
+            <DisclosureButton
+              as="a"
+              className="block md:hidden rounded-md px-3 py-2 text-base text-gray-300 hover:bg-gray-700 hover:text-white font-medium"
+            >
+              Login
+            </DisclosureButton>
+          </a>
+
           <DisclosureButton
             as="a"
-            className="block md:hidden rounded-md px-3 py-2 text-base text-gray-300 hover:bg-gray-700 hover:text-white font-medium"
-          >
-            Login
-          </DisclosureButton>
-          <DisclosureButton
-            as="a"
+            href="/register"
             className="block md:hidden rounded-md px-3 py-2 text-base text-gray-300 hover:bg-gray-700 hover:text-white font-medium"
           >
             Register
