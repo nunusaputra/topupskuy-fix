@@ -51,8 +51,8 @@ export const fetchProducts = async () => {
   return data;
 };
 
-export const fetchProduct = async (slug) => {
-  const { data } = await axios.get(`${API_URL}/product-detail/${slug}`);
+export const fetchProduct = async (slug, unique) => {
+  const { data } = await axios.get(`${API_URL}/product-detail/${slug}/${unique}`);
   return data;
 };
 
@@ -63,6 +63,11 @@ export const fetchHistory = async (phone) => {
 
 export const fetchPurchaseDetail = async (slug) => {
   const { data } = await axios.get(`${API_URL}/purchase-detail/${slug}`);
+  return data;
+}
+
+export const fetchDataMember = async (uniqueCode) => {
+  const { data } = await axios.get(`${API_URL}/user/data/${uniqueCode}`);
   return data;
 }
 
