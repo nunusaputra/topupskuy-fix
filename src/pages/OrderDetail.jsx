@@ -10,13 +10,13 @@ import { useQuery } from "@tanstack/react-query";
 
 const OrderDetail = () => {
   const { slug } = useParams();
-
+  const uniqueCode = (localStorage.getItem("unique-code") ? localStorage.getItem("unique-code") : null);
   const { data: product } = useQuery({
-    queryKey: ["product", slug],
-    queryFn: () => fetchProduct(slug),
+    queryKey: ["product", slug, uniqueCode],
+    queryFn: () => fetchProduct(slug, uniqueCode),
     staleTime: 21600000,
   });
-
+  
   const [showButton, setShowButton] = useState(false);
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const OrderDetail = () => {
 
   return (
     <div className="relative mb-10">
-{product != null && (
+      {product != null && (
         <>
           <CoverHeader data={product.product} features={product?.trxFeatures} />
           <div className="container relative w-full min-h-screen mx-auto lg:flex lg:gap-10">

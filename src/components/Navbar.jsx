@@ -11,6 +11,8 @@ import { FaBars, FaUser } from "react-icons/fa";
 import { PiUserListFill } from "react-icons/pi";
 import { FaXmark } from "react-icons/fa6";
 import { useEffect, useState } from "react";
+import { fetchDataMember } from "../services";
+import { useQuery } from "@tanstack/react-query";
 
 const navigation = [
   { name: "Topup", href: "/", current: false },
@@ -25,14 +27,16 @@ function classNames(...classes) {
 const Navbar = (props) => {
   const [scrolling, setScrolling] = useState(false);
 
-  const isLoggedin = false;
-
   const logo =
     props.metadata?.find((item) => item.id === "LOGO-HEADER")?.value_ || "";
 
-  const login = () => {
-    alert("im clicked")
-  }
+  const uniqueCode = localStorage.getItem("unique-code") ? localStorage.getItem("unique-code") : "";
+  const { data: member } = useQuery({
+    queryKey: ["uniqueCode", uniqueCode],
+    queryFn: () => fetchDataMember(uniqueCode),
+    staleTime: 21600000,
+    enabled: !!uniqueCode, // Hanya fetch jika uniqueCode tidak null atau undefined
+  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -47,6 +51,7 @@ const Navbar = (props) => {
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+  
   return (
     <Disclosure
       as="nav"
@@ -105,20 +110,20 @@ const Navbar = (props) => {
           <div className="">
             <div className="absolute inset-y-0 right-0 flex items-center gap-4 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               {/* Cek apakah user sudah login atau belum */}
-              {isLoggedin ? (
+              {member != null ? (
                 <Menu as="div" className="relative ml-3">
                   <div className="flex gap-4">
                     <div className="hidden px-4 py-2 bg-transparent text-white ring-2 ring-sixth rounded-md md:flex items-center gap-2 hover:bg-sixth cursor-pointer transition-all duration-300">
                       <PiUserListFill className="text-sm text-white" />
                       <h1 className="text-sm text-white font-semibold">
-                        Membership
+                        {member.role}
                       </h1>
                     </div>
                     <MenuButton className="relative">
                       <div className="px-4 py-2 bg-transparent text-white ring-2 ring-sixth rounded-md flex items-center gap-2 hover:bg-sixth cursor-pointer transition-all duration-300">
                         <FaUser className="text-sm text-white" />
                         <h1 className="text-sm text-white font-semibold">
-                          Wisnu
+                          {member.name}
                         </h1>
                       </div>
                     </MenuButton>
@@ -172,13 +177,12 @@ const Navbar = (props) => {
                 </Menu>
               ) : (
                 <div className="hidden md:flex items-center gap-3">
-                  <button href="/login" className="px-4 py-2 rounded-lg ring-2 ring-purple-300 text-purple-300 font-semibold hover:bg-third transition-all duration-300 hover:cursor-pointer hover:text-black">
+                  <a href="/login" className="px-4 py-2 rounded-lg ring-2 ring-purple-300 text-purple-300 font-semibold hover:bg-third transition-all duration-300 hover:cursor-pointer hover:text-black">
                     Login
-                  </button>
-
-                  <button href="/register" className="px-4 py-2 ring-2 ring-purple-300 rounded-lg bg-third font-semibold hover:cursor-pointer hover:text-black">
+                  </a>
+                  <a href="/register" className="px-4 py-2 ring-2 ring-purple-300 rounded-lg bg-third font-semibold hover:cursor-pointer hover:text-black">
                     Register
-                  </button>
+                  </a>
                 </div>
               )}
             </div>
@@ -204,15 +208,6 @@ const Navbar = (props) => {
               {item.name}
             </DisclosureButton>
           ))}
-          <a href="/login">
-            <DisclosureButton
-              as="a"
-              className="block md:hidden rounded-md px-3 py-2 text-base text-gray-300 hover:bg-gray-700 hover:text-white font-medium"
-            >
-              Login
-            </DisclosureButton>
-          </a>
-
           <DisclosureButton
             as="a"
             href="/login"
