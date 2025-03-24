@@ -5,7 +5,7 @@ import FormRegister from "../components/auth/FormRegister";
 const Register = () => {
   return (
     <div>
-      <AuthLayouts title={"Register"} type={"register"}>
+      <AuthLayouts title={"Register"} type="register">
         <FormRegister />
       </AuthLayouts>
     </div>

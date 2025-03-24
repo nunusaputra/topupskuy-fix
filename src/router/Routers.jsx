@@ -8,6 +8,8 @@ import History from "../components/History";
 import Payment from "../components/Payment";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import ForgotPassword from "../pages/ForgotPassword";
+import OTP from "../pages/OTP";
 
 const Routers = () => {
   return (
@@ -15,6 +17,8 @@ const Routers = () => {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/otp" element={<OTP />} />
         <Route element={<Index />}>
           <Route path="/" element={<LandingPage />} />
           <Route path="/order/:slug" element={<OrderDetail />} />
