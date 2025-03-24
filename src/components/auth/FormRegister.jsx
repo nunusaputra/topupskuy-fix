@@ -3,8 +3,11 @@ import InputForm from "../element/InputForms/InputForm";
 import InputPassword from "../element/InputForms/InputPassword";
 import axios from "axios";
 import { API_URL } from "../../env";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const FormRegister = () => {
+  const navigate = useNavigate();
   const [input, setInput] = useState({
     nama: "",
     telpon: "",
@@ -23,24 +26,24 @@ const FormRegister = () => {
     const object = {
       name: input.nama,
       password: input.password,
-      phoneNumber: input.telpon
-    }
+      phoneNumber: input.telpon,
+    };
 
     axios
       .post(`${API_URL}/user/registration`, JSON.stringify(object), {
         headers: { "Content-Type": "application/json" },
       })
       .then((response) => {
-        if(response.data.data.message === "Register Success") {
-          // tampilkan form/modal utk OTP
+        if (response.data.data.message === "Register Success") {
+          navigate("/otp");
         } else {
-          // tampilkan notif kalau register gagal
+          toast.error(response.data.data.message);
         }
       })
       .catch((error) => {
-        window.alert("terjadi kesalahan pada saat order, silahkan kontak admin")
+        toast.info("terjadi kesalahan pada saat order, silahkan kontak admin");
       });
-  }
+  };
 
   const nameRef = useRef(null);
 
@@ -85,7 +88,10 @@ const FormRegister = () => {
         value={input.confPassword}
         onChange={handleInput}
       />
-      <button onClick={() => submitRegister()} className="bg-seventh text-white w-full px-4 py-1 h-10 rounded-md font-semibold">
+      <button
+        onClick={() => submitRegister()}
+        className="bg-seventh text-white w-full px-4 py-1 h-10 rounded-md font-semibold"
+      >
         Daftar
       </button>
     </div>

@@ -19,22 +19,38 @@ const AuthLayouts = (props) => {
               <div className="w-full mt-5 md:mt-0 h-[90%] flex flex-col justify-center items-center px-2 lg:px-10 xl:px-16 py-4">
                 <div className="w-full h-full flex flex-col justify-center gap-5">
                   <div className="flex flex-col gap-2">
-                    <h1 className="mt-5 md:mt-0 text-3xl md:text-2xl lg:text-3xl font-semibold text-white">
+                    <h1 className="mt-5 md:mt-0 text-3xl md:text-2xl lg:text-3xl font-bold text-white">
                       {title}
                     </h1>
-                    {type === "login" ? (
+                    {type === "login" && (
                       <p className="text-xs lg:text-sm  text-white">
                         Masuk dengan akun yang telah kamu daftarkan
                       </p>
-                    ) : (
+                    )}
+                    {type === "register" && (
                       <p className="text-xs lg:text-sm text-white">
                         Masukan informasi pendaftaran yang valid
+                      </p>
+                    )}
+                    {type === "forgot" && (
+                      <p className="text-xs lg:text-sm text-white">
+                        It's okayy bro, kamu cukup mengirimkan nomor whatsapp
+                        kamu dan kami akan mengirimkan kode yang dapat kamu
+                        gunakan sebagai password baru untuk kamu login.
+                      </p>
+                    )}
+                    {type === "otp" && (
+                      <p className="text-xs lg:text-sm text-white">
+                        Silahkan periksa whatsapp kamu, kami sudah mengirimkan
+                        kode OTP ke nomor whatsapp kamu.
                       </p>
                     )}
                   </div>
                   <div className="mt-5">
                     {children}
-                    <Navigation type={type} />
+                    {(type === "login" || type === "register") && (
+                      <Navigation type={type} />
+                    )}
                   </div>
                 </div>
               </div>
@@ -53,23 +69,15 @@ const Navigation = ({ type }) => {
   if (type === "login" || type === "Login") {
     return (
       <>
-      <p className="text-xs lg:text-sm text-white text-center mt-5">
-        Lupa Password?{" "}
-        <Link
-          className="text-white hover:text-seventh font-bold"
-        >
-          Klik disini
-        </Link>
-      </p>
-      <p className="text-xs lg:text-sm text-white text-center mt-5">
-        Tidak memiliki akun?{" "}
-        <Link
-          to="/register"
-          className="text-white hover:text-seventh font-bold"
-        >
-          Daftar disini
-        </Link>
-      </p>
+        <p className="text-xs lg:text-sm text-white text-center mt-5">
+          Tidak memiliki akun?{" "}
+          <Link
+            to="/register"
+            className="text-white hover:text-seventh font-bold"
+          >
+            Daftar disini
+          </Link>
+        </p>
       </>
     );
   } else {
