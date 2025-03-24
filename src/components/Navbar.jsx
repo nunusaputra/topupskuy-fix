@@ -56,10 +56,11 @@ const Navbar = (props) => {
     <Disclosure
       as="nav"
       className={`sticky top-0 z-[100] py-2 w-full transition-all duration-300 overflow-hidden
-            ${scrolling
-          ? "bg-fourth/30 backdrop-blur-2xl"
-          : "bg-fifth/20 backdrop-blur-xl"
-        }
+            ${
+              scrolling
+                ? "bg-fourth/30 backdrop-blur-2xl"
+                : "bg-fifth/20 backdrop-blur-xl"
+            }
        }`}
     >
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">

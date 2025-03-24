@@ -3,6 +3,7 @@ import InputForm from "../element/InputForms/InputForm";
 import InputPassword from "../element/InputForms/InputPassword";
 import axios from "axios";
 import { API_URL } from "../../env";
+import { Link } from "react-router-dom";
 
 const FormLogin = () => {
   const [input, setInput] = useState({
@@ -13,8 +14,8 @@ const FormLogin = () => {
   const submitLogin = () => {
     const object = {
       username: input.email,
-      password: input.password
-    }
+      password: input.password,
+    };
 
     axios
       .post(`${API_URL}/user/authentication/member`, JSON.stringify(object), {
@@ -25,9 +26,11 @@ const FormLogin = () => {
         window.location.href = "/";
       })
       .catch((error) => {
-        window.alert("terjadi kesalahan pada saat order, silahkan kontak admin")
+        window.alert(
+          "terjadi kesalahan pada saat order, silahkan kontak admin"
+        );
       });
-  }
+  };
 
   const handleInput = (e) => {
     setInput({
@@ -53,15 +56,29 @@ const FormLogin = () => {
         value={input.email}
         onChange={handleInput}
       />
-      <InputPassword
-        label={"Password"}
-        name={"password"}
-        id={"password"}
-        margin={"mt-6 mb-6"}
-        value={input.password}
-        onChange={handleInput}
-      />
-      <button onClick={() => submitLogin()} className="bg-seventh text-white w-full px-4 py-1 h-10 rounded-md font-semibold">
+      <div className="relative">
+        <InputPassword
+          label={"Password"}
+          name={"password"}
+          id={"password"}
+          margin={"mt-6 mb-6"}
+          value={input.password}
+          onChange={handleInput}
+        />
+        <p className="absolute -top-5 md:-top-[18px] right-0 text-tm md:text-xs xl:text-tm text-white text-end mt-5">
+          Lupa Password?{" "}
+          <Link
+            to={"/forgot-password"}
+            className="text-white hover:text-seventh font-bold"
+          >
+            Klik disini
+          </Link>
+        </p>
+      </div>
+      <button
+        onClick={() => submitLogin()}
+        className="bg-seventh text-white w-full px-4 py-1 h-10 rounded-md font-semibold"
+      >
         Masuk
       </button>
     </div>
