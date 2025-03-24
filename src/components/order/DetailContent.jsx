@@ -6,7 +6,7 @@ import {
   TbCircleNumber4Filled,
   TbCircleNumber5Filled,
 } from "react-icons/tb";
-import { dataList, dataPayment, diamondPass } from "../../services/index";
+import { dataList, dataPayment, diamondPass, fetchDataMember } from "../../services/index";
 import {
   IoIosArrowDown,
   IoIosArrowUp,
@@ -18,6 +18,7 @@ import Modal from "../Modal";
 import { option } from "framer-motion/client";
 import { BsFillPatchCheckFill } from "react-icons/bs";
 import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 
 import { API_URL } from "../../env";
 
@@ -158,7 +159,7 @@ const DetailContent = ({
         myItem: selected.itemId,
         number: selected.phone,
         payment: selected.paymentCode,
-        user: 0,
+        user: (localStorage.getItem("unique-code") ? localStorage.getItem("unique-code") : 0),
         formField: [
           {
             value: selected.userId,
@@ -175,7 +176,7 @@ const DetailContent = ({
         myItem: selected.itemId,
         number: selected.phone,
         payment: selected.paymentCode,
-        user: 0,
+        user: localStorage.getItem("unique-code") ? localStorage.getItem("unique-code") : 0,
         formField: [
           {
             value: selected.userId,
@@ -212,6 +213,16 @@ const DetailContent = ({
       promoRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }
+
+  const uniqueCode = localStorage.getItem("unique-code") ? localStorage.getItem("unique-code") : "";
+  const { data: member } = useQuery({
+    queryKey: ["uniqueCode", uniqueCode],
+    queryFn: () => fetchDataMember(uniqueCode),
+    staleTime: 21600000,
+    enabled: !!uniqueCode, // Hanya fetch jika uniqueCode tidak null atau undefined
+  });
+
+  console.log(member);
 
   useEffect(() => {
     if (selected.item != null && selected.itemId && selected.price != null) {
@@ -514,131 +525,143 @@ const DetailContent = ({
 
                   {selected.price != null && item.userInput.id === 3 ? (
                     <div>
-                      <div className="w-full min-h-10 bg-fourth/30 backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
-                        <div
-                          className="flex justify-between items-center px-4 py-2"
-                          onClick={() => handleShow(1)}
-                        >
-                          <h1 ref={paymentRef} className="text-sm text-white font-semibold">
-                            Saldo
-                          </h1>
-                          <span
-                            className={`text-lg text-white transform transition-transform duration-300 ${show === 1 ? "rotate-180" : "rotate-0"
-                              }`}
+                      {localStorage.getItem("unique-code") !== null && (
+                        <div className="w-full min-h-10 bg-fourth/30 backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
+                          <div
+                            className="flex justify-between items-center px-4 py-2"
+                            onClick={() => handleShow(1)}
                           >
-                            {show === 1 ? (
-                              <IoIosArrowUp />
-                            ) : (
-                              <IoIosArrowDown />
-                            )}
-                          </span>
-                        </div>
-                        {show === 1 ? (
-                          <div className="my-5 px-4">
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 px-4">
+                            <h1 ref={paymentRef} className="text-sm text-white font-semibold">
+                              Saldo (Sisa saldo {new Intl.NumberFormat("id-ID", {
+                                            style: "currency",
+                                            currency: "IDR",
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2,
+                                          }).format(
+                                            member.saldo
+                                          )})
+                            </h1>
+                            <span
+                              className={`text-lg text-white transform transition-transform duration-300 ${show === 1 ? "rotate-180" : "rotate-0"
+                                }`}
+                            >
+                              {show === 1 ? (
+                                <IoIosArrowUp />
+                              ) : (
+                                <IoIosArrowDown />
+                              )}
+                            </span>
+                          </div>
+                          {show === 1 ? (
+                            <div className="my-5 px-4">
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 px-4">
+                                {payment
+                                  .filter((item) => item.category === "Saldo")
+                                  .map((value) => (
+                                    <div
+                                      className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${selected.payment === value.id
+                                        ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
+                                        : "bg-white"
+                                        } ${selected.price > member.saldo ? "pointer-events-none opacity-50" : ""}`}
+                                      key={value.id}
+                                      onClick={() => {
+                                        if (selected.price < member.saldo) {
+                                          setPromo()
+                                          setSelected({
+                                            ...selected,
+                                            payment: value.id, paymentCode: value.code,
+                                            paymentName: value.name,
+                                            feePayment: 0,
+                                          })
+                                        }
+                                      }}
+                                    >
+                                      <div
+                                        className={`w-24 h-16 lg:w-50 lg:h-18 overflow-hidden flex justify-center ${selected.payment === value.id
+                                          ? "bg-white p-1 rounded-md"
+                                          : ""
+                                          }`}
+                                      >
+                                        <img
+                                          src={value.icon.name}
+                                          alt=""
+                                          className="w-full h-full object-contain"
+                                        />
+                                      </div>
+                                      <div className="w-full lg:w-70 flex flex-col justify-center text-center lg:text-left">
+                                        <h1
+                                          className={`text-lg font-semibold ${selected.payment === value.id
+                                            ? "text-white"
+                                            : ""
+                                            }`}
+                                        >
+                                          {value.name}
+                                        </h1>
+                                        {selected.price > member.saldo ? (
+                                          <p
+                                            className={`text-xs text-red-600 ${selected.payment === value.id
+                                              ? "text-red-200"
+                                              : ""
+                                              }`}
+                                          >
+                                            Tidak Tersedia.{" "}
+                                            <span className="block">
+                                              Minimal {new Intl.NumberFormat("id-ID", {
+                                                style: "currency",
+                                                currency: "IDR",
+                                                minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2,
+                                              }).format(
+                                                selected.price
+                                              )}
+                                            </span>
+                                          </p>
+                                        ) : (
+                                          ""
+                                        )}
+                                        <h1
+                                          className={`text-sm font-semibold ${selected.payment === value.id
+                                            ? "text-white"
+                                            : ""
+                                            }`}
+                                        >
+                                          {new Intl.NumberFormat("id-ID", {
+                                            style: "currency",
+                                            currency: "IDR",
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2,
+                                          }).format(
+                                            selected.price +
+                                            (selected.price *
+                                              (value.feePercent / 100) +
+                                              value.feeFlat)
+                                          )}
+                                        </h1>
+                                      </div>
+                                    </div>
+                                  ))}
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="w-full min-h-10 bg-amber-50 px-4 py-2 flex gap-3">
                               {payment
                                 .filter((item) => item.category === "Saldo")
                                 .map((value) => (
                                   <div
-                                    className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${selected.payment === value.id
-                                      ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
-                                      : "bg-white"
-                                      } ${selected.price < value.minAmount ? "pointer-events-none opacity-50" : ""}`}
+                                    className="w-20 h-8 overflow-hidden"
                                     key={value.id}
-                                    onClick={() => {
-                                      if (selected.price >= value.minAmount) {
-                                        setPromo()
-                                        setSelected({
-                                          ...selected,
-                                          payment: value.id, paymentCode: value.code,
-                                          paymentName: value.name,
-                                          feePayment: (
-                                            selected.price *
-                                            (value.feePercent / 100) +
-                                            value.feeFlat
-                                          ).toFixed(2),
-                                        })
-                                      }
-                                    }}
                                   >
-                                    <div
-                                      className={`w-24 h-16 lg:w-50 lg:h-18 overflow-hidden flex justify-center ${selected.payment === value.id
-                                        ? "bg-white p-1 rounded-md"
-                                        : ""
-                                        }`}
-                                    >
-                                      <img
-                                        src={value.icon.name}
-                                        alt=""
-                                        className="w-full h-full object-contain"
-                                      />
-                                    </div>
-                                    <div className="w-full lg:w-70 flex flex-col justify-center text-center lg:text-left">
-                                      <h1
-                                        className={`text-lg font-semibold ${selected.payment === value.id
-                                          ? "text-white"
-                                          : ""
-                                          }`}
-                                      >
-                                        {value.name}
-                                      </h1>
-                                      {selected.price < value.minAmount ? (
-                                        <p
-                                          className={`text-xs text-red-600 ${selected.payment === value.id
-                                            ? "text-red-200"
-                                            : ""
-                                            }`}
-                                        >
-                                          Tidak Tersedia.{" "}
-                                          <span className="block">
-                                            Minimal {value.minAmount}
-                                          </span>
-                                        </p>
-                                      ) : (
-                                        ""
-                                      )}
-                                      <h1
-                                        className={`text-sm font-semibold ${selected.payment === value.id
-                                          ? "text-white"
-                                          : ""
-                                          }`}
-                                      >
-                                        {new Intl.NumberFormat("id-ID", {
-                                          style: "currency",
-                                          currency: "IDR",
-                                          minimumFractionDigits: 2,
-                                          maximumFractionDigits: 2,
-                                        }).format(
-                                          selected.price +
-                                          (selected.price *
-                                            (value.feePercent / 100) +
-                                            value.feeFlat)
-                                        )}
-                                      </h1>
-                                    </div>
+                                    <img
+                                      src={value.icon.name}
+                                      alt=""
+                                      className="w-full h-full object-cover"
+                                    />
                                   </div>
                                 ))}
                             </div>
-                          </div>
-                        ) : (
-                          <div className="w-full min-h-10 bg-amber-50 px-4 py-2 flex gap-3">
-                            {payment
-                              .filter((item) => item.category === "Saldo")
-                              .map((value) => (
-                                <div
-                                  className="w-20 h-8 overflow-hidden"
-                                  key={value.id}
-                                >
-                                  <img
-                                    src={value.icon.name}
-                                    alt=""
-                                    className="w-full h-full object-cover"
-                                  />
-                                </div>
-                              ))}
-                          </div>
-                        )}
-                      </div>
+                          )}
+                        </div>
+                      )}
 
                       <div className="w-full min-h-10 bg-fourth/30 backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
                         <div
@@ -1185,8 +1208,8 @@ const DetailContent = ({
                                 .map((value) => (
                                   <div
                                     className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${selected.payment === value.id
-                                        ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
-                                        : "bg-white"
+                                      ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
+                                      : "bg-white"
                                       } ${selected.price < value.minAmount ? "pointer-events-none opacity-50" : ""}`}
                                     key={value.id}
                                     onClick={() => {
