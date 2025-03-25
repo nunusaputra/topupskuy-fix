@@ -52,24 +52,26 @@ export const fetchProducts = async () => {
 };
 
 export const fetchProduct = async (slug, unique) => {
-  const { data } = await axios.get(`${API_URL}/product-detail/${slug}/${unique}`);
+  const { data } = await axios.get(
+    `${API_URL}/product-detail/${slug}/${unique}`
+  );
   return data;
 };
 
 export const fetchHistory = async (phone) => {
   const { data } = await axios.get(`${API_URL}/purchases/${phone}`);
   return data;
-}
+};
 
 export const fetchPurchaseDetail = async (slug) => {
   const { data } = await axios.get(`${API_URL}/purchase-detail/${slug}`);
   return data;
-}
+};
 
 export const fetchDataMember = async (uniqueCode) => {
   const { data } = await axios.get(`${API_URL}/user/data/${uniqueCode}`);
   return data;
-}
+};
 
 export const dataList = [
   {
@@ -671,5 +673,28 @@ export const historyPayment = [
     date: "28 Februari 2025",
     status: "Belum Bayar",
     color: "#FFFF00",
+  },
+];
+
+export const upgrade = [
+  {
+    id: 1,
+    paket: "Non Membership",
+    price: 0,
+  },
+  {
+    id: 2,
+    paket: "Silver",
+    price: 200000,
+  },
+  {
+    id: 3,
+    paket: "Gold",
+    price: 250000,
+  },
+  {
+    id: 4,
+    paket: "Platinum",
+    price: 300000,
   },
 ];

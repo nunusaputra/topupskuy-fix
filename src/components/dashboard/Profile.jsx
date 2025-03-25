@@ -67,12 +67,14 @@ const Profile = () => {
                 <div className="absolute bottom-20 left-0 w-28 h-28 bg-purple-400/30 blur-xl rounded-full"></div>
                 <div className="absolute bottom-5 right-5 w-30 h-30 bg-blue-400/30 blur-xl rounded-full"></div>
                 <div className="absolute bottom-0 right-0 w-full h-9 bg-[#596BEB]">
-                  <div className="flex justify-center items-center gap-2 py-2">
-                    <GiTakeMyMoney className="text-lg text-white" />
-                    <h1 className="text-sm text-white font-semibold">
-                      Upgrade Membership
-                    </h1>
-                  </div>
+                  <a href="/dashboard/upgrade-membership">
+                    <div className="flex justify-center items-center gap-2 py-2">
+                      <GiTakeMyMoney className="text-lg text-white" />
+                      <h1 className="text-sm text-white font-semibold">
+                        Upgrade Membership
+                      </h1>
+                    </div>
+                  </a>
                 </div>
 
                 {/* Konten Card */}
