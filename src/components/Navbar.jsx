@@ -55,7 +55,7 @@ const Navbar = (props) => {
   return (
     <Disclosure
       as="nav"
-      className={`sticky top-0 z-[100] py-2 w-full transition-all duration-300 overflow-hidden
+      className={`sticky top-0 z-[100] py-2 w-full transition-all duration-300
             ${
               scrolling
                 ? "bg-fourth/30 backdrop-blur-2xl"
