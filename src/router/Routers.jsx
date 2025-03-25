@@ -10,21 +10,33 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import ForgotPassword from "../pages/ForgotPassword";
 import OTP from "../pages/OTP";
+import DashboardLayouts from "../layouts/DashboardLayouts";
+import Profile from "../components/dashboard/Profile";
+import EditProfile from "../components/dashboard/EditProfile";
 
 const Routers = () => {
   return (
     <div>
       <Routes>
+        {/* Authentication */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/otp" element={<OTP />} />
+
+        {/* Main Content */}
         <Route element={<Index />}>
           <Route path="/" element={<LandingPage />} />
           <Route path="/order/:slug" element={<OrderDetail />} />
           <Route path="/transaction" element={<Transaction />} />
           <Route path="/history/:phone" element={<History />} />
           <Route path="/payment/:orderId" element={<Payment />} />
+        </Route>
+
+        {/* Dashboard Profile */}
+        <Route element={<DashboardLayouts />}>
+          <Route path="/dashboard/profile" element={<Profile />} />
+          <Route path="/dashboard/edit-profile" element={<EditProfile />} />
         </Route>
       </Routes>
     </div>
