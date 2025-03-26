@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import InputForm from "../element/InputForms/InputForm";
 import InputPassword from "../element/InputForms/InputPassword";
+import Modal from "../Modal";
+import { IoCloseCircleOutline } from "react-icons/io5";
 
 const EditProfile = () => {
+  const [show, setShow] = useState(false);
   const [input, setInput] = useState({
     nama: "",
     telp: "",
@@ -14,6 +17,8 @@ const EditProfile = () => {
     newPassword: "",
     confPassword: "",
   });
+
+  const [otp, setOtp] = useState(null);
 
   const handleInput = (e) => {
     setInput({
@@ -70,7 +75,11 @@ const EditProfile = () => {
                     onChange={handleInput}
                   />
                 </div>
-                <button className="px-4 py-2 bg-seventh text-sm w-full sm:w-40 h-10 text-white rounded-md font-semibold">
+                <button
+                  type="button"
+                  className="px-4 py-2 bg-seventh text-sm w-full sm:w-40 h-10 text-white rounded-md font-semibold"
+                  onClick={() => setShow(true)}
+                >
                   Ubah Profil
                 </button>
               </form>
@@ -128,6 +137,44 @@ const EditProfile = () => {
           </div>
         </div>
       </div>
+
+      {/* Modal OTP */}
+      <Modal open={show} close={() => setShow(false)}>
+        <div className="relative w-full flex flex-col gap-2">
+          <h1 className="text-3xl md:text-2xl lg:text-3xl font-bold text-white">
+            OTP
+          </h1>
+          <p className="text-xs lg:text-sm text-white">
+            Silahkan periksa whatsapp kamu, kami sudah mengirimkan kode OTP ke
+            nomor whatsapp kamu.
+          </p>
+          <form className="mt-3">
+            <InputForm
+              label="OTP"
+              type="text"
+              name="otp"
+              id="otp"
+              placeholder="Masukan 6 digit OTP"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+            />
+            <button className="bg-seventh text-white w-full px-4 py-1 h-10 text-sm rounded-md font-semibold">
+              Verifikasi
+            </button>
+            <p className="text-xs lg:text-sm text-white text-center mt-5">
+              Belum menerima kode?{" "}
+              <span className="text-white hover:text-seventh font-bold cursor-pointer">
+                Kirim Ulang OTP
+              </span>
+            </p>
+          </form>
+        </div>
+        <IoCloseCircleOutline
+          className="absolute top-5 right-5 text-white text-3xl cursor-pointer hover:scale-125 
+        transition-all duration-300"
+          onClick={() => setShow(false)}
+        />
+      </Modal>
     </div>
   );
 };
