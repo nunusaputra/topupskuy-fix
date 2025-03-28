@@ -13,6 +13,7 @@ import { FaXmark } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import { fetchDataMember } from "../services";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 const navigation = [
   { name: "Topup", href: "/", current: false },
@@ -25,6 +26,7 @@ function classNames(...classes) {
 }
 
 const Navbar = (props) => {
+  const navigate = useNavigate();
   const [scrolling, setScrolling] = useState(false);
 
   const logo =
@@ -55,7 +57,7 @@ const Navbar = (props) => {
   return (
     <Disclosure
       as="nav"
-      className={`sticky top-0 z-[100] py-2 w-full transition-all duration-300 overflow-hidden
+      className={`sticky top-0 z-[100] py-2 w-full transition-all duration-300
             ${
               scrolling
                 ? "bg-fourth/30 backdrop-blur-2xl"
@@ -135,7 +137,7 @@ const Navbar = (props) => {
                   >
                     <MenuItem>
                       <a
-                        href="#"
+                        href="/dashboard/profile"
                         className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
                       >
                         Profile

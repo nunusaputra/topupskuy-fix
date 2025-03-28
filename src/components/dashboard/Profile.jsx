@@ -8,9 +8,22 @@ import { BiLogoBitcoin } from "react-icons/bi";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import { IoCallOutline } from "react-icons/io5";
 import { GiTakeMyMoney } from "react-icons/gi";
+import { fetchDataMember } from "../../services";
+import { useQuery } from "@tanstack/react-query";
 
 const Profile = () => {
   const [show, setShow] = useState(false);
+
+  const uniqueCode = localStorage.getItem("unique-code") ? localStorage.getItem("unique-code") : "";
+  const { data: member } = useQuery({
+    queryKey: ["uniqueCode", uniqueCode],
+    queryFn: () => fetchDataMember(uniqueCode),
+    staleTime: 21600000,
+    enabled: !!uniqueCode,
+  });
+
+  console.log(member)
+
   return (
     <div className="w-full lg:w-[80%] mt-6 lg:mt-0 flex flex-col gap-10">
       <div className="w-full min-h-30 flex flex-col">
@@ -31,14 +44,14 @@ const Profile = () => {
                 <div className="w-[80%] lg:w-[85%] flex justify-between">
                   <div className="flex flex-col gap-2">
                     <h1 className="text-sm lg:text-lg text-white font-semibold">
-                      Wisnu Saputra
+                      {member?.name}
                     </h1>
                     <span
                       className="bg-blue-500/60 backdrop-opacity-10 ring-1 ring-blue-500 hover:ring-offset-2 
                 hover:ring-offset-[#060911] transition-all duration-200 hover:cursor-pointer ring-offset-0
                 text-white font-semibold text-center py-1 rounded-full text-xs lg:text-sm"
                     >
-                      Membership
+                      {member?.role}
                     </span>
                   </div>
                   <div>
@@ -51,7 +64,7 @@ const Profile = () => {
               <div className="flex items-center gap-2">
                 <MdPhone className="text-xl text-white" />
                 <p className="text-sm text-white font-semibold">
-                  +6283815499134
+                  {member?.phoneNumber}
                 </p>
               </div>
             </div>
@@ -122,7 +135,14 @@ const Profile = () => {
             <div className="flex justify-between mt-5">
               <div className="flex items-center gap-3">
                 <h1 className="text-lg font-semibold text-white transition-all duration-300">
-                  {show ? "Rp. 10.000" : "*********"}
+                  {show ? new Intl.NumberFormat("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  }).format(
+                    member?.saldo
+                  ) : "*********"}
                 </h1>
                 {show ? (
                   <BsEyeFill

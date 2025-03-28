@@ -34,14 +34,16 @@ const FormRegister = () => {
         headers: { "Content-Type": "application/json" },
       })
       .then((response) => {
-        if (response.data.data.message === "Register Success") {
+        console.log(response.data)
+        if (response.data.message === "Register Success") {
+          sessionStorage.setItem("phone", response.data.data);
           navigate("/otp");
         } else {
           toast.error(response.data.data.message);
         }
       })
       .catch((error) => {
-        toast.info("terjadi kesalahan pada saat order, silahkan kontak admin");
+        toast.info("terjadi kesalahan, silahkan kontak admin");
       });
   };
 
