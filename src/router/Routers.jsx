@@ -13,6 +13,7 @@ import OTP from "../pages/OTP";
 import DashboardLayouts from "../layouts/DashboardLayouts";
 import Profile from "../components/dashboard/Profile";
 import EditProfile from "../components/dashboard/EditProfile";
+import Membership from "../components/dashboard/Membership";
 
 const Routers = () => {
   return (
@@ -37,6 +38,10 @@ const Routers = () => {
         <Route element={<DashboardLayouts />}>
           <Route path="/dashboard/profile" element={<Profile />} />
           <Route path="/dashboard/edit-profile" element={<EditProfile />} />
+          <Route
+            path="/dashboard/upgrade-membership"
+            element={<Membership />}
+          />
         </Route>
       </Routes>
     </div>

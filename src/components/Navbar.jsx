@@ -13,6 +13,7 @@ import { FaXmark } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import { fetchDataMember } from "../services";
 import { useQuery } from "@tanstack/react-query";
+import { LuLogOut } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 
 const navigation = [
@@ -32,7 +33,9 @@ const Navbar = (props) => {
   const logo =
     props.metadata?.find((item) => item.id === "LOGO-HEADER")?.value_ || "";
 
-  const uniqueCode = localStorage.getItem("unique-code") ? localStorage.getItem("unique-code") : "";
+  const uniqueCode = localStorage.getItem("unique-code")
+    ? localStorage.getItem("unique-code")
+    : "";
   const { data: member } = useQuery({
     queryKey: ["uniqueCode", uniqueCode],
     queryFn: () => fetchDataMember(uniqueCode),
@@ -53,7 +56,7 @@ const Navbar = (props) => {
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-  
+
   return (
     <Disclosure
       as="nav"
@@ -127,6 +130,7 @@ const Navbar = (props) => {
                         <FaUser className="text-sm text-white" />
                         <h1 className="text-sm text-white font-semibold">
                           {member.name}
+                          Wisnu
                         </h1>
                       </div>
                     </MenuButton>
@@ -146,7 +150,7 @@ const Navbar = (props) => {
                     <MenuItem>
                       <a
                         href="#"
-                        className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
+                        className="block lg:hidden px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
                       >
                         Upgrade Membership
                       </a>
@@ -154,7 +158,7 @@ const Navbar = (props) => {
                     <MenuItem>
                       <a
                         href="#"
-                        className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
+                        className="block lg:hidden px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
                       >
                         Riwayat Transaksi
                       </a>
@@ -162,7 +166,7 @@ const Navbar = (props) => {
                     <MenuItem>
                       <a
                         href="#"
-                        className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
+                        className="block lg:hidden px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
                       >
                         Riwayat Mutasi
                       </a>
@@ -173,17 +177,34 @@ const Navbar = (props) => {
                         className="flex items-center gap-3 md:hidden px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
                       >
                         <PiUserListFill className="text-sm" />
-                        <h1 className="text-sm font-semibold">Membership</h1>
+                        <h1 className="text-sm font-semibold">{member.role}</h1>
+                      </a>
+                    </MenuItem>
+                    <MenuItem>
+                      <a
+                        href="#"
+                        className="flex items-center gap-1 px-4 py-2  text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
+                      >
+                        <LuLogOut className="text-sm text-red-400" />
+                        <h1 className="text-sm text-red-400 font-semibold">
+                          Keluar
+                        </h1>
                       </a>
                     </MenuItem>
                   </MenuItems>
                 </Menu>
               ) : (
                 <div className="hidden md:flex items-center gap-3">
-                  <a href="/login" className="px-4 py-2 rounded-lg ring-2 ring-purple-300 text-purple-300 font-semibold hover:bg-third transition-all duration-300 hover:cursor-pointer hover:text-black">
+                  <a
+                    href="/login"
+                    className="px-4 py-2 rounded-lg ring-2 ring-purple-300 text-purple-300 font-semibold hover:bg-third transition-all duration-300 hover:cursor-pointer hover:text-black"
+                  >
                     Login
                   </a>
-                  <a href="/register" className="px-4 py-2 ring-2 ring-purple-300 rounded-lg bg-third font-semibold hover:cursor-pointer hover:text-black">
+                  <a
+                    href="/register"
+                    className="px-4 py-2 ring-2 ring-purple-300 rounded-lg bg-third font-semibold hover:cursor-pointer hover:text-black"
+                  >
                     Register
                   </a>
                 </div>
