@@ -239,8 +239,6 @@ const DetailContent = ({
     enabled: !!uniqueCode, // Hanya fetch jika uniqueCode tidak null atau undefined
   });
 
-  console.log(member);
-
   useEffect(() => {
     if (selected.item != null && selected.itemId && selected.price != null) {
       if (paymentRef.current) {
