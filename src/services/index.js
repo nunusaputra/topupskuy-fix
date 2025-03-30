@@ -47,7 +47,6 @@ export const fetchMetadata = async () => {
 
 export const fetchProducts = async () => {
   const { data } = await axios.get(`${API_URL}/products`);
-  console.log(data);
   return data;
 };
 
@@ -68,10 +67,20 @@ export const fetchPurchaseDetail = async (slug) => {
   return data;
 };
 
+export const fetchUpgradeTopupDetail = async (invoice) => {
+  const { data } = await axios.get(`${API_URL}/topup-member/${invoice}`);
+  return data;
+};
+
 export const fetchDataMember = async (uniqueCode) => {
   const { data } = await axios.get(`${API_URL}/user/data/${uniqueCode}`);
   return data;
 };
+
+export const fetchUpgradeMembership = async () => {
+  const { data } = await axios.get(`${API_URL}/upgrade-membership/`);
+  return data;
+}
 
 export const dataList = [
   {

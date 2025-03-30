@@ -130,7 +130,6 @@ const Navbar = (props) => {
                         <FaUser className="text-sm text-white" />
                         <h1 className="text-sm text-white font-semibold">
                           {member.name}
-                          Wisnu
                         </h1>
                       </div>
                     </MenuButton>

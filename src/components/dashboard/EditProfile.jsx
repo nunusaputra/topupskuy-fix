@@ -12,6 +12,9 @@ import { API_URL } from "../../env";
 
 const EditProfile = () => {
   const [show, setShow] = useState(false);
+  const [otp, setOtp] = useState(null);
+  const [countdown, setCountdown] = useState(0);
+
   const uniqueCode = localStorage.getItem("unique-code") ? localStorage.getItem("unique-code") : "";
   const { data: member } = useQuery({
     queryKey: ["uniqueCode", uniqueCode],
@@ -22,7 +25,7 @@ const EditProfile = () => {
 
   const [input, setInput] = useState({
     nama: member?.name,
-    telp: member?.phone,
+    telp: member?.phoneNumber,
   });
 
   const [inputPass, setInputPass] = useState({
@@ -30,8 +33,6 @@ const EditProfile = () => {
     newPassword: "",
     confirmPassword: "",
   });
-
-  const [otp, setOtp] = useState(null);
 
   const handleInput = (e) => {
     setInput({
@@ -49,14 +50,41 @@ const EditProfile = () => {
 
   const submitProfile = () => {
     const object = {
+      uniqueCode: uniqueCode,
       name: input.nama,
-      phone: input.telp
+      phoneNumber: input.telp
     }
 
-    if(object.phone !== input.telp) {
-      // melakukan verifikasi otp
+    if (object.phoneNumber !== member?.phoneNumber) {
+      axios
+        .post(`${API_URL}/user/request-otp/${member?.phoneNumber}`, {
+          headers: { "Content-Type": "application/json" },
+        })
+        .then((response) => {
+          if (response.data.message === "Otp refreshed") {
+            setShow(true)
+          } else {
+            toast.error("Otp tidak berhasil dikirim");
+          }
+        })
+        .catch((error) => {
+          toast.info("terjadi kesalahan, silahkan kontak admin");
+        });
     } else {
-      // melakukan save profile
+      axios
+        .post(`${API_URL}/user/update-profile/`, JSON.stringify(object), {
+          headers: { "Content-Type": "application/json" },
+        })
+        .then((response) => {
+          if (response.data.message === "Update Profile Berhasil") {
+            toast.info("Update profile berhasil");
+          } else {
+            toast.error("Update profile gagal");
+          }
+        })
+        .catch((error) => {
+          toast.info("terjadi kesalahan, silahkan kontak admin");
+        });
     }
   }
 
@@ -67,13 +95,12 @@ const EditProfile = () => {
       newPassword: inputPass.newPassword
     }
 
-    if(inputPass.newPassword !== inputPass.confirmPassword) {
-      console.log(inputPass.newPassword, inputPass.confirmPassword)
+    if (inputPass.newPassword !== inputPass.confirmPassword) {
       toast.error("Password baru dan konfirmasi tidak sesuai");
       return;
     }
-    
-    if(inputPass.currentPassword === "") {
+
+    if (inputPass.currentPassword === "") {
       toast.error("Password lama wajib diisi");
       return;
     }
@@ -93,6 +120,72 @@ const EditProfile = () => {
         toast.info("terjadi kesalahan, silahkan kontak admin");
       });
   }
+
+  const submitOtp = () => {
+    const object = {
+      uniqueCode: uniqueCode,
+      name: input.nama,
+      phoneNumber: input.telp
+    }
+
+    axios
+      .post(`${API_URL}/user/verification/${otp}`, {
+        headers: { "Content-Type": "application/json" },
+      })
+      .then((response) => {
+        if (response.data.message === "Verified") {
+          axios
+            .post(`${API_URL}/user/update-profile/`, JSON.stringify(object), {
+              headers: { "Content-Type": "application/json" },
+            })
+            .then((response) => {
+              if (response.data.message === "Update Profile Berhasil") {
+                toast.info("Update profile berhasil");
+                window.location.href = "/dashboard/profile";
+              } else {
+                toast.error("Update profile gagal");
+              }
+            })
+            .catch((error) => {
+              toast.info("terjadi kesalahan, silahkan kontak admin");
+            });
+        } else {
+          toast.error("Tidak berhasil melakukan verifikasi");
+        }
+      })
+      .catch((error) => {
+        toast.info("terjadi kesalahan, silahkan kontak admin");
+      });
+  };
+
+  useEffect(() => {
+    let timer;
+    if (countdown > 0) {
+      timer = setTimeout(() => setCountdown(countdown - 1), 1000);
+    }
+    return () => clearTimeout(timer);
+  }, [countdown]);
+
+  const handleResend = () => {
+    if (countdown === 0) {
+      setCountdown(60);
+
+      axios
+        .post(`${API_URL}/user/request-otp/${member?.phoneNumber}`, {
+          headers: { "Content-Type": "application/json" },
+        })
+        .then((response) => {
+          if (response.data.message === "Otp refreshed") {
+            toast.info("Otp berhasil dikirim ulang");
+          } else {
+            toast.error("Otp tidak berhasil dikirim ulang");
+          }
+        })
+        .catch((error) => {
+          toast.info("terjadi kesalahan, silahkan kontak admin");
+        });
+    }
+  };
 
   return (
     <div className="w-full lg:w-[80%] mt-6 lg:mt-0 flex flex-col gap-10">
@@ -201,7 +294,7 @@ const EditProfile = () => {
             Silahkan periksa whatsapp kamu, kami sudah mengirimkan kode OTP ke
             nomor whatsapp kamu.
           </p>
-          <form className="mt-3">
+          <div className="mt-3">
             <InputForm
               label="OTP"
               type="text"
@@ -211,16 +304,20 @@ const EditProfile = () => {
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
             />
-            <button className="bg-seventh text-white w-full px-4 py-1 h-10 text-sm rounded-md font-semibold">
+            <button onClick={() => submitOtp()} className="bg-seventh text-white w-full px-4 py-1 h-10 text-sm rounded-md font-semibold">
               Verifikasi
             </button>
             <p className="text-xs lg:text-sm text-white text-center mt-5">
               Belum menerima kode?{" "}
-              <span className="text-white hover:text-seventh font-bold cursor-pointer">
-                Kirim Ulang OTP
+              <span
+                className={`text-white font-bold cursor-pointer ${countdown > 0 ? "opacity-50 cursor-not-allowed" : "hover:text-seventh"
+                  }`}
+                onClick={handleResend}
+              >
+                {countdown > 0 ? `Kirim ulang dalam ${countdown}s` : "Kirim Ulang OTP"}
               </span>
             </p>
-          </form>
+          </div>
         </div>
         <IoCloseCircleOutline
           className="absolute top-5 right-5 text-white text-3xl cursor-pointer hover:scale-125 

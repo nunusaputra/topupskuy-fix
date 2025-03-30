@@ -42,22 +42,22 @@ const FormOTP = () => {
 
   const handleResend = () => {
     if (countdown === 0) {
-      setCountdown(60); 
-      
+      setCountdown(60);
+
       axios
-      .post(`${API_URL}/user/request-otp/${sessionStorage.getItem("phone")}`, {
-        headers: { "Content-Type": "application/json" },
-      })
-      .then((response) => {
-        if (response.data.message === "Otp refreshed") {
-          toast.info("Otp berhasil dikirim ulang");
-        } else {
-          toast.error("Otp tidak berhasil dikirim ulang");
-        }
-      })
-      .catch((error) => {
-        toast.info("terjadi kesalahan, silahkan kontak admin");
-      });
+        .post(`${API_URL}/user/request-otp/${sessionStorage.getItem("phone")}`, {
+          headers: { "Content-Type": "application/json" },
+        })
+        .then((response) => {
+          if (response.data.message === "Otp refreshed") {
+            toast.info("Otp berhasil dikirim ulang");
+          } else {
+            toast.error("Otp tidak berhasil dikirim ulang");
+          }
+        })
+        .catch((error) => {
+          toast.info("terjadi kesalahan, silahkan kontak admin");
+        });
     }
   };
 
@@ -81,16 +81,15 @@ const FormOTP = () => {
         Verifikasi
       </button>
       <p className="text-xs lg:text-sm text-white text-center mt-5">
-      Belum menerima kode?{" "}
-      <span
-        className={`text-white font-bold cursor-pointer ${
-          countdown > 0 ? "opacity-50 cursor-not-allowed" : "hover:text-seventh"
-        }`}
-        onClick={handleResend}
-      >
-        {countdown > 0 ? `Kirim ulang dalam ${countdown}s` : "Kirim Ulang OTP"}
-      </span>
-    </p>
+        Belum menerima kode?{" "}
+        <span
+          className={`text-white font-bold cursor-pointer ${countdown > 0 ? "opacity-50 cursor-not-allowed" : "hover:text-seventh"
+            }`}
+          onClick={handleResend}
+        >
+          {countdown > 0 ? `Kirim ulang dalam ${countdown}s` : "Kirim Ulang OTP"}
+        </span>
+      </p>
 
     </div>
   );
