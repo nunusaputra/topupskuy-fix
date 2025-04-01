@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { fetchDataMember } from "../services";
 import { useQuery } from "@tanstack/react-query";
 import { LuLogOut } from "react-icons/lu";
+import { useNavigate } from "react-router-dom";
 
 const navigation = [
   { name: "Topup", href: "/", current: false },
@@ -26,6 +27,7 @@ function classNames(...classes) {
 }
 
 const Navbar = (props) => {
+  const navigate = useNavigate();
   const [scrolling, setScrolling] = useState(false);
 
   const logo =
@@ -128,7 +130,6 @@ const Navbar = (props) => {
                         <FaUser className="text-sm text-white" />
                         <h1 className="text-sm text-white font-semibold">
                           {member.name}
-                          Wisnu
                         </h1>
                       </div>
                     </MenuButton>
@@ -139,7 +140,7 @@ const Navbar = (props) => {
                   >
                     <MenuItem>
                       <a
-                        href="#"
+                        href="/dashboard/profile"
                         className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
                       >
                         Profile
