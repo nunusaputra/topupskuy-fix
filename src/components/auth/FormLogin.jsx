@@ -26,7 +26,7 @@ const FormLogin = () => {
         window.location.href = "/";
       })
       .catch((error) => {
-        toast.error("terjadi kesalahan pada saat order, silahkan kontak admin");
+        window.alert("terjadi kesalahan pada saat order, silahkan kontak admin");
       });
   };
 
