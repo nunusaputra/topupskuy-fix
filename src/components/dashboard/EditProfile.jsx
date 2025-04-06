@@ -1,5 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
-import { FaArrowLeftLong } from "react-icons/fa6";
+import React, { useState } from "react";
 import InputForm from "../element/InputForms/InputForm";
 import InputPassword from "../element/InputForms/InputPassword";
 import Modal from "../Modal";
@@ -192,7 +191,7 @@ const EditProfile = () => {
       <div className="bg-secondary/80 min-h-20 rounded-md px-8 py-4">
         <a href="/dashboard/profile">
           <div className="flex items-center gap-4 cursor-pointer">
-            <FaArrowLeftLong className="text-xl text-white" />
+            <i className="bi bi-arrow-left text-3xl text-white" />
             <h1 className="text-white text-lg font-semibold">Dashboard</h1>
           </div>
         </a>

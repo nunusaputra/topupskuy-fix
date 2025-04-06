@@ -1,20 +1,16 @@
 import React, { useState } from "react";
-import { IoMdSettings } from "react-icons/io";
-import { MdPhone } from "react-icons/md";
 import profile from "../../assets/images/student-3.jpg";
 import profile2 from "../../assets/images/student-2.jpg";
 import profile3 from "../../assets/images/student-7.jpg";
-import { BiLogoBitcoin } from "react-icons/bi";
-import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
-import { IoCallOutline } from "react-icons/io5";
-import { GiTakeMyMoney } from "react-icons/gi";
 import { fetchDataMember } from "../../services";
 import { useQuery } from "@tanstack/react-query";
 
 const Profile = () => {
   const [show, setShow] = useState(false);
 
-  const uniqueCode = localStorage.getItem("unique-code") ? localStorage.getItem("unique-code") : "";
+  const uniqueCode = localStorage.getItem("unique-code")
+    ? localStorage.getItem("unique-code")
+    : "";
   const { data: member } = useQuery({
     queryKey: ["uniqueCode", uniqueCode],
     queryFn: () => fetchDataMember(uniqueCode),
@@ -22,7 +18,7 @@ const Profile = () => {
     enabled: !!uniqueCode,
   });
 
-  console.log(member)
+  console.log(member);
 
   return (
     <div className="w-full lg:w-[80%] mt-6 lg:mt-0 flex flex-col gap-10">
@@ -49,20 +45,20 @@ const Profile = () => {
                     <span
                       className="bg-blue-500/60 backdrop-opacity-10 ring-1 ring-blue-500 hover:ring-offset-2 
                 hover:ring-offset-[#060911] transition-all duration-200 hover:cursor-pointer ring-offset-0
-                text-white font-semibold text-center py-1 rounded-full text-xs lg:text-sm"
+                text-white font-semibold text-center py-1 rounded-full text-xs lg:text-sm px-4"
                     >
                       {member?.role}
                     </span>
                   </div>
                   <div>
                     <a href="/dashboard/edit-profile">
-                      <IoMdSettings className="text-xl text-white cursor-pointer hover:rotate-180 transition-all duration-300" />
+                      <i className="bi bi-gear-fill text-xl text-white cursor-pointer hover:rotate-180 transition-transform duration-300 inline-block" />
                     </a>
                   </div>
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <MdPhone className="text-xl text-white" />
+                <i className="bi bi-telephone text-xl text-white" />
                 <p className="text-sm text-white font-semibold">
                   {member?.phoneNumber}
                 </p>
@@ -81,8 +77,8 @@ const Profile = () => {
                 <div className="absolute bottom-5 right-5 w-30 h-30 bg-blue-400/30 blur-xl rounded-full"></div>
                 <div className="absolute bottom-0 right-0 w-full h-9 bg-[#596BEB]">
                   <a href="/dashboard/upgrade-membership">
-                    <div className="flex justify-center items-center gap-2 py-2">
-                      <GiTakeMyMoney className="text-lg text-white" />
+                    <div className="flex justify-center items-center gap-2 py-1">
+                      <i className="bi bi-coin text-lg text-white" />
                       <h1 className="text-sm text-white font-semibold">
                         Upgrade Membership
                       </h1>
@@ -130,30 +126,30 @@ const Profile = () => {
 
           {/* Saldo */}
           <div className="col-span-3 sm:col-span-2 h-28 bg-secondary/80 rounded-md p-6">
-            <div className="flex items-center gap-3">
-              <BiLogoBitcoin className="text-xl text-yellow-500 animate-muter ring-yellow-400 ring-2 ring-offset-2 rounded-full ring-offset-secondary" />
-              <h1 className="text-xl text-white font-semibold">Saldo</h1>
+            <div className="flex items-center gap-2">
+              <i className="bi bi-coin text-xl text-yellow-500" />
+              <h1 className="text-lg text-white font-semibold">Saldo</h1>
             </div>
             <div className="flex justify-between mt-5">
               <div className="flex items-center gap-3">
                 <h1 className="text-lg font-semibold text-white transition-all duration-300">
-                  {show ? new Intl.NumberFormat("id-ID", {
-                    style: "currency",
-                    currency: "IDR",
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  }).format(
-                    member?.saldo
-                  ) : "*********"}
+                  {show
+                    ? new Intl.NumberFormat("id-ID", {
+                        style: "currency",
+                        currency: "IDR",
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      }).format(member?.saldo)
+                    : "*********"}
                 </h1>
                 {show ? (
-                  <BsEyeFill
-                    className="text-lg text-white transition-all duration-300 cursor-pointer"
+                  <i
+                    className="bi bi-eye-slash text-lg text-white transition-all duration-300 cursor-pointer"
                     onClick={() => setShow(!show)}
                   />
                 ) : (
-                  <BsEyeSlashFill
-                    className="text-lg text-white transition-all duration-300 cursor-pointer"
+                  <i
+                    className="bi bi-eye text-lg text-white transition-all duration-300 cursor-pointer"
                     onClick={() => setShow(!show)}
                   />
                 )}

@@ -14,6 +14,8 @@ import DashboardLayouts from "../layouts/DashboardLayouts";
 import Profile from "../components/dashboard/Profile";
 import EditProfile from "../components/dashboard/EditProfile";
 import Membership from "../components/dashboard/Membership";
+import RiwayatTransaksi from "../components/dashboard/RiwayatTransaksi";
+import RiwayatMutasi from "../components/dashboard/RiwayatMutasi";
 
 const Routers = () => {
   return (
@@ -42,6 +44,11 @@ const Routers = () => {
             path="/dashboard/upgrade-membership"
             element={<Membership />}
           />
+          <Route
+            path="/dashboard/riwayat-transaksi"
+            element={<RiwayatTransaksi />}
+          />
+          <Route path="/dashboard/riwayat-mutasi" element={<RiwayatMutasi />} />
         </Route>
       </Routes>
     </div>
