@@ -2,7 +2,7 @@ import React from "react";
 
 const Sidebar = () => {
   return (
-    <div className="hidden lg:block lg:w-[20%] lg:min-h-screen">
+    <div className="lg:w-[20%] lg:min-h-screen">
       <div className="w-full flex flex-col gap-3 bg-secondary/80 backdrop-blur-4xl rounded-xl lg:overflow-auto lg:sticky lg:top-32 p-3">
         <a href="/dashboard/profile">
           <div className="p-2 flex items-center gap-3">

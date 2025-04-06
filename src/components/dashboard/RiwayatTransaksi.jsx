@@ -23,6 +23,7 @@ const RiwayatTransaksi = () => {
             </h1>
           </div>
         </a>
+
         {/* Datatables */}
         <div className="text-white  overflow-x-auto">
           <table id="transactionTable" className="display w-full">
