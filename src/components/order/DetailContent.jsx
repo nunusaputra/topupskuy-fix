@@ -605,7 +605,7 @@ const DetailContent = ({
                                         }`}
                                       >
                                         <img
-                                          src={value.icon.name}
+                                          src={value.icon.path}
                                           alt=""
                                           className="w-full h-full object-contain"
                                         />
@@ -676,7 +676,7 @@ const DetailContent = ({
                                     key={value.id}
                                   >
                                     <img
-                                      src={value.icon.name}
+                                      src={value.icon.path}
                                       alt=""
                                       className="w-full h-full object-cover"
                                     />
@@ -749,7 +749,7 @@ const DetailContent = ({
                                       }`}
                                     >
                                       <img
-                                        src={value.icon.name}
+                                        src={value.icon.path}
                                         alt=""
                                         className="w-full h-full object-contain"
                                       />
@@ -814,7 +814,7 @@ const DetailContent = ({
                                   key={value.id}
                                 >
                                   <img
-                                    src={value.icon.name}
+                                    src={value.icon.path}
                                     alt=""
                                     className="w-full h-full object-cover"
                                   />
@@ -886,7 +886,7 @@ const DetailContent = ({
                                       }`}
                                     >
                                       <img
-                                        src={value.icon.name}
+                                        src={value.icon.path}
                                         alt=""
                                         className="w-full h-full object-contain"
                                       />
@@ -951,7 +951,7 @@ const DetailContent = ({
                                   key={value.id}
                                 >
                                   <img
-                                    src={value.icon.name}
+                                    src={value.icon.path}
                                     alt=""
                                     className="w-full h-full object-cover"
                                   />
@@ -1025,7 +1025,7 @@ const DetailContent = ({
                                       }`}
                                     >
                                       <img
-                                        src={value.icon.name}
+                                        src={value.icon.path}
                                         alt=""
                                         className="w-full h-full object-contain"
                                       />
@@ -1092,7 +1092,7 @@ const DetailContent = ({
                                   key={value.id}
                                 >
                                   <img
-                                    src={value.icon.name}
+                                    src={value.icon.path}
                                     alt=""
                                     className="w-full h-full object-cover"
                                   />
@@ -1167,7 +1167,7 @@ const DetailContent = ({
                                       }`}
                                     >
                                       <img
-                                        src={value.icon.name}
+                                        src={value.icon.path}
                                         alt=""
                                         className="w-full h-full object-contain"
                                       />
@@ -1234,7 +1234,7 @@ const DetailContent = ({
                                   key={value.id}
                                 >
                                   <img
-                                    src={value.icon.name}
+                                    src={value.icon.path}
                                     alt=""
                                     className="w-full h-full object-cover"
                                   />
@@ -1306,7 +1306,7 @@ const DetailContent = ({
                                       }`}
                                     >
                                       <img
-                                        src={value.icon.name}
+                                        src={value.icon.path}
                                         alt=""
                                         className="w-full h-full object-contain"
                                       />
@@ -1371,7 +1371,7 @@ const DetailContent = ({
                                   key={value.id}
                                 >
                                   <img
-                                    src={value.icon.name}
+                                    src={value.icon.path}
                                     alt=""
                                     className="w-full h-full object-cover"
                                   />

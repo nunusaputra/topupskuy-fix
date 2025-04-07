@@ -14,8 +14,6 @@ const LandingPage = () => {
     staleTime: 21600000,
   });
 
-  console.log(metadata);
-
   return (
     <div>
       <HeroBanner metadata={metadata?.images} />

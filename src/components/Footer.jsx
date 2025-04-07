@@ -84,113 +84,13 @@ const Footer = (props) => {
                     Check Transaction
                   </a>
                 </li>
-                <li>
-                  <a
-                    href="/history"
-                    className="transition-all text-sm duration-300 text-white hover:text-purple-300"
-                  >
-                    History
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/"
-                    className="transition-all text-sm duration-300 text-white hover:text-purple-300"
-                  >
-                    Calculator MLBB
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/"
-                    className="transition-all text-sm duration-300 text-white hover:text-purple-300"
-                  >
-                    Login
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <p className="font-semibold tracking-wide text-white">Support</p>
-              <ul className="mt-2 space-y-2">
-                <li>
-                  <a
-                    href="/"
-                    className="transition-all text-sm duration-300 text-white hover:text-purple-300"
-                  >
-                    WhatsApp
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/"
-                    className="transition-all text-sm duration-300 text-white hover:text-purple-300"
-                  >
-                    Instagram
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/"
-                    className="transition-all text-sm duration-300 text-white hover:text-purple-300"
-                  >
-                    Telegram
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/"
-                    className="transition-all text-sm duration-300 text-white hover:text-purple-300"
-                  >
-                    Email
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/"
-                    className="transition-all text-sm duration-300 text-white hover:text-purple-300"
-                  >
-                    Line
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <p className="font-semibold tracking-wide text-white">
-                Legalitas
-              </p>
-              <ul className="mt-2 space-y-2">
-                <li>
-                  <a
-                    href="/"
-                    className="transition-all text-sm duration-300 text-white hover:text-purple-300"
-                  >
-                    Kebijakan Pribadi
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/"
-                    className="transition-all text-sm duration-300 text-white hover:text-purple-300"
-                  >
-                    Syarat & Ketentuan
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/"
-                    className="transition-all text-sm duration-300 text-white hover:text-purple-300"
-                  >
-                    Forum
-                  </a>
-                </li>
               </ul>
             </div>
           </div>
         </div>
         <div className="flex flex-col justify-between pt-5 pb-10 border-t border-deep-purple-accent-200 sm:flex-row">
           <p className="text-sm text-white">
-            © Copyright 2025 Lorem Inc. All rights reserved.
+            © {new Date().getFullYear()} {props.metadata?.settings[0].value_}. All rights reserved.
           </p>
           <div className="flex items-center mt-4 space-x-4 sm:mt-0">
 {props.metadata?.socialMedias.map((x) => (

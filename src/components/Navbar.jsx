@@ -17,7 +17,6 @@ import { useNavigate } from "react-router-dom";
 const navigation = [
   { name: "Topup", href: "/", current: false },
   { name: "Cek Transaction", href: "/transaction", current: false },
-  { name: "Calculator MLBB", href: "#", current: false },
 ];
 
 function classNames(...classes) {
@@ -38,7 +37,7 @@ const Navbar = (props) => {
     queryKey: ["uniqueCode", uniqueCode],
     queryFn: () => fetchDataMember(uniqueCode),
     staleTime: 21600000,
-    enabled: !!uniqueCode, // Hanya fetch jika uniqueCode tidak null atau undefined
+    enabled: !!uniqueCode,
   });
 
   useEffect(() => {
@@ -59,11 +58,10 @@ const Navbar = (props) => {
     <Disclosure
       as="nav"
       className={`sticky top-0 z-[100] py-2 w-full transition-all duration-300
-            ${
-              scrolling
-                ? "bg-fourth/30 backdrop-blur-2xl"
-                : "bg-fifth/20 backdrop-blur-xl"
-            }
+            ${scrolling
+          ? "bg-fourth/30 backdrop-blur-2xl"
+          : "bg-fifth/20 backdrop-blur-xl"
+        }
        }`}
     >
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -146,7 +144,7 @@ const Navbar = (props) => {
                     </MenuItem>
                     <MenuItem>
                       <a
-                        href="#"
+                        href="/dashboard/upgrade-membership"
                         className="block lg:hidden px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
                       >
                         Upgrade Membership
@@ -154,7 +152,7 @@ const Navbar = (props) => {
                     </MenuItem>
                     <MenuItem>
                       <a
-                        href="#"
+                        href="/dashboard/riwayat-transaksi"
                         className="block lg:hidden px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
                       >
                         Riwayat Transaksi
@@ -162,7 +160,7 @@ const Navbar = (props) => {
                     </MenuItem>
                     <MenuItem>
                       <a
-                        href="#"
+                        href="/dashboard/riwayat-mutasi"
                         className="block lg:hidden px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
                       >
                         Riwayat Mutasi
@@ -179,11 +177,14 @@ const Navbar = (props) => {
                     </MenuItem>
                     <MenuItem>
                       <a
-                        href="#"
+                        onClick={() => {
+                          localStorage.removeItem("unique-code");
+                          window.location.href = "/";
+                        }}
                         className="flex items-center gap-1 px-4 py-2  text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
                       >
                         <LuLogOut className="text-sm text-red-400" />
-                        <h1 className="text-sm text-red-400 font-semibold">
+                        <h1  className="text-sm text-red-400 font-semibold">
                           Keluar
                         </h1>
                       </a>
@@ -229,20 +230,25 @@ const Navbar = (props) => {
               {item.name}
             </DisclosureButton>
           ))}
-          <DisclosureButton
-            as="a"
-            href="/login"
-            className="block md:hidden rounded-md px-3 py-2 text-base text-gray-300 hover:bg-gray-700 hover:text-white font-medium"
-          >
-            Login
-          </DisclosureButton>
-          <DisclosureButton
-            as="a"
-            href="/register"
-            className="block md:hidden rounded-md px-3 py-2 text-base text-gray-300 hover:bg-gray-700 hover:text-white font-medium"
-          >
-            Register
-          </DisclosureButton>
+          {localStorage.getItem("unique-code") === null ? (
+            <>
+              <DisclosureButton
+                as="a"
+                href="/login"
+                className="block md:hidden rounded-md px-3 py-2 text-base text-gray-300 hover:bg-gray-700 hover:text-white font-medium"
+              >
+                Login
+              </DisclosureButton>
+              <DisclosureButton
+                as="a"
+                href="/register"
+                className="block md:hidden rounded-md px-3 py-2 text-base text-gray-300 hover:bg-gray-700 hover:text-white font-medium"
+              >
+                Register
+              </DisclosureButton>
+            </>
+          ) : ""}
+
         </div>
       </DisclosurePanel>
     </Disclosure>

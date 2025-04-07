@@ -43,10 +43,12 @@ const Payment = () => {
 
   const result = orderId.split("-")[0];
 
+  console.log(result)
+
   const { data: purchase } = useQuery({
     queryKey: ["data", orderId],
     queryFn: orderId
-      ? result === "UPGRADE"
+      ? result === "UPGRADE" || result === "TOPUP"
         ? () => fetchUpgradeTopupDetail(orderId)
         : () => fetchPurchaseDetail(orderId)
       : () => Promise.resolve(null),
@@ -56,7 +58,7 @@ const Payment = () => {
       if (!data) return null;
 
       const normalizedData =
-        result === "UPGRADE"
+        result === "UPGRADE" || result === "TOPUP"
           ? data
           : {
               ...data.paymentDTO,
@@ -67,6 +69,8 @@ const Payment = () => {
       return normalizedData;
     },
   });
+
+  console.log(purchase)
 
   const imageSrc = useMemo(
     () => statusImages[purchase?.status] || null,
@@ -138,7 +142,7 @@ const Payment = () => {
               <div className="flex flex-col gap-6">
                 {/* Informasi Akun */}
                 <div className="relative w-full min-h-50 rounded-lg flex flex-col gap-4 group hover:cursor-pointer bg-fourth/30 backdrop-blur-2xl ring-2 ring-slate-700 overflow-hidden">
-                  {result !== "UPGRADE" ? (
+                  {result !== "UPGRADE" && result !== "TOPUP" ? (
                     <>
                       <div className="w-full h-full flex gap-2 items-center z-20 p-4">
                         <div className="w-[50%] h-28 sm:w-[40%] sm:h-[7.5rem] rounded-xl overflow-hidden flex flex-col ring-2 ring-slate-600 shadow-lg shadow-slate-950">
@@ -222,7 +226,7 @@ const Payment = () => {
                 {/* Konten Rincian Pembayaran */}
                 {showPayment && (
                   <div className="w-full min-h-10 bg-fourth/30 backdrop-blur-2xl rounded-lg flex flex-col p-6 gap-6">
-                    {result !== "UPGRADE" ? (
+                    {result !== "UPGRADE" && result !== "TOPUP" ? (
                       <>
                         <div className="w-full flex justify-between">
                           <h1 className="text-white text-sm sm:text-[15px] font-semibold">
@@ -299,7 +303,7 @@ const Payment = () => {
                     Total Pembayaran
                   </h1>
                   <h1 className="text-sm sm:text-[15px] text-white font-bold">
-                    {result !== "UPGRADE" ? (
+                    {result !== "UPGRADE" && result !== "TOPUP" ? (
                       <>
                         {new Intl.NumberFormat("id-ID", {
                           style: "currency",
@@ -363,7 +367,7 @@ const Payment = () => {
                   </div>
                 </div>
 
-                {result !== "UPGRADE" ? (
+                {result !== "UPGRADE" && result !== "TOPUP" ? (
                   <>
                     <div className="w-full">
                       {purchase?.status === "Unpaid" ? (
@@ -592,8 +596,7 @@ const Payment = () => {
               </div>
               {showInstruction && (
                 <div className="w-full min-h-14 bg-fourth/30 backdrop-blur-2xl rounded-lg flex items-center px-6">
-                  <h1 className="text-sm text-white font-semibold">
-                    {purchase?.instructionDetail}
+                  <h1 className="text-sm text-white font-semibold" dangerouslySetInnerHTML={{ __html: purchase?.instructionDetail }}>
                   </h1>
                 </div>
               )}
