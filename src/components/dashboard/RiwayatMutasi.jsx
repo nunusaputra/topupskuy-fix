@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import $ from "jquery";
 import DataTable from "datatables.net-react";
 import DT from "datatables.net-dt";
@@ -11,6 +11,7 @@ DataTable.use(DT);
 
 const RiwayatMutasi = () => {
   let table = null;
+  const [ menuTypeSelected, setMenuTypeSelected ] = useState("All");
 
   useEffect(() => {
     table = $("#transactionTable").DataTable({
@@ -25,7 +26,7 @@ const RiwayatMutasi = () => {
           length: d.length,
           search: d.search?.value || "",
           userLogged: localStorage.getItem("unique-code"),
-          menuType: "All",
+          menuType: menuTypeSelected,
         }),
         dataSrc: (json) => json.data.content,
       },
@@ -92,7 +93,14 @@ const RiwayatMutasi = () => {
       ],
       order: [[1, "desc"]],
     });
-  }, []);
+
+    return () => {
+      if ($.fn.DataTable.isDataTable("#transactionTable")) {
+        table.destroy();
+        $("#transactionTable").empty();
+      }
+    };
+  }, [menuTypeSelected]);
 
   return (
     <div className="w-full lg:w-[80%] mt-6 lg:mt-0 flex flex-col gap-10">
@@ -106,18 +114,11 @@ const RiwayatMutasi = () => {
 
         {/* Filter Buttons */}
         <div className="flex gap-2 my-4 flex-wrap">
-          {["All", "Product", "Topup", "Membership"].map((type) => (
+          {["All", "Product", "Topup", "Membership", "Withdraw"].map((type) => (
             <button
               key={type}
               className="bg-seventh text-white px-4 py-2 rounded-md text-sm font-semibold"
-              onClick={() => {
-                const table = $("#transactionTable").DataTable();
-                if (type === "All") {
-                  table.column(2).search("").draw();
-                } else {
-                  table.column(2).search(type, true, false).draw();
-                }
-              }}
+              onClick={() => setMenuTypeSelected(type)}
             >
               {type}
             </button>
@@ -139,28 +140,6 @@ const RiwayatMutasi = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>ML-0000000433-XWQOEZHP9MEL4OK</td>
-                <td>Product</td>
-                <td>Rp. 207</td>
-                <td>Rp. 1.646</td>
-                <td>1 Apr 2025 14:41</td>
-                <td>
-                  <a href="#">Detail</a>
-                </td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>ML-0000000433-XWQOEZHP9MEL4OK</td>
-                <td>Product</td>
-                <td>Rp. 207</td>
-                <td>Rp. 1.646</td>
-                <td>1 Apr 2025 14:41</td>
-                <td>
-                  <a href="#">Detail</a>
-                </td>
-              </tr>
             </tbody>
           </table>
         </div>

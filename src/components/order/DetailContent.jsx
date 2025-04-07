@@ -408,15 +408,15 @@ const DetailContent = ({
                   {item.userInput.id === 1 && item.label !== "" ? (
                     <div key={index} className="flex items-center gap-2">
                       {index === 0 ? (
-                        <i className="bi bi-1-circle-fill text-2xl text-orange-500" />
+                        <i className="bi bi-1-circle-fill text-2xl text-orange-500 ring-2 ring-white/70 rounded-full" />
                       ) : index === 1 ? (
-                        <i className="bi bi-2-circle-fill text-2xl text-orange-500" />
+                        <i className="bi bi-2-circle-fill text-2xl text-orange-500 ring-2 ring-white/70 rounded-full" />
                       ) : index === 2 ? (
-                        <i className="bi bi-3-circle-fill text-2xl text-orange-500" />
+                        <i className="bi bi-3-circle-fill text-2xl text-orange-500 ring-2 ring-white/70 rounded-full" />
                       ) : index === 3 ? (
-                        <i className="bi bi-4-circle-fill text-2xl text-orange-500" />
+                        <i className="bi bi-4-circle-fill text-2xl text-orange-500 ring-2 ring-white/70 rounded-full" />
                       ) : index === 4 ? (
-                        <i className="bi bi-5-circle-fill text-2xl text-orange-500" />
+                        <i className="bi bi-5-circle-fill text-2xl text-orange-500 ring-2 ring-white/70 rounded-full" />
                       ) : null}
                       <h1 className="text-xl text-white font-semibold">
                         {item.label}
@@ -425,13 +425,13 @@ const DetailContent = ({
                   ) : (
                     <div key={index} className="flex items-center gap-2">
                       {index === 1 ? (
-                        <i className="bi bi-1-circle-fill text-2xl text-orange-500" />
+                        <i className="bi bi-1-circle-fill text-2xl text-orange-500 ring-2 ring-white/70 rounded-full" />
                       ) : index === 2 ? (
-                        <i className="bi bi-2-circle-fill text-2xl text-orange-500" />
+                        <i className="bi bi-2-circle-fill text-2xl text-orange-500 ring-2 ring-white/70 rounded-full" />
                       ) : index === 3 ? (
-                        <i className="bi bi-3-circle-fill text-2xl text-orange-500" />
+                        <i className="bi bi-3-circle-fill text-2xl text-orange-500 ring-2 ring-white/70 rounded-full" />
                       ) : index === 4 ? (
-                        <i className="bi bi-4-circle-fill text-2xl text-orange-500" />
+                        <i className="bi bi-4-circle-fill text-2xl text-orange-500 ring-2 ring-white/70 rounded-full" />
                       ) : null}
                       <h1 className="text-xl text-white font-semibold">
                         {item.label}
@@ -605,7 +605,7 @@ const DetailContent = ({
                                         }`}
                                       >
                                         <img
-                                          src={value.icon.name}
+                                          src={value.icon.path}
                                           alt=""
                                           className="w-full h-full object-contain"
                                         />
@@ -676,7 +676,7 @@ const DetailContent = ({
                                     key={value.id}
                                   >
                                     <img
-                                      src={value.icon.name}
+                                      src={value.icon.path}
                                       alt=""
                                       className="w-full h-full object-cover"
                                     />
@@ -750,7 +750,7 @@ const DetailContent = ({
                                         }`}
                                       >
                                         <img
-                                          src={value.icon.name}
+                                          src={value.icon.path}
                                           alt=""
                                           className="w-full h-full object-contain"
                                         />
@@ -815,7 +815,7 @@ const DetailContent = ({
                                     key={value.id}
                                   >
                                     <img
-                                      src={value.icon.name}
+                                      src={value.icon.path}
                                       alt=""
                                       className="w-full h-full object-cover"
                                     />
@@ -889,7 +889,7 @@ const DetailContent = ({
                                         }`}
                                       >
                                         <img
-                                          src={value.icon.name}
+                                          src={value.icon.path}
                                           alt=""
                                           className="w-full h-full object-contain"
                                         />
@@ -954,7 +954,7 @@ const DetailContent = ({
                                     key={value.id}
                                   >
                                     <img
-                                      src={value.icon.name}
+                                      src={value.icon.path}
                                       alt=""
                                       className="w-full h-full object-cover"
                                     />
@@ -1029,7 +1029,7 @@ const DetailContent = ({
                                         }`}
                                       >
                                         <img
-                                          src={value.icon.name}
+                                          src={value.icon.path}
                                           alt=""
                                           className="w-full h-full object-contain"
                                         />
@@ -1096,7 +1096,7 @@ const DetailContent = ({
                                     key={value.id}
                                   >
                                     <img
-                                      src={value.icon.name}
+                                      src={value.icon.path}
                                       alt=""
                                       className="w-full h-full object-cover"
                                     />
@@ -1171,7 +1171,7 @@ const DetailContent = ({
                                         }`}
                                       >
                                         <img
-                                          src={value.icon.name}
+                                          src={value.icon.path}
                                           alt=""
                                           className="w-full h-full object-contain"
                                         />
@@ -1239,7 +1239,7 @@ const DetailContent = ({
                                     key={value.id}
                                   >
                                     <img
-                                      src={value.icon.name}
+                                      src={value.icon.path}
                                       alt=""
                                       className="w-full h-full object-cover"
                                     />
@@ -1311,7 +1311,7 @@ const DetailContent = ({
                                         }`}
                                       >
                                         <img
-                                          src={value.icon.name}
+                                          src={value.icon.path}
                                           alt=""
                                           className="w-full h-full object-contain"
                                         />
@@ -1376,7 +1376,7 @@ const DetailContent = ({
                                     key={value.id}
                                   >
                                     <img
-                                      src={value.icon.name}
+                                      src={value.icon.path}
                                       alt=""
                                       className="w-full h-full object-cover"
                                     />
@@ -1415,7 +1415,7 @@ const DetailContent = ({
                   {item.userInput.id === 5 ? (
                     <div className="flex flex-col gap-1">
                       <div className="flex items-center border border-gray-300 rounded-lg p-2 w-full overflow-hidden">
-                        <span className="text-white text-sm mr-2">+62</span>
+                        <span className="text-white mr-2">+62</span>
                         <input
                           type="number"
                           className="outline-none flex-1 bg-transparent text-white text-sm"

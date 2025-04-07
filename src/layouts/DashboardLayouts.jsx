@@ -10,7 +10,7 @@ const DashboardLayouts = () => {
   const { data: metadata } = useQuery({
     queryKey: ["metadata"],
     queryFn: fetchMetadata,
-    staleTime: 21600000, // refresh dalam 6 jam
+    staleTime: 21600000,
   });
 
   return (
