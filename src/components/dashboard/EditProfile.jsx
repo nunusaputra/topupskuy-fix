@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import InputForm from "../element/InputForms/InputForm";
 import InputPassword from "../element/InputForms/InputPassword";
 import Modal from "../Modal";
-import { IoCloseCircleOutline } from "react-icons/io5";
 import { fetchDataMember } from "../../services";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
@@ -14,7 +13,9 @@ const EditProfile = () => {
   const [otp, setOtp] = useState(null);
   const [countdown, setCountdown] = useState(0);
 
-  const uniqueCode = localStorage.getItem("unique-code") ? localStorage.getItem("unique-code") : "";
+  const uniqueCode = localStorage.getItem("unique-code")
+    ? localStorage.getItem("unique-code")
+    : "";
   const { data: member } = useQuery({
     queryKey: ["uniqueCode", uniqueCode],
     queryFn: () => fetchDataMember(uniqueCode),
@@ -51,8 +52,8 @@ const EditProfile = () => {
     const object = {
       uniqueCode: uniqueCode,
       name: input.nama,
-      phoneNumber: input.telp
-    }
+      phoneNumber: input.telp,
+    };
 
     if (object.phoneNumber !== member?.phoneNumber) {
       axios
@@ -61,7 +62,7 @@ const EditProfile = () => {
         })
         .then((response) => {
           if (response.data.message === "Otp refreshed") {
-            setShow(true)
+            setShow(true);
           } else {
             toast.error("Otp tidak berhasil dikirim");
           }
@@ -85,14 +86,14 @@ const EditProfile = () => {
           toast.info("terjadi kesalahan, silahkan kontak admin");
         });
     }
-  }
+  };
 
   const submitPassword = () => {
     let object = {
       username: uniqueCode,
       oldPassword: inputPass.currentPassword,
-      newPassword: inputPass.newPassword
-    }
+      newPassword: inputPass.newPassword,
+    };
 
     if (inputPass.newPassword !== inputPass.confirmPassword) {
       toast.error("Password baru dan konfirmasi tidak sesuai");
@@ -118,14 +119,14 @@ const EditProfile = () => {
       .catch((error) => {
         toast.info("terjadi kesalahan, silahkan kontak admin");
       });
-  }
+  };
 
   const submitOtp = () => {
     const object = {
       uniqueCode: uniqueCode,
       name: input.nama,
-      phoneNumber: input.telp
-    }
+      phoneNumber: input.telp,
+    };
 
     axios
       .post(`${API_URL}/user/verification/${otp}`, {
@@ -227,7 +228,10 @@ const EditProfile = () => {
                   onChange={handleInput}
                 />
               </div>
-              <button onClick={() => submitProfile()} className="px-4 py-2 bg-seventh text-sm w-full sm:w-40 h-10 text-white rounded-md font-semibold">
+              <button
+                onClick={() => submitProfile()}
+                className="px-4 py-2 bg-seventh text-sm w-full sm:w-40 h-10 text-white rounded-md font-semibold"
+              >
                 Ubah Profil
               </button>
             </div>
@@ -275,7 +279,10 @@ const EditProfile = () => {
                   />
                 </div>
               </div>
-              <button onClick={() => submitPassword()} className="px-4 py-2 bg-seventh text-sm w-full sm:w-40 h-10 mt-5 text-white rounded-md font-semibold">
+              <button
+                onClick={() => submitPassword()}
+                className="px-4 py-2 bg-seventh text-sm w-full sm:w-40 h-10 mt-5 text-white rounded-md font-semibold"
+              >
                 Ubah Kata Sandi
               </button>
             </div>
@@ -303,23 +310,31 @@ const EditProfile = () => {
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
             />
-            <button onClick={() => submitOtp()} className="bg-seventh text-white w-full px-4 py-1 h-10 text-sm rounded-md font-semibold">
+            <button
+              onClick={() => submitOtp()}
+              className="bg-seventh text-white w-full px-4 py-1 h-10 text-sm rounded-md font-semibold"
+            >
               Verifikasi
             </button>
             <p className="text-xs lg:text-sm text-white text-center mt-5">
               Belum menerima kode?{" "}
               <span
-                className={`text-white font-bold cursor-pointer ${countdown > 0 ? "opacity-50 cursor-not-allowed" : "hover:text-seventh"
-                  }`}
+                className={`text-white font-bold cursor-pointer ${
+                  countdown > 0
+                    ? "opacity-50 cursor-not-allowed"
+                    : "hover:text-seventh"
+                }`}
                 onClick={handleResend}
               >
-                {countdown > 0 ? `Kirim ulang dalam ${countdown}s` : "Kirim Ulang OTP"}
+                {countdown > 0
+                  ? `Kirim ulang dalam ${countdown}s`
+                  : "Kirim Ulang OTP"}
               </span>
             </p>
           </div>
         </div>
-        <IoCloseCircleOutline
-          className="absolute top-5 right-5 text-white text-3xl cursor-pointer hover:scale-125 
+        <i
+          className="bi bi-x-circle-fill absolute top-5 right-5 text-white text-3xl cursor-pointer hover:scale-125 
         transition-all duration-300"
           onClick={() => setShow(false)}
         />

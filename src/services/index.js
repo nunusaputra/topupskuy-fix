@@ -80,7 +80,7 @@ export const fetchDataMember = async (uniqueCode) => {
 export const fetchUpgradeMembership = async () => {
   const { data } = await axios.get(`${API_URL}/upgrade-membership/`);
   return data;
-}
+};
 
 export const dataList = [
   {
@@ -705,5 +705,20 @@ export const upgrade = [
     id: 4,
     paket: "Platinum",
     price: 300000,
+  },
+];
+
+export const topup = [
+  {
+    id: 1,
+    price: 20000,
+  },
+  {
+    id: 2,
+    price: 50000,
+  },
+  {
+    id: 3,
+    price: 100000,
   },
 ];

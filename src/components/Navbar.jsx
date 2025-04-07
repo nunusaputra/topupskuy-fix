@@ -7,9 +7,7 @@ import {
   MenuItem,
   MenuItems,
 } from "@headlessui/react";
-import { FaBars, FaUser } from "react-icons/fa";
 import { PiUserListFill } from "react-icons/pi";
-import { FaXmark } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import { fetchDataMember } from "../services";
 import { useQuery } from "@tanstack/react-query";
@@ -75,13 +73,13 @@ const Navbar = (props) => {
             <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
               <span className="absolute -inset-0.5" />
               <span className="sr-only">Open main menu</span>
-              <FaBars
+              <i
+                className="bi bi-list block text-3xl text-white group-data-open:hidden"
                 aria-hidden="true"
-                className="block size-6 group-data-open:hidden"
               />
-              <FaXmark
+              <i
+                className="bi bi-x-lg hidden text-3xl text-white group-data-open:block"
                 aria-hidden="true"
-                className="hidden size-6 group-data-open:block"
               />
             </DisclosureButton>
           </div>
@@ -120,14 +118,14 @@ const Navbar = (props) => {
                 <Menu as="div" className="relative ml-3">
                   <div className="flex gap-4">
                     <div className="hidden px-4 py-2 bg-transparent text-white ring-2 ring-sixth rounded-md md:flex items-center gap-2 hover:bg-sixth cursor-pointer transition-all duration-300">
-                      <PiUserListFill className="text-sm text-white" />
+                      <i class="bi bi-person-lines-fill text-sm text-white" />
                       <h1 className="text-sm text-white font-semibold">
                         {member.role}
                       </h1>
                     </div>
                     <MenuButton className="relative">
                       <div className="px-4 py-2 bg-transparent text-white ring-2 ring-sixth rounded-md flex items-center gap-2 hover:bg-sixth cursor-pointer transition-all duration-300">
-                        <FaUser className="text-sm text-white" />
+                        <i class="bi bi-person-fill text-sm text-white" />
                         <h1 className="text-sm text-white font-semibold">
                           {member.name}
                         </h1>

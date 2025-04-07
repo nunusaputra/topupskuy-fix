@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { dataList, fetchProducts } from "../../services";
+import { fetchProducts } from "../../services";
 import ShinyText from "../animation/shiny-text/ShinyText";
-import { IoGameController, IoSearchOutline } from "react-icons/io5";
 
 import { useQuery } from "@tanstack/react-query";
 
@@ -18,7 +17,7 @@ const MainContent = () => {
   const { data: product } = useQuery({
     queryKey: ["product"],
     queryFn: fetchProducts,
-    staleTime: 21600000, 
+    staleTime: 21600000,
   });
 
   const [size, setSize] = useState({
@@ -79,7 +78,7 @@ const MainContent = () => {
           <div key={category.id} className="flex flex-col gap-5">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-5">
               <div className="flex gap-2">
-                <IoGameController className="text-2xl md:text-3xl text-purple-300 mt-[0.1rem]" />
+                <i class="bi bi-controller text-2xl md:text-3xl text-purple-300 mt-[0.1rem]" />
                 <h1 className="text-lg md:text-2xl text-white font-semibold mb-2">
                   {category.name}
                 </h1>
@@ -91,7 +90,7 @@ const MainContent = () => {
                 >
                   <span className="sr-only">Search</span>
                   <span className="absolute inset-y-0 left-0 flex items-center pl-2">
-                    <IoSearchOutline className="w-5 h-5" />
+                    <i class="bi bi-search w-5 h-5"></i>
                   </span>
                   <input
                     type="text"
@@ -140,10 +139,10 @@ const MainContent = () => {
               </div>
             )}
           </div>
-        )
+        );
       })}
     </div>
-  )
+  );
 };
 
 export default MainContent;
