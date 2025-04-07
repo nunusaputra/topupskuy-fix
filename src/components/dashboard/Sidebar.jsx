@@ -28,7 +28,10 @@ const Sidebar = () => {
             <h1 className="text-sm text-white font-semibold">Mutasi</h1>
           </div>
         </a>
-        <div className="p-2 flex items-center gap-2">
+        <div className="p-2 flex items-center gap-2" onClick={() => {
+          localStorage.removeItem("unique-code");
+          window.location.href = "/"
+        }}>
           <i className="bi bi-box-arrow-right text-lg text-red-400" />
           <h1 className="text-sm text-red-400 font-semibold">Keluar</h1>
         </div>

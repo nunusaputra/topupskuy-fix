@@ -70,16 +70,15 @@ const RiwayatTransaksi = () => {
         },
       ],
       order: [[1, "desc"]],
-    });
+    }, [selectedStatus]);
 
-    // return () => {
-    //   if ($.fn.DataTable.isDataTable("#transactionTable")) {
-    //     console.log("Menghancurkan DataTables sebelum berpindah menu...");
-    //     table.destroy();
-    //     $("#transactionTable").empty();
-    //   }
-    // };
-  }, []);
+    return () => {
+      if ($.fn.DataTable.isDataTable("#transactionTable")) {
+        table.destroy();
+        $("#transactionTable").empty();
+      }
+    };
+  }, [selectedStatus]);
 
   return (
     <div className="w-full lg:w-[80%] mt-6 lg:mt-0 flex flex-col gap-10">
@@ -98,15 +97,18 @@ const RiwayatTransaksi = () => {
           <select
             id="statusFilter"
             className="w-full p-2 rounded-md text-black"
-            onChange={(e) => {
-              const table = $("#transactionTable").DataTable();
-              table.column(5).search(e.target.value).draw();
-            }}
+            onChange={(e) => setSelectedStatus(e.target.value)}
           >
-            <option value="">Semua</option>
+            <option value="All">Semua</option>
+            <option value="Paid">Paid</option>
+            <option value="Unpaid">Unpaid</option>
+            <option value="Processing">Processing</option>
             <option value="Success">Success</option>
-            <option value="Pending">Pending</option>
             <option value="Failed">Failed</option>
+            <option value="Expired">Expired</option>
+            <option value="Canceled">Canceled</option>
+            <option value="Pending">Pending</option>
+            <option value="Refunded">Refunded</option>
           </select>
         </div>
 
