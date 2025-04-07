@@ -5,7 +5,7 @@ import DT from "datatables.net-dt";
 import "datatables.net-dt/js/dataTables.dataTables.min.js";
 import "datatables.net-dt/css/dataTables.dataTables.min.css";
 import { API_URL } from "../../env";
-import moment from 'moment';
+import moment from "moment";
 
 DataTable.use(DT);
 
@@ -13,56 +13,58 @@ const RiwayatMutasi = () => {
   let table = null;
 
   useEffect(() => {
-    table = $('#transactionTable').DataTable({
+    table = $("#transactionTable").DataTable({
       serverSide: true,
       processing: true,
       ajax: {
         url: `${API_URL}/transaction`,
-        type: 'GET',
+        type: "GET",
         data: (d) => ({
           draw: d.draw,
           start: d.start,
           length: d.length,
-          search: d.search?.value || '',
+          search: d.search?.value || "",
           userLogged: localStorage.getItem("unique-code"),
-          menuType: "All"
+          menuType: "All",
         }),
-        dataSrc: (json) => json.data.content
+        dataSrc: (json) => json.data.content,
       },
       columns: [
         {
           data: null,
-          title: '#',
-          render: (data, type, row, meta) => meta.row + 1
+          title: "#",
+          render: (data, type, row, meta) => meta.row + 1,
         },
-        { data: 'orderId', title: 'Transaksi Id' },
-        { data: 'type', title: 'Tipe Transaksi' },
+        { data: "orderId", title: "Transaksi Id" },
+        { data: "type", title: "Tipe Transaksi" },
         {
-          data: 'previousBalance',
-          title: 'Saldo Sebelum',
-          render: (data) => new Intl.NumberFormat('id-ID', {
-            style: 'currency',
-            currency: 'IDR',
-            minimumFractionDigits: 0,
-          }).format(data || 0)
-        },
-        {
-          data: 'finalBalance',
-          title: 'Saldo Sesudah',
-          render: (data) => new Intl.NumberFormat('id-ID', {
-            style: 'currency',
-            currency: 'IDR',
-            minimumFractionDigits: 0,
-          }).format(data || 0)
+          data: "previousBalance",
+          title: "Saldo Sebelum",
+          render: (data) =>
+            new Intl.NumberFormat("id-ID", {
+              style: "currency",
+              currency: "IDR",
+              minimumFractionDigits: 0,
+            }).format(data || 0),
         },
         {
-          data: 'trxDate',
-          title: 'Tanggal',
-          render: (data) => moment(data).format('DD MMM YYYY HH:mm')
+          data: "finalBalance",
+          title: "Saldo Sesudah",
+          render: (data) =>
+            new Intl.NumberFormat("id-ID", {
+              style: "currency",
+              currency: "IDR",
+              minimumFractionDigits: 0,
+            }).format(data || 0),
+        },
+        {
+          data: "trxDate",
+          title: "Tanggal",
+          render: (data) => moment(data).format("DD MMM YYYY HH:mm"),
         },
         {
           data: null,
-          title: 'Aksi',
+          title: "Aksi",
           orderable: false,
           searchable: false,
           render: (dataRow, type, row) => {
@@ -85,10 +87,10 @@ const RiwayatMutasi = () => {
           </a>
         `;
             }
-          }
-        }
+          },
+        },
       ],
-      order: [[1, 'desc']]
+      order: [[1, "desc"]],
     });
   }, []);
 
@@ -101,6 +103,27 @@ const RiwayatMutasi = () => {
             <h1 className="text-white text-lg font-semibold">Riwayat Mutasi</h1>
           </div>
         </a>
+
+        {/* Filter Buttons */}
+        <div className="flex gap-2 my-4 flex-wrap">
+          {["All", "Product", "Topup", "Membership"].map((type) => (
+            <button
+              key={type}
+              className="bg-seventh text-white px-4 py-2 rounded-md text-sm font-semibold"
+              onClick={() => {
+                const table = $("#transactionTable").DataTable();
+                if (type === "All") {
+                  table.column(2).search("").draw();
+                } else {
+                  table.column(2).search(type, true, false).draw();
+                }
+              }}
+            >
+              {type}
+            </button>
+          ))}
+        </div>
+
         {/* Datatables */}
         <div className="text-white  overflow-x-auto">
           <table id="transactionTable" className="display w-full">

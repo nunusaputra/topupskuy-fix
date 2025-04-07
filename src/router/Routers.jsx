@@ -16,6 +16,7 @@ import EditProfile from "../components/dashboard/EditProfile";
 import Membership from "../components/dashboard/Membership";
 import RiwayatTransaksi from "../components/dashboard/RiwayatTransaksi";
 import RiwayatMutasi from "../components/dashboard/RiwayatMutasi";
+import Topup from "../components/dashboard/Topup";
 
 const Routers = () => {
   return (
@@ -49,6 +50,7 @@ const Routers = () => {
             element={<RiwayatTransaksi />}
           />
           <Route path="/dashboard/riwayat-mutasi" element={<RiwayatMutasi />} />
+          <Route path="/dashboard/topup" element={<Topup />} />
         </Route>
       </Routes>
     </div>
