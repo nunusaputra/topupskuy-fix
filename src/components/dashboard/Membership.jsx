@@ -130,9 +130,9 @@ const Membership = () => {
                     className={`text-lg text-white transform transition-transform duration-300`}
                   >
                     {show === 1 ? (
-                      <i class="bi bi-caret-up text-lg text-white" />
+                      <i className="bi bi-chevron-up text-lg text-white" />
                     ) : (
-                      <i class="bi bi-caret-down text-lg text-white" />
+                      <i className="bi bi-chevron-down text-lg text-white" />
                     )}
                   </span>
                 </div>
@@ -263,9 +263,9 @@ const Membership = () => {
                     className={`text-lg text-white transform transition-transform duration-300`}
                   >
                     {show === 2 ? (
-                      <i class="bi bi-caret-up text-lg text-white" />
+                      <i className="bi bi-chevron-up text-lg text-white" />
                     ) : (
-                      <i class="bi bi-caret-down text-lg text-white" />
+                      <i className="bi bi-chevron-down text-lg text-white" />
                     )}
                   </span>
                 </div>
@@ -393,9 +393,9 @@ const Membership = () => {
                     className={`text-lg text-white transform transition-transform duration-300`}
                   >
                     {show === 3 ? (
-                      <i class="bi bi-caret-up text-lg text-white" />
+                      <i className="bi bi-chevron-up text-lg text-white" />
                     ) : (
-                      <i class="bi bi-caret-down text-lg text-white" />
+                      <i className="bi bi-chevron-down text-lg text-white" />
                     )}
                   </span>
                 </div>
@@ -525,9 +525,9 @@ const Membership = () => {
                     className={`text-lg text-white transform transition-transform duration-300 `}
                   >
                     {show === 4 ? (
-                      <i class="bi bi-caret-up text-lg text-white" />
+                      <i className="bi bi-chevron-up text-lg text-white" />
                     ) : (
-                      <i class="bi bi-caret-down text-lg text-white" />
+                      <i className="bi bi-chevron-down text-lg text-white" />
                     )}
                   </span>
                 </div>
@@ -657,9 +657,9 @@ const Membership = () => {
                     className={`text-lg text-white transform transition-transform duration-300 `}
                   >
                     {show === 5 ? (
-                      <i class="bi bi-caret-up text-lg text-white" />
+                      <i className="bi bi-chevron-up text-lg text-white" />
                     ) : (
-                      <i class="bi bi-caret-down text-lg text-white" />
+                      <i className="bi bi-chevron-down text-lg text-white" />
                     )}
                   </span>
                 </div>
@@ -787,9 +787,9 @@ const Membership = () => {
                     className={`text-lg text-white transform transition-transform duration-300 `}
                   >
                     {show === 6 ? (
-                      <i class="bi bi-caret-up text-lg text-white" />
+                      <i className="bi bi-chevron-up text-lg text-white" />
                     ) : (
-                      <i class="bi bi-caret-down text-lg text-white" />
+                      <i className="bi bi-chevron-down text-lg text-white" />
                     )}
                   </span>
                 </div>
@@ -914,7 +914,7 @@ const Membership = () => {
       {/* Informasi Pembayaran */}
       <div className="bg-secondary/80 p-4 rounded-xl">
         <div className="flex items-center gap-2 mb-5 border-b-2 pb-4">
-          <i class="bi bi-info-circle text-lg xl:text-xl text-white" />
+          <i className="bi bi-info-circle text-lg xl:text-xl text-white" />
           <h1 className="text-sm xl:text-lg text-white font-semibold">
             Informasi Pembayaran
           </h1>

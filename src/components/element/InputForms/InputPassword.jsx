@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 
 const InputPassword = ({ margin, value, onChange, label, name, id }) => {
   const [show, setShow] = useState(false);
@@ -15,9 +14,9 @@ const InputPassword = ({ margin, value, onChange, label, name, id }) => {
           onClick={() => setShow(!show)}
         >
           {show ? (
-            <IoEyeOffOutline className="w-5 h-5" />
+            <i className="bi bi-eye-slash w-5 h-5" />
           ) : (
-            <IoEyeOutline className="w-5 h-5" />
+            <i className="bi bi-eye w-5 h-5" />
           )}
         </span>
         <input

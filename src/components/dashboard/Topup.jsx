@@ -100,7 +100,7 @@ const Topup = () => {
       {/* Metode Pembayaran */}
       <div className="w-full min-h-30 bg-secondary/80 rounded-lg p-4 flex flex-col gap-4 overflow-hidden">
         <div className="flex items-center gap-2">
-          <i class="bi bi-credit-card-2-front-fill text-lg xl:text-xl text-white" />
+          <i className="bi bi-credit-card-2-front-fill text-lg xl:text-xl text-white" />
           <h1 className="text-sm xl:text-lg text-white font-semibold">
             Pilih Metode Pembayaran
           </h1>
@@ -118,9 +118,9 @@ const Topup = () => {
               className={`text-lg text-white transform transition-transform duration-300`}
             >
               {show === 1 ? (
-                <i class="bi bi-caret-up text-lg text-white" />
+                <i className="bi bi-chevron-up text-lg text-white" />
               ) : (
-                <i class="bi bi-caret-down text-lg text-white" />
+                <i className="bi bi-chevron-down text-lg text-white" />
               )}
             </span>
           </div>
@@ -212,9 +212,9 @@ const Topup = () => {
               className={`text-lg text-white transform transition-transform duration-300`}
             >
               {show === 2 ? (
-                <i class="bi bi-caret-up text-lg text-white" />
+                <i className="bi bi-chevron-up text-lg text-white" />
               ) : (
-                <i class="bi bi-caret-down text-lg text-white" />
+                <i className="bi bi-chevron-down text-lg text-white" />
               )}
             </span>
           </div>
@@ -300,9 +300,9 @@ const Topup = () => {
               className={`text-lg text-white transform transition-transform duration-300 `}
             >
               {show === 3 ? (
-                <i class="bi bi-caret-up text-lg text-white" />
+                <i className="bi bi-chevron-up text-lg text-white" />
               ) : (
-                <i class="bi bi-caret-down text-lg text-white" />
+                <i className="bi bi-chevron-down text-lg text-white" />
               )}
             </span>
           </div>
@@ -381,7 +381,7 @@ const Topup = () => {
       {/* Informasi Pembayaran */}
       <div className="bg-secondary/80 p-4 rounded-xl">
         <div className="flex items-center gap-2 mb-5 border-b-2 pb-4">
-          <i class="bi bi-info-circle text-lg xl:text-xl text-white" />
+          <i className="bi bi-info-circle text-lg xl:text-xl text-white" />
           <h1 className="text-sm xl:text-lg text-white font-semibold">
             Informasi Pembayaran
           </h1>

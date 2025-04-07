@@ -154,9 +154,11 @@ const Profile = () => {
                   />
                 )}
               </div>
-              <div className="px-4 py-1 bg-seventh ring-2 ring-offset-0 rounded-full text-xs font-semibold text-white ring-seventh transition-all duration-300 hover:ring-offset-4 hover:ring-offset-secondary cursor-pointer">
-                Top Up
-              </div>
+              <a href="/dashboard/topup">
+                <div className="px-4 py-1 bg-seventh ring-2 ring-offset-0 rounded-full text-xs font-semibold text-white ring-seventh transition-all duration-300 hover:ring-offset-4 hover:ring-offset-secondary cursor-pointer">
+                  Top Up
+                </div>
+              </a>
             </div>
           </div>
 

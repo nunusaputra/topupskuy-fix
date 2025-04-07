@@ -1,11 +1,7 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
-import { dataList } from "../../services/index";
 import { ImHeadphones } from "react-icons/im";
-import { IoIosArrowUp, IoMdInformationCircle } from "react-icons/io";
+import { IoIosArrowUp } from "react-icons/io";
 import { FiShoppingBag } from "react-icons/fi";
-import Modal from "../Modal";
-import { IoArrowUp } from "react-icons/io5";
 
 const SideContent = (data) => {
   const [openInstruction, setOpenInstruction] = useState(false);

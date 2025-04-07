@@ -1,16 +1,16 @@
 import React from "react";
-import { MdOutlineContentPasteSearch } from "react-icons/md";
-import coverBottom from "../assets/images/cover-bottom.png";
 import { useState } from "react";
 
 const Transaction = () => {
   const [data, setData] = useState({
-    phone: null
-  })
+    phone: null,
+  });
 
   const submit = () => {
-    window.location.href = `/history/${data.phone.startsWith("+62") ? data.phone : "+62" + data.phone}`;
-  }
+    window.location.href = `/history/${
+      data.phone.startsWith("+62") ? data.phone : "+62" + data.phone
+    }`;
+  };
 
   return (
     <div className="container">
@@ -40,12 +40,17 @@ const Transaction = () => {
                       type="tel"
                       className="outline-none flex-1 bg-transparent text-sm"
                       placeholder="81234567890"
-                      onChange={(e) => setData({ ...data, phone: e.target.value})}
+                      onChange={(e) =>
+                        setData({ ...data, phone: e.target.value })
+                      }
                     />
                   </div>
                 </div>
-                <button onClick={() => submit()} className="w-full py-2 bg-seventh text-white font-semibold rounded-lg flex items-center justify-center gap-2 hover:cursor-pointer">
-                  <MdOutlineContentPasteSearch className="text-white text-xl" />
+                <button
+                  onClick={() => submit()}
+                  className="w-full py-2 bg-seventh text-white font-semibold rounded-lg flex items-center justify-center gap-2 hover:cursor-pointer"
+                >
+                  <i class="bi bi-clipboard-check-fill text-white t"></i>
                   <p>Cari Pesanan</p>
                 </button>
               </div>

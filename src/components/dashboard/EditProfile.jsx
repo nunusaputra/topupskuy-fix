@@ -334,7 +334,7 @@ const EditProfile = () => {
           </div>
         </div>
         <i
-          class="bi bi-x-circle-fill absolute top-5 right-5 text-white text-3xl cursor-pointer hover:scale-125 
+          className="bi bi-x-circle-fill absolute top-5 right-5 text-white text-3xl cursor-pointer hover:scale-125 
         transition-all duration-300"
           onClick={() => setShow(false)}
         />
