@@ -17,7 +17,7 @@ const FormForgot = () => {
         type="telp"
         name="telp"
         id="telp"
-        placeholder="+628123456789"
+        placeholder="8123456789"
         value={telp}
         onChange={(e) => setTelp(e.target.value)}
       />

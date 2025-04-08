@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "../components/Navbar";
 import { Outlet } from "react-router-dom";
 import Footer from "../components/Footer";
@@ -12,6 +12,21 @@ const Index = () => {
     queryFn: fetchMetadata,
     staleTime: 21600000, // refresh dalam 6 jam 
   });
+
+  useEffect(() => {
+    if (metadata?.settings[0].value_) {
+      document.title = metadata?.settings[0].value_;
+    }
+
+    if (metadata?.images[1].value_) {
+      const link =
+        document.querySelector("link[rel~='icon']") ||
+        document.createElement("link");
+      link.rel = "icon";
+      link.href = metadata?.images[1].value_;
+      document.getElementsByTagName("head")[0].appendChild(link);
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-primary background-dots">

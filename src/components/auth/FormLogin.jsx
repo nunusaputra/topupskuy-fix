@@ -13,7 +13,9 @@ const FormLogin = () => {
 
   const submitLogin = () => {
     const object = {
-      username: input.email,
+      username: !input.email.startsWith("+62")
+        ? `+62${input.email}`
+        : input.email,
       password: input.password,
     };
 
