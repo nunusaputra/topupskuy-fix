@@ -26,7 +26,9 @@ const FormLogin = () => {
         window.location.href = "/";
       })
       .catch((error) => {
-        window.alert("terjadi kesalahan pada saat order, silahkan kontak admin");
+        window.alert(
+          "terjadi kesalahan pada saat order, silahkan kontak admin"
+        );
       });
   };
 
@@ -44,16 +46,22 @@ const FormLogin = () => {
   }, []);
   return (
     <div>
-      <InputForm
-        label="Nomor Telp"
-        type="telp"
-        name="email"
-        id="email"
-        placeholder="+628123456789"
-        ref={emailRef}
-        value={input.email}
-        onChange={handleInput}
-      />
+      <div className="flex flex-col gap-1">
+        <label htmlFor="telp">Nomor Telp</label>
+        <div className="flex items-center border border-gray-300 rounded-lg p-2 w-full overflow-hidden">
+          <span className="text-white text-sm mr-2">+62</span>
+          <input
+            type="telp"
+            className="outline-none flex-1 bg-transparent text-white text-sm"
+            name="email"
+            id="email"
+            placeholder="81234567890"
+            value={input.email}
+            onChange={handleInput}
+            ref={emailRef}
+          />
+        </div>
+      </div>
       <div className="relative">
         <InputPassword
           label={"Password"}
