@@ -105,7 +105,7 @@ const MainContent = () => {
               {displayedProducts.map((item) => (
                 <a href={`/order/${item.slug}`} key={item.slug}>
                   <div className="w-[100%] h-[12.5] md:h-[16.5rem] flex flex-col bg-[#060911] rounded-lg ring-2 ring-purple-500 ring-offset-0 transition-all duration-300 hover:ring-offset-8 hover:rotate-3 hover:ring-offset-secondary hover:cursor-pointer overflow-hidden">
-                    <div className="w-full h-[8.8rem] md:h-[12.5rem] bg-red-500">
+                    <div className="w-full h-[8.8rem] md:h-[12.5rem] bg-white">
                       <img
                         src={item.logo.path}
                         alt=""
@@ -113,7 +113,7 @@ const MainContent = () => {
                       />
                     </div>
                     <div className="w-full h-16 bg-sixth/20 px-2 py-1 flex flex-col">
-                      <h1 className="text-white text-md sm:text-lg font-bold">
+                      <h1 className="text-white text-sm sm:text-lg font-bold">
                         {item.title.length > 20
                           ? `${item.title.substring(0, 20)}...`
                           : item.title}
