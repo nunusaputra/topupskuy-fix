@@ -408,15 +408,15 @@ const DetailContent = ({
                   {item.userInput.id === 1 && item.label !== "" ? (
                     <div key={index} className="flex items-center gap-2">
                       {index === 0 ? (
-                        <i className="bi bi-1-circle-fill text-2xl text-orange-500 ring-2 ring-white/70 rounded-full" />
+                        <i className="bi bi-1-circle-fill text-2xl text-orange-500" />
                       ) : index === 1 ? (
-                        <i className="bi bi-2-circle-fill text-2xl text-orange-500 ring-2 ring-white/70 rounded-full" />
+                        <i className="bi bi-2-circle-fill text-2xl text-orange-500" />
                       ) : index === 2 ? (
-                        <i className="bi bi-3-circle-fill text-2xl text-orange-500 ring-2 ring-white/70 rounded-full" />
+                        <i className="bi bi-3-circle-fill text-2xl text-orange-500" />
                       ) : index === 3 ? (
-                        <i className="bi bi-4-circle-fill text-2xl text-orange-500 ring-2 ring-white/70 rounded-full" />
+                        <i className="bi bi-4-circle-fill text-2xl text-orange-500" />
                       ) : index === 4 ? (
-                        <i className="bi bi-5-circle-fill text-2xl text-orange-500 ring-2 ring-white/70 rounded-full" />
+                        <i className="bi bi-5-circle-fill text-2xl text-orange-500" />
                       ) : null}
                       <h1 className="text-xl text-white font-semibold">
                         {item.label}
@@ -425,13 +425,13 @@ const DetailContent = ({
                   ) : (
                     <div key={index} className="flex items-center gap-2">
                       {index === 1 ? (
-                        <i className="bi bi-1-circle-fill text-2xl text-orange-500 ring-2 ring-white/70 rounded-full" />
+                        <i className="bi bi-1-circle-fill text-2xl text-orange-500" />
                       ) : index === 2 ? (
-                        <i className="bi bi-2-circle-fill text-2xl text-orange-500 ring-2 ring-white/70 rounded-full" />
+                        <i className="bi bi-2-circle-fill text-2xl text-orange-500" />
                       ) : index === 3 ? (
-                        <i className="bi bi-3-circle-fill text-2xl text-orange-500 ring-2 ring-white/70 rounded-full" />
+                        <i className="bi bi-3-circle-fill text-2xl text-orange-500" />
                       ) : index === 4 ? (
-                        <i className="bi bi-4-circle-fill text-2xl text-orange-500 ring-2 ring-white/70 rounded-full" />
+                        <i className="bi bi-4-circle-fill text-2xl text-orange-500" />
                       ) : null}
                       <h1 className="text-xl text-white font-semibold">
                         {item.label}
