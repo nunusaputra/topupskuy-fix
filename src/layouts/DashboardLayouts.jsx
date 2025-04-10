@@ -15,10 +15,13 @@ const DashboardLayouts = () => {
 
   useEffect(() => {
     if (metadata?.settings[0].value_) {
+      console.log("im accessing metadata title")
       document.title = metadata?.settings[0].value_;
     }
 
     if (metadata?.images[1].value_) {
+      console.log("im accessing metadata image logo favicon")
+
       const link =
         document.querySelector("link[rel~='icon']") ||
         document.createElement("link");

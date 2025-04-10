@@ -25,7 +25,7 @@ const AuthLayouts = (props) => {
       link.href = metadata?.images[1].value_;
       document.getElementsByTagName("head")[0].appendChild(link);
     }
-  }, []);
+  }, [metadata]);
 
   const { type, children, title } = props;
   return (

@@ -2,6 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import InputForm from "../element/InputForms/InputForm";
 import Modal from "../Modal";
 import InputPassword from "../element/InputForms/InputPassword";
+import axios from "axios";
+import { API_URL } from "../../env";
+import { toast } from "react-toastify";
 
 const FormForgot = () => {
   const [showOtp, setShowOtp] = useState(false);
@@ -25,6 +28,92 @@ const FormForgot = () => {
   useEffect(() => {
     telpRef.current.focus();
   }, []);
+
+  const request = () => {
+    axios
+      .post(`${API_URL}/user/request-otp/${telp}`, {
+        headers: { "Content-Type": "application/json" },
+      })
+      .then((response) => {
+        if (response.data.message === "Otp refreshed") {
+          setShowOtp(true);
+        } else {
+          toast.error("request otp gagal, silahkan hubungi admin");
+        }
+      })
+      .catch((error) => {
+        toast.error(
+          "terjadi kesalahan pada saat order, silahkan kontak admin"
+        );
+      });
+  }
+
+  const verification = () => {
+    axios
+      .post(`${API_URL}/user/verification/${otp}`, {
+        headers: { "Content-Type": "application/json" },
+      })
+      .then((response) => {
+        if (response.data.message === "Verified") {
+          setShowOtp(false);
+          setShowReset(true);
+        } else {
+          toast.error("verifikasi otp gagal, silahkan hubungi admin");
+        }
+      })
+      .catch((error) => {
+        toast.error(
+          "terjadi kesalahan pada saat order, silahkan kontak admin"
+        );
+      });
+  }
+
+  const process = () => {
+    console.log(input.password, input.confPassword)
+    if (input.password !== input.confPassword) {
+      toast.info("password tidak sesuai")
+    }
+
+    if (input.password === "") {
+      toast.info("password baru belum diisi")
+    }
+
+    if (input.confPassword === "") {
+      toast.info("password konfirmasi belum diisi")
+    }
+
+    if (input.password === input.confPassword && input.password !== null && input.confPassword !== null) {
+      const object = {
+        username: telp,
+        newPassword: input.password,
+      };
+
+      console.log(object)
+
+      axios
+        .post(`${API_URL}/user/forgot-password`, JSON.stringify(object), {
+          headers: { "Content-Type": "application/json" },
+        })
+        .then((response) => {
+          if (response.data.message === "Update Berhasil") {
+            toast.info("Berhasil mengganti password, silahkan login");
+            setTimeout(() => {
+              window.location.href = "/login";
+            }, 3000);
+          }
+        })
+        .catch((error) => {
+          toast.error(
+            "terjadi kesalahan pada saat order, silahkan kontak admin"
+          );
+        });
+    }
+  }
+
+  const processv2 = () => {
+    console.log(1)
+  }
+
   return (
     <div>
       <form>
@@ -41,7 +130,7 @@ const FormForgot = () => {
         <button
           type="button"
           className="bg-seventh text-white w-full px-4 py-1 h-10 text-sm rounded-md font-semibold"
-          onClick={() => setShowOtp(true)}
+          onClick={() => request()}
         >
           Kirim kode reset password
         </button>
@@ -68,10 +157,7 @@ const FormForgot = () => {
               onChange={(e) => setOtp(e.target.value)}
             />
             <button
-              onClick={() => {
-                setShowOtp(false);
-                setShowReset(true);
-              }}
+              onClick={() => verification()}
               className="bg-seventh text-white w-full px-4 py-1 h-10 text-sm rounded-md font-semibold"
             >
               Verifikasi
@@ -112,11 +198,13 @@ const FormForgot = () => {
               label={"Confirm Password"}
               name={"confPassword"}
               id={"confPassword"}
-              value={input.password}
+              value={input.confPassword}
               onChange={handleInput}
             />
             <button
-              onClick={() => submitOtp()}
+              onClick={() => {
+                process()
+              }}
               className="bg-seventh text-white w-full px-4 py-1 h-10 text-sm rounded-md font-semibold"
             >
               Submit
