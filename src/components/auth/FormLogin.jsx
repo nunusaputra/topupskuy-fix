@@ -29,9 +29,7 @@ const FormLogin = () => {
         window.location.href = "/";
       })
       .catch((error) => {
-        toast.error(
-          "terjadi kesalahan pada saat order, silahkan kontak admin"
-        );
+        toast.error("terjadi kesalahan pada saat order, silahkan kontak admin");
       });
   };
 
@@ -50,12 +48,14 @@ const FormLogin = () => {
   return (
     <div>
       <div className="flex flex-col gap-1">
-        <label htmlFor="telp">Nomor Telp</label>
-        <div className="flex items-center border border-gray-300 rounded-lg p-2 w-full overflow-hidden">
-          <span className="text-white text-sm mr-2">+62</span>
+        <label htmlFor="email" className=" text-sm font-bold text-white mb-2">
+          Nomor WhatsApp
+        </label>
+        <div className="flex items-center bg-white rounded p-2 w-full overflow-hidden">
+          <span className="text-sm mr-2">+62</span>
           <input
             type="telp"
-            className="outline-none flex-1 bg-transparent text-white text-sm"
+            className="outline-none flex-1 bg-transparent text-sm"
             name="email"
             id="email"
             placeholder="81234567890"

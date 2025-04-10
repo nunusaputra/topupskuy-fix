@@ -42,11 +42,9 @@ const FormForgot = () => {
         }
       })
       .catch((error) => {
-        toast.error(
-          "terjadi kesalahan pada saat order, silahkan kontak admin"
-        );
+        toast.error("terjadi kesalahan pada saat order, silahkan kontak admin");
       });
-  }
+  };
 
   const verification = () => {
     axios
@@ -62,33 +60,35 @@ const FormForgot = () => {
         }
       })
       .catch((error) => {
-        toast.error(
-          "terjadi kesalahan pada saat order, silahkan kontak admin"
-        );
+        toast.error("terjadi kesalahan pada saat order, silahkan kontak admin");
       });
-  }
+  };
 
   const process = () => {
-    console.log(input.password, input.confPassword)
+    console.log(input.password, input.confPassword);
     if (input.password !== input.confPassword) {
-      toast.info("password tidak sesuai")
+      toast.info("password tidak sesuai");
     }
 
     if (input.password === "") {
-      toast.info("password baru belum diisi")
+      toast.info("password baru belum diisi");
     }
 
     if (input.confPassword === "") {
-      toast.info("password konfirmasi belum diisi")
+      toast.info("password konfirmasi belum diisi");
     }
 
-    if (input.password === input.confPassword && input.password !== null && input.confPassword !== null) {
+    if (
+      input.password === input.confPassword &&
+      input.password !== null &&
+      input.confPassword !== null
+    ) {
       const object = {
         username: telp,
         newPassword: input.password,
       };
 
-      console.log(object)
+      console.log(object);
 
       axios
         .post(`${API_URL}/user/forgot-password`, JSON.stringify(object), {
@@ -108,25 +108,33 @@ const FormForgot = () => {
           );
         });
     }
-  }
+  };
 
   const processv2 = () => {
-    console.log(1)
-  }
+    console.log(1);
+  };
 
   return (
     <div>
       <form>
-        <InputForm
-          ref={telpRef}
-          label="Nomor whatsapp"
-          type="telp"
-          name="telp"
-          id="telp"
-          placeholder="+628123456789"
-          value={telp}
-          onChange={(e) => setTelp(e.target.value)}
-        />
+        <div className="flex flex-col gap-1 mb-3">
+          <label htmlFor="telp" className=" text-sm font-bold text-white mb-2">
+            Nomor WhatsApp
+          </label>
+          <div className="flex items-center bg-white rounded p-2 w-full overflow-hidden">
+            <span className="text-sm mr-2">+62</span>
+            <input
+              type="telp"
+              className="outline-none flex-1 bg-transparent text-sm"
+              name="telp"
+              id="telp"
+              placeholder="81234567890"
+              value={telp}
+              onChange={(e) => setTelp(e.target.value)}
+              ref={telpRef}
+            />
+          </div>
+        </div>
         <button
           type="button"
           className="bg-seventh text-white w-full px-4 py-1 h-10 text-sm rounded-md font-semibold"
@@ -203,7 +211,7 @@ const FormForgot = () => {
             />
             <button
               onClick={() => {
-                process()
+                process();
               }}
               className="bg-seventh text-white w-full px-4 py-1 h-10 text-sm rounded-md font-semibold"
             >
