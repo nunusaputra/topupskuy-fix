@@ -13,6 +13,24 @@ const DashboardLayouts = () => {
     staleTime: 21600000,
   });
 
+  useEffect(() => {
+    if (metadata?.settings[0].value_) {
+      console.log("im accessing metadata title")
+      document.title = metadata?.settings[0].value_;
+    }
+
+    if (metadata?.images[1].value_) {
+      console.log("im accessing metadata image logo favicon")
+
+      const link =
+        document.querySelector("link[rel~='icon']") ||
+        document.createElement("link");
+      link.rel = "icon";
+      link.href = metadata?.images[1].value_;
+      document.getElementsByTagName("head")[0].appendChild(link);
+    }
+  }, []);
+
   return (
     <div className="min-h-screen bg-primary background-dots">
       <Navbar metadata={metadata?.images} />

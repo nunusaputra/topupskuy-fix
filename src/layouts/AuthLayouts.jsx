@@ -1,8 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import banner from "../assets/images/login.png";
 
+import { useQuery } from "@tanstack/react-query";
+import { fetchMetadata } from "../services";
+
 const AuthLayouts = (props) => {
+  const { data: metadata } = useQuery({
+    queryKey: ["metadata"],
+    queryFn: fetchMetadata,
+    staleTime: 21600000, 
+  });
+
+  useEffect(() => {
+    if (metadata?.settings[0].value_) {
+      document.title = metadata?.settings[0].value_;
+    }
+
+    if (metadata?.images[1].value_) {
+      const link =
+        document.querySelector("link[rel~='icon']") ||
+        document.createElement("link");
+      link.rel = "icon";
+      link.href = metadata?.images[1].value_;
+      document.getElementsByTagName("head")[0].appendChild(link);
+    }
+  }, [metadata]);
+
   const { type, children, title } = props;
   return (
     <div className="w-full min-h-screen bg-primary background-dots">

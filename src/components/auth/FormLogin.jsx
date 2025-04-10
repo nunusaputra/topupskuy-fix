@@ -4,6 +4,7 @@ import InputPassword from "../element/InputForms/InputPassword";
 import axios from "axios";
 import { API_URL } from "../../env";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const FormLogin = () => {
   const [input, setInput] = useState({
@@ -13,7 +14,9 @@ const FormLogin = () => {
 
   const submitLogin = () => {
     const object = {
-      username: input.email,
+      username: !input.email.startsWith("+62")
+        ? `+62${input.email}`
+        : input.email,
       password: input.password,
     };
 
@@ -26,7 +29,7 @@ const FormLogin = () => {
         window.location.href = "/";
       })
       .catch((error) => {
-        window.alert(
+        toast.error(
           "terjadi kesalahan pada saat order, silahkan kontak admin"
         );
       });
