@@ -34,7 +34,6 @@ const FormRegister = () => {
         headers: { "Content-Type": "application/json" },
       })
       .then((response) => {
-        console.log(response.data)
         if (response.data.message === "Register Success") {
           sessionStorage.setItem("phone", response.data.data);
           navigate("/otp");

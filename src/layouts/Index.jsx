@@ -15,14 +15,10 @@ const Index = () => {
 
   useEffect(() => {
     if (metadata?.settings[0].value_) {
-      console.log("im accessing metadata title", metadata?.settings[0].value_)
-
       document.title = metadata?.settings[0].value_;
     }
 
     if (metadata?.images[1].value_) {
-      console.log("im accessing metadata image logo favicon", metadata?.images[1].value_)
-
       const link =
         document.querySelector("link[rel~='icon']") ||
         document.createElement("link");

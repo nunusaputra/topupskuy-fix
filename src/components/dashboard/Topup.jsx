@@ -37,8 +37,6 @@ const Topup = () => {
     staleTime: 21600000
   });
 
-  console.log(channel)
-
   const formatIDR = (value) => {
     return new Intl.NumberFormat('id-ID', {
       style: 'currency',
@@ -82,7 +80,6 @@ const Topup = () => {
         toast.error("Request topup gagal, silahkan hubungi admin");
       }
     } catch (error) {
-      console.log(error)
       toast.error("Request topup gagal, silahkan hubungi admin");
     }
   };

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useEffect } from "react";
 import { fetchMetadata } from "../services";
 import Navbar from "../components/Navbar";
 import { Outlet } from "react-router-dom";
@@ -15,13 +15,10 @@ const DashboardLayouts = () => {
 
   useEffect(() => {
     if (metadata?.settings[0].value_) {
-      console.log("im accessing metadata title")
       document.title = metadata?.settings[0].value_;
     }
 
     if (metadata?.images[1].value_) {
-      console.log("im accessing metadata image logo favicon")
-
       const link =
         document.querySelector("link[rel~='icon']") ||
         document.createElement("link");
@@ -29,7 +26,7 @@ const DashboardLayouts = () => {
       link.href = metadata?.images[1].value_;
       document.getElementsByTagName("head")[0].appendChild(link);
     }
-  }, []);
+  }, [metadata]);
 
   return (
     <div className="min-h-screen bg-primary background-dots">
