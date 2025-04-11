@@ -99,8 +99,9 @@ const DetailContent = ({
 
     let url = `${API_URL}/my-product/check-id/${selected.itemId}/${selected.userId}/${selected.zoneId}`;
     if (selected.zoneId === null) {
-      url = `${API_URL}/my-product/check-id/${selected.itemId
-        }?user_id=${encodeURIComponent(selected.userId)}`;
+      url = `${API_URL}/my-product/check-id/${
+        selected.itemId
+      }?user_id=${encodeURIComponent(selected.userId)}`;
     }
     axios
       .get(url, {
@@ -246,7 +247,7 @@ const DetailContent = ({
 
   return (
     <>
-      <div className="lg:w-[35%] lg:min-h-screen">
+      <div className="hidden lg:block lg:w-[35%] lg:min-h-screen">
         <div className="flex flex-col gap-5 lg:overflow-auto lg:sticky lg:top-32">
           <div className="w-full h-20 bg-slate-800 rounded-lg flex items-center px-4 gap-2 overflow-hidden">
             <div className="w-14 h-14 flex items-center justify-center">
@@ -265,8 +266,9 @@ const DetailContent = ({
           >
             <p className="text-sm text-white">Tata cara topup</p>
             <i
-              className={`bi bi-chevron-up text-xl text-white transition-all duration-300 ${openInstruction ? "rotate-180" : ""
-                }`}
+              className={`bi bi-chevron-up text-xl text-white transition-all duration-300 ${
+                openInstruction ? "rotate-180" : ""
+              }`}
             />
           </div>
           {openInstruction && (
@@ -340,9 +342,9 @@ const DetailContent = ({
                 <p className="text-white text-md">
                   {selected.price
                     ? new Intl.NumberFormat("id-ID", {
-                      style: "currency",
-                      currency: "IDR",
-                    }).format(selected.price)
+                        style: "currency",
+                        currency: "IDR",
+                      }).format(selected.price)
                     : "Rp 0"}
                 </p>
               </div>
@@ -353,9 +355,9 @@ const DetailContent = ({
                 <p className="text-white text-md">
                   {selected.feePayment
                     ? new Intl.NumberFormat("id-ID", {
-                      style: "currency",
-                      currency: "IDR",
-                    }).format(selected.feePayment)
+                        style: "currency",
+                        currency: "IDR",
+                      }).format(selected.feePayment)
                     : "Rp 0"}
                 </p>
               </div>
@@ -374,18 +376,19 @@ const DetailContent = ({
               <p className="text-orange-400 text-md font-bold">
                 {selected.price !== null || selected.feePayment !== null
                   ? new Intl.NumberFormat("id-ID", {
-                    style: "currency",
-                    currency: "IDR",
-                  }).format(
-                    Number(selected.price) + Number(selected.feePayment)
-                  )
+                      style: "currency",
+                      currency: "IDR",
+                    }).format(
+                      Number(selected.price) + Number(selected.feePayment)
+                    )
                   : "Rp 0"}
               </p>
             </div>
           </div>
           <button
-            className={`w-full py-2 ${isDisabled ? "bg-gray-400 cursor-not-allowed" : "bg-seventh"
-              } text-white font-semibold shadow-md shadow-slate-900 rounded-lg flex items-center justify-center gap-2`}
+            className={`w-full py-2 ${
+              isDisabled ? "bg-gray-400 cursor-not-allowed" : "bg-seventh"
+            } text-white font-semibold shadow-md shadow-slate-900 rounded-lg flex items-center justify-center gap-2`}
             disabled={isDisabled}
             onClick={() => handleModalSummary()}
           >
@@ -412,7 +415,9 @@ const DetailContent = ({
                 className="w-full min-h-30 bg-slate-800 rounded-lg ring-2 ring-slate-500 shadow-md shadow-slate-900 p-4 flex flex-col gap-4"
               >
                 <div key={index} className="flex items-center gap-2">
-                  <i className={`bi bi-${renderedIndex}-circle-fill text-2xl text-orange-500`} />
+                  <i
+                    className={`bi bi-${renderedIndex}-circle-fill text-2xl text-orange-500`}
+                  />
                   <h1 className="text-xl text-white font-semibold">
                     {item.label}
                   </h1>
@@ -452,22 +457,19 @@ const DetailContent = ({
                               </option>
                               {Array.isArray(item.datas)
                                 ? item.datas.map((option, index) => (
-                                  <option key={index} value={option.value}>
-                                    {option.text}
-                                  </option>
-                                ))
+                                    <option key={index} value={option.value}>
+                                      {option.text}
+                                    </option>
+                                  ))
                                 : Array.isArray(JSON.parse(item.datas))
-                                  ? JSON.parse(item.datas).map(
+                                ? JSON.parse(item.datas).map(
                                     (option, index) => (
-                                      <option
-                                        key={index}
-                                        value={option.value}
-                                      >
+                                      <option key={index} value={option.value}>
                                         {option.text}
                                       </option>
                                     )
                                   )
-                                  : null}
+                                : null}
                             </select>
                           </div>
                         )}
@@ -484,10 +486,11 @@ const DetailContent = ({
                       <div
                         className={`w-full ring-2 ring-offset-0 ring-offset-secondary/80 min-h-20 shadow-md shadow-slate-900 
                     rounded-lg px-4 py-2 flex flex-col gap-1 justify-center hover:cursor-pointer
-                    hover:bg-seventh hover:ring-seventh ${selected.itemId === item.id
-                            ? "bg-seventh ring-orange-500 ring-offset-4"
-                            : "bg-fourth/30 backdrop-blur-xl ring-0 ring-fourth"
-                          }`}
+                    hover:bg-seventh hover:ring-seventh ${
+                      selected.itemId === item.id
+                        ? "bg-seventh ring-orange-500 ring-offset-4"
+                        : "bg-fourth/30 backdrop-blur-xl ring-0 ring-fourth"
+                    }`}
                         key={item.id}
                         onClick={() => {
                           setSelected({
@@ -534,8 +537,9 @@ const DetailContent = ({
                             )
                           </h1>
                           <span
-                            className={`text-lg text-white transform transition-transform duration-300 ${show === 1 ? "rotate-180" : "rotate-0"
-                              }`}
+                            className={`text-lg text-white transform transition-transform duration-300 ${
+                              show === 1 ? "rotate-180" : "rotate-0"
+                            }`}
                           >
                             {show === 1 ? (
                               <i className="bi bi-chevron-up text-lg text-white" />
@@ -551,13 +555,15 @@ const DetailContent = ({
                                 .filter((item) => item.category === "Saldo")
                                 .map((value) => (
                                   <div
-                                    className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${selected.payment === value.id
-                                      ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
-                                      : "bg-white"
-                                      } ${selected.price > member.saldo
+                                    className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${
+                                      selected.payment === value.id
+                                        ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
+                                        : "bg-white"
+                                    } ${
+                                      selected.price > member.saldo
                                         ? "pointer-events-none opacity-50"
                                         : ""
-                                      }`}
+                                    }`}
                                     key={value.id}
                                     onClick={() => {
                                       if (selected.price < member.saldo) {
@@ -573,10 +579,11 @@ const DetailContent = ({
                                     }}
                                   >
                                     <div
-                                      className={`w-24 h-16 lg:w-50 lg:h-18 overflow-hidden flex justify-center ${selected.payment === value.id
-                                        ? "bg-white p-1 rounded-md"
-                                        : ""
-                                        }`}
+                                      className={`w-24 h-16 lg:w-50 lg:h-18 overflow-hidden flex justify-center ${
+                                        selected.payment === value.id
+                                          ? "bg-white p-1 rounded-md"
+                                          : ""
+                                      }`}
                                     >
                                       <img
                                         src={value.icon.path}
@@ -586,19 +593,21 @@ const DetailContent = ({
                                     </div>
                                     <div className="w-full lg:w-70 flex flex-col justify-center text-center lg:text-left">
                                       <h1
-                                        className={`text-lg font-semibold ${selected.payment === value.id
-                                          ? "text-white"
-                                          : ""
-                                          }`}
+                                        className={`text-lg font-semibold ${
+                                          selected.payment === value.id
+                                            ? "text-white"
+                                            : ""
+                                        }`}
                                       >
                                         {value.name}
                                       </h1>
                                       {selected.price > member.saldo ? (
                                         <p
-                                          className={`text-xs text-red-600 ${selected.payment === value.id
-                                            ? "text-red-200"
-                                            : ""
-                                            }`}
+                                          className={`text-xs text-red-600 ${
+                                            selected.payment === value.id
+                                              ? "text-red-200"
+                                              : ""
+                                          }`}
                                         >
                                           Tidak Tersedia.{" "}
                                           <span className="block">
@@ -615,10 +624,11 @@ const DetailContent = ({
                                         ""
                                       )}
                                       <h1
-                                        className={`text-sm font-semibold ${selected.payment === value.id
-                                          ? "text-white"
-                                          : ""
-                                          }`}
+                                        className={`text-sm font-semibold ${
+                                          selected.payment === value.id
+                                            ? "text-white"
+                                            : ""
+                                        }`}
                                       >
                                         {new Intl.NumberFormat("id-ID", {
                                           style: "currency",
@@ -627,9 +637,9 @@ const DetailContent = ({
                                           maximumFractionDigits: 2,
                                         }).format(
                                           selected.price +
-                                          (selected.price *
-                                            (value.feePercent / 100) +
-                                            value.feeFlat)
+                                            (selected.price *
+                                              (value.feePercent / 100) +
+                                              value.feeFlat)
                                         )}
                                       </h1>
                                     </div>
@@ -668,8 +678,9 @@ const DetailContent = ({
                             QRIS
                           </h1>
                           <span
-                            className={`text-lg text-white transform transition-transform duration-300 ${show === 2 ? "rotate-180" : "rotate-0"
-                              }`}
+                            className={`text-lg text-white transform transition-transform duration-300 ${
+                              show === 2 ? "rotate-180" : "rotate-0"
+                            }`}
                           >
                             {show === 2 ? (
                               <i className="bi bi-chevron-up text-lg text-white" />
@@ -685,13 +696,15 @@ const DetailContent = ({
                                 .filter((item) => item.category === "QRIS")
                                 .map((value) => (
                                   <div
-                                    className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${selected.payment === value.id
-                                      ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
-                                      : "bg-white"
-                                      } ${selected.price < value.minAmount
+                                    className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${
+                                      selected.payment === value.id
+                                        ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
+                                        : "bg-white"
+                                    } ${
+                                      selected.price < value.minAmount
                                         ? "pointer-events-none opacity-50"
                                         : ""
-                                      }`}
+                                    }`}
                                     key={value.id}
                                     onClick={() => {
                                       if (selected.price >= value.minAmount) {
@@ -703,7 +716,7 @@ const DetailContent = ({
                                           paymentName: value.name,
                                           feePayment: (
                                             selected.price *
-                                            (value.feePercent / 100) +
+                                              (value.feePercent / 100) +
                                             value.feeFlat
                                           ).toFixed(2),
                                         });
@@ -711,10 +724,11 @@ const DetailContent = ({
                                     }}
                                   >
                                     <div
-                                      className={`w-24 h-16 lg:w-50 lg:h-18 overflow-hidden flex justify-center ${selected.payment === value.id
-                                        ? "bg-white p-1 rounded-md"
-                                        : ""
-                                        }`}
+                                      className={`w-24 h-16 lg:w-50 lg:h-18 overflow-hidden flex justify-center ${
+                                        selected.payment === value.id
+                                          ? "bg-white p-1 rounded-md"
+                                          : ""
+                                      }`}
                                     >
                                       <img
                                         src={value.icon.path}
@@ -724,19 +738,21 @@ const DetailContent = ({
                                     </div>
                                     <div className="w-full lg:w-70 flex flex-col justify-center text-center lg:text-left">
                                       <h1
-                                        className={`text-lg font-semibold ${selected.payment === value.id
-                                          ? "text-white"
-                                          : ""
-                                          }`}
+                                        className={`text-lg font-semibold ${
+                                          selected.payment === value.id
+                                            ? "text-white"
+                                            : ""
+                                        }`}
                                       >
                                         {value.name}
                                       </h1>
                                       {selected.price < value.minAmount ? (
                                         <p
-                                          className={`text-xs text-red-600 ${selected.payment === value.id
-                                            ? "text-red-200"
-                                            : ""
-                                            }`}
+                                          className={`text-xs text-red-600 ${
+                                            selected.payment === value.id
+                                              ? "text-red-200"
+                                              : ""
+                                          }`}
                                         >
                                           Tidak Tersedia.{" "}
                                           <span className="block">
@@ -747,10 +763,11 @@ const DetailContent = ({
                                         ""
                                       )}
                                       <h1
-                                        className={`text-sm font-semibold ${selected.payment === value.id
-                                          ? "text-white"
-                                          : ""
-                                          }`}
+                                        className={`text-sm font-semibold ${
+                                          selected.payment === value.id
+                                            ? "text-white"
+                                            : ""
+                                        }`}
                                       >
                                         {new Intl.NumberFormat("id-ID", {
                                           style: "currency",
@@ -759,9 +776,9 @@ const DetailContent = ({
                                           maximumFractionDigits: 2,
                                         }).format(
                                           selected.price +
-                                          (selected.price *
-                                            (value.feePercent / 100) +
-                                            value.feeFlat)
+                                            (selected.price *
+                                              (value.feePercent / 100) +
+                                              value.feeFlat)
                                         )}
                                       </h1>
                                     </div>
@@ -798,8 +815,9 @@ const DetailContent = ({
                             E-Wallet
                           </h1>
                           <span
-                            className={`text-lg text-white transform transition-transform duration-300 ${show === 3 ? "rotate-180" : "rotate-0"
-                              }`}
+                            className={`text-lg text-white transform transition-transform duration-300 ${
+                              show === 3 ? "rotate-180" : "rotate-0"
+                            }`}
                           >
                             {show === 3 ? (
                               <i className="bi bi-chevron-up text-lg text-white" />
@@ -812,18 +830,18 @@ const DetailContent = ({
                           <div className="my-5 px-4">
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 px-4">
                               {payment
-                                .filter(
-                                  (item) => item.category === "E-Wallet"
-                                )
+                                .filter((item) => item.category === "E-Wallet")
                                 .map((value) => (
                                   <div
-                                    className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${selected.payment === value.id
-                                      ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
-                                      : "bg-white"
-                                      } ${selected.price < value.minAmount
+                                    className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${
+                                      selected.payment === value.id
+                                        ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
+                                        : "bg-white"
+                                    } ${
+                                      selected.price < value.minAmount
                                         ? "pointer-events-none opacity-50"
                                         : ""
-                                      }`}
+                                    }`}
                                     key={value.id}
                                     onClick={() => {
                                       if (selected.price >= value.minAmount) {
@@ -835,7 +853,7 @@ const DetailContent = ({
                                           paymentName: value.name,
                                           feePayment: (
                                             selected.price *
-                                            (value.feePercent / 100) +
+                                              (value.feePercent / 100) +
                                             value.feeFlat
                                           ).toFixed(2),
                                         });
@@ -843,10 +861,11 @@ const DetailContent = ({
                                     }}
                                   >
                                     <div
-                                      className={`w-24 h-16 lg:w-50 lg:h-18 overflow-hidden flex justify-center ${selected.payment === value.id
-                                        ? "bg-white p-1 rounded-md"
-                                        : ""
-                                        }`}
+                                      className={`w-24 h-16 lg:w-50 lg:h-18 overflow-hidden flex justify-center ${
+                                        selected.payment === value.id
+                                          ? "bg-white p-1 rounded-md"
+                                          : ""
+                                      }`}
                                     >
                                       <img
                                         src={value.icon.path}
@@ -856,19 +875,21 @@ const DetailContent = ({
                                     </div>
                                     <div className="w-full lg:w-70 flex flex-col justify-center text-center lg:text-left">
                                       <h1
-                                        className={`text-lg font-semibold ${selected.payment === value.id
-                                          ? "text-white"
-                                          : ""
-                                          }`}
+                                        className={`text-lg font-semibold ${
+                                          selected.payment === value.id
+                                            ? "text-white"
+                                            : ""
+                                        }`}
                                       >
                                         {value.name}
                                       </h1>
                                       {selected.price < value.minAmount ? (
                                         <p
-                                          className={`text-xs text-red-600 ${selected.payment === value.id
-                                            ? "text-red-200"
-                                            : ""
-                                            }`}
+                                          className={`text-xs text-red-600 ${
+                                            selected.payment === value.id
+                                              ? "text-red-200"
+                                              : ""
+                                          }`}
                                         >
                                           Tidak Tersedia.{" "}
                                           <span className="block">
@@ -879,10 +900,11 @@ const DetailContent = ({
                                         ""
                                       )}
                                       <h1
-                                        className={`text-sm font-semibold ${selected.payment === value.id
-                                          ? "text-white"
-                                          : ""
-                                          }`}
+                                        className={`text-sm font-semibold ${
+                                          selected.payment === value.id
+                                            ? "text-white"
+                                            : ""
+                                        }`}
                                       >
                                         {new Intl.NumberFormat("id-ID", {
                                           style: "currency",
@@ -891,9 +913,9 @@ const DetailContent = ({
                                           maximumFractionDigits: 2,
                                         }).format(
                                           selected.price +
-                                          (selected.price *
-                                            (value.feePercent / 100) +
-                                            value.feeFlat)
+                                            (selected.price *
+                                              (value.feePercent / 100) +
+                                              value.feeFlat)
                                         )}
                                       </h1>
                                     </div>
@@ -930,8 +952,9 @@ const DetailContent = ({
                             Virtual Account
                           </h1>
                           <span
-                            className={`text-lg text-white transform transition-transform duration-300 ${show === 4 ? "rotate-180" : "rotate-0"
-                              }`}
+                            className={`text-lg text-white transform transition-transform duration-300 ${
+                              show === 4 ? "rotate-180" : "rotate-0"
+                            }`}
                           >
                             {show === 4 ? (
                               <i className="bi bi-chevron-up text-lg text-white" />
@@ -945,18 +968,19 @@ const DetailContent = ({
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 px-4">
                               {payment
                                 .filter(
-                                  (item) =>
-                                    item.category === "Virtual Account"
+                                  (item) => item.category === "Virtual Account"
                                 )
                                 .map((value) => (
                                   <div
-                                    className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${selected.payment === value.id
-                                      ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
-                                      : "bg-white"
-                                      } ${selected.price < value.minAmount
+                                    className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${
+                                      selected.payment === value.id
+                                        ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
+                                        : "bg-white"
+                                    } ${
+                                      selected.price < value.minAmount
                                         ? "pointer-events-none opacity-50"
                                         : ""
-                                      }`}
+                                    }`}
                                     key={value.id}
                                     onClick={() => {
                                       if (selected.price >= value.minAmount) {
@@ -968,7 +992,7 @@ const DetailContent = ({
                                           paymentName: value.name,
                                           feePayment: (
                                             selected.price *
-                                            (value.feePercent / 100) +
+                                              (value.feePercent / 100) +
                                             value.feeFlat
                                           ).toFixed(2),
                                         });
@@ -976,10 +1000,11 @@ const DetailContent = ({
                                     }}
                                   >
                                     <div
-                                      className={`w-24 h-16 lg:w-50 lg:h-18 overflow-hidden flex justify-center ${selected.payment === value.id
-                                        ? "bg-white p-1 rounded-md"
-                                        : ""
-                                        }`}
+                                      className={`w-24 h-16 lg:w-50 lg:h-18 overflow-hidden flex justify-center ${
+                                        selected.payment === value.id
+                                          ? "bg-white p-1 rounded-md"
+                                          : ""
+                                      }`}
                                     >
                                       <img
                                         src={value.icon.path}
@@ -989,19 +1014,21 @@ const DetailContent = ({
                                     </div>
                                     <div className="w-full lg:w-70 flex flex-col justify-center text-center lg:text-left">
                                       <h1
-                                        className={`text-lg font-semibold ${selected.payment === value.id
-                                          ? "text-white"
-                                          : ""
-                                          }`}
+                                        className={`text-lg font-semibold ${
+                                          selected.payment === value.id
+                                            ? "text-white"
+                                            : ""
+                                        }`}
                                       >
                                         {value.name}
                                       </h1>
                                       {selected.price < value.minAmount ? (
                                         <p
-                                          className={`text-xs text-red-600 ${selected.payment === value.id
-                                            ? "text-red-200"
-                                            : ""
-                                            }`}
+                                          className={`text-xs text-red-600 ${
+                                            selected.payment === value.id
+                                              ? "text-red-200"
+                                              : ""
+                                          }`}
                                         >
                                           Tidak Tersedia.{" "}
                                           <span className="block">
@@ -1012,10 +1039,11 @@ const DetailContent = ({
                                         ""
                                       )}
                                       <h1
-                                        className={`text-sm font-semibold ${selected.payment === value.id
-                                          ? "text-white"
-                                          : ""
-                                          }`}
+                                        className={`text-sm font-semibold ${
+                                          selected.payment === value.id
+                                            ? "text-white"
+                                            : ""
+                                        }`}
                                       >
                                         {new Intl.NumberFormat("id-ID", {
                                           style: "currency",
@@ -1024,9 +1052,9 @@ const DetailContent = ({
                                           maximumFractionDigits: 2,
                                         }).format(
                                           selected.price +
-                                          (selected.price *
-                                            (value.feePercent / 100) +
-                                            value.feeFlat)
+                                            (selected.price *
+                                              (value.feePercent / 100) +
+                                              value.feeFlat)
                                         )}
                                       </h1>
                                     </div>
@@ -1065,8 +1093,9 @@ const DetailContent = ({
                             Convenience Store
                           </h1>
                           <span
-                            className={`text-lg text-white transform transition-transform duration-300 ${show === 5 ? "rotate-180" : "rotate-0"
-                              }`}
+                            className={`text-lg text-white transform transition-transform duration-300 ${
+                              show === 5 ? "rotate-180" : "rotate-0"
+                            }`}
                           >
                             {show === 5 ? (
                               <i className="bi bi-chevron-up text-lg text-white" />
@@ -1085,13 +1114,15 @@ const DetailContent = ({
                                 )
                                 .map((value) => (
                                   <div
-                                    className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${selected.payment === value.id
-                                      ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
-                                      : "bg-white"
-                                      } ${selected.price < value.minAmount
+                                    className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${
+                                      selected.payment === value.id
+                                        ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
+                                        : "bg-white"
+                                    } ${
+                                      selected.price < value.minAmount
                                         ? "pointer-events-none opacity-50"
                                         : ""
-                                      }`}
+                                    }`}
                                     key={value.id}
                                     onClick={() => {
                                       if (selected.price >= value.minAmount) {
@@ -1103,7 +1134,7 @@ const DetailContent = ({
                                           paymentName: value.name,
                                           feePayment: (
                                             selected.price *
-                                            (value.feePercent / 100) +
+                                              (value.feePercent / 100) +
                                             value.feeFlat
                                           ).toFixed(2),
                                         });
@@ -1111,10 +1142,11 @@ const DetailContent = ({
                                     }}
                                   >
                                     <div
-                                      className={`w-24 h-16 lg:w-50 lg:h-18 overflow-hidden flex justify-center ${selected.payment === value.id
-                                        ? "bg-white p-1 rounded-md"
-                                        : ""
-                                        }`}
+                                      className={`w-24 h-16 lg:w-50 lg:h-18 overflow-hidden flex justify-center ${
+                                        selected.payment === value.id
+                                          ? "bg-white p-1 rounded-md"
+                                          : ""
+                                      }`}
                                     >
                                       <img
                                         src={value.icon.path}
@@ -1124,19 +1156,21 @@ const DetailContent = ({
                                     </div>
                                     <div className="w-full lg:w-70 flex flex-col justify-center text-center lg:text-left">
                                       <h1
-                                        className={`text-lg font-semibold ${selected.payment === value.id
-                                          ? "text-white"
-                                          : ""
-                                          }`}
+                                        className={`text-lg font-semibold ${
+                                          selected.payment === value.id
+                                            ? "text-white"
+                                            : ""
+                                        }`}
                                       >
                                         {value.name}
                                       </h1>
                                       {selected.price < value.minAmount ? (
                                         <p
-                                          className={`text-xs text-red-600 ${selected.payment === value.id
-                                            ? "text-red-200"
-                                            : ""
-                                            }`}
+                                          className={`text-xs text-red-600 ${
+                                            selected.payment === value.id
+                                              ? "text-red-200"
+                                              : ""
+                                          }`}
                                         >
                                           Tidak Tersedia.{" "}
                                           <span className="block">
@@ -1147,10 +1181,11 @@ const DetailContent = ({
                                         ""
                                       )}
                                       <h1
-                                        className={`text-sm font-semibold ${selected.payment === value.id
-                                          ? "text-white"
-                                          : ""
-                                          }`}
+                                        className={`text-sm font-semibold ${
+                                          selected.payment === value.id
+                                            ? "text-white"
+                                            : ""
+                                        }`}
                                       >
                                         {new Intl.NumberFormat("id-ID", {
                                           style: "currency",
@@ -1159,9 +1194,9 @@ const DetailContent = ({
                                           maximumFractionDigits: 2,
                                         }).format(
                                           selected.price +
-                                          (selected.price *
-                                            (value.feePercent / 100) +
-                                            value.feeFlat)
+                                            (selected.price *
+                                              (value.feePercent / 100) +
+                                              value.feeFlat)
                                         )}
                                       </h1>
                                     </div>
@@ -1173,8 +1208,7 @@ const DetailContent = ({
                           <div className="w-full min-h-10 bg-amber-50 px-4 py-2 flex gap-3">
                             {payment
                               .filter(
-                                (item) =>
-                                  item.category === "Convenience Store"
+                                (item) => item.category === "Convenience Store"
                               )
                               .map((value) => (
                                 <div
@@ -1201,8 +1235,9 @@ const DetailContent = ({
                             Bank
                           </h1>
                           <span
-                            className={`text-lg text-white transform transition-transform duration-300 ${show === 6 ? "rotate-180" : "rotate-0"
-                              }`}
+                            className={`text-lg text-white transform transition-transform duration-300 ${
+                              show === 6 ? "rotate-180" : "rotate-0"
+                            }`}
                           >
                             {show === 6 ? (
                               <i className="bi bi-chevron-up text-lg text-white" />
@@ -1218,13 +1253,15 @@ const DetailContent = ({
                                 .filter((item) => item.category === "Bank")
                                 .map((value) => (
                                   <div
-                                    className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${selected.payment === value.id
-                                      ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
-                                      : "bg-white"
-                                      } ${selected.price < value.minAmount
+                                    className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${
+                                      selected.payment === value.id
+                                        ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
+                                        : "bg-white"
+                                    } ${
+                                      selected.price < value.minAmount
                                         ? "pointer-events-none opacity-50"
                                         : ""
-                                      }`}
+                                    }`}
                                     key={value.id}
                                     onClick={() => {
                                       if (selected.price >= value.minAmount) {
@@ -1236,7 +1273,7 @@ const DetailContent = ({
                                           paymentName: value.name,
                                           feePayment: (
                                             selected.price *
-                                            (value.feePercent / 100) +
+                                              (value.feePercent / 100) +
                                             value.feeFlat
                                           ).toFixed(2),
                                         });
@@ -1244,10 +1281,11 @@ const DetailContent = ({
                                     }}
                                   >
                                     <div
-                                      className={`w-24 h-16 lg:w-50 lg:h-18 overflow-hidden flex justify-center ${selected.payment === value.id
-                                        ? "bg-white p-1 rounded-md"
-                                        : ""
-                                        }`}
+                                      className={`w-24 h-16 lg:w-50 lg:h-18 overflow-hidden flex justify-center ${
+                                        selected.payment === value.id
+                                          ? "bg-white p-1 rounded-md"
+                                          : ""
+                                      }`}
                                     >
                                       <img
                                         src={value.icon.path}
@@ -1257,19 +1295,21 @@ const DetailContent = ({
                                     </div>
                                     <div className="w-full lg:w-70 flex flex-col justify-center text-center lg:text-left">
                                       <h1
-                                        className={`text-lg font-semibold ${selected.payment === value.id
-                                          ? "text-white"
-                                          : ""
-                                          }`}
+                                        className={`text-lg font-semibold ${
+                                          selected.payment === value.id
+                                            ? "text-white"
+                                            : ""
+                                        }`}
                                       >
                                         {value.name}
                                       </h1>
                                       {selected.price < value.minAmount ? (
                                         <p
-                                          className={`text-xs text-red-600 ${selected.payment === value.id
-                                            ? "text-red-200"
-                                            : ""
-                                            }`}
+                                          className={`text-xs text-red-600 ${
+                                            selected.payment === value.id
+                                              ? "text-red-200"
+                                              : ""
+                                          }`}
                                         >
                                           Tidak Tersedia.{" "}
                                           <span className="block">
@@ -1280,10 +1320,11 @@ const DetailContent = ({
                                         ""
                                       )}
                                       <h1
-                                        className={`text-sm font-semibold ${selected.payment === value.id
-                                          ? "text-white"
-                                          : ""
-                                          }`}
+                                        className={`text-sm font-semibold ${
+                                          selected.payment === value.id
+                                            ? "text-white"
+                                            : ""
+                                        }`}
                                       >
                                         {new Intl.NumberFormat("id-ID", {
                                           style: "currency",
@@ -1292,9 +1333,9 @@ const DetailContent = ({
                                           maximumFractionDigits: 2,
                                         }).format(
                                           selected.price +
-                                          (selected.price *
-                                            (value.feePercent / 100) +
-                                            value.feeFlat)
+                                            (selected.price *
+                                              (value.feePercent / 100) +
+                                              value.feeFlat)
                                         )}
                                       </h1>
                                     </div>
@@ -1392,6 +1433,157 @@ const DetailContent = ({
             untuk menyelesaikan transaksi.
           </h1>
         </Modal>
+      </div>
+
+      <div className="lg:hidden lg:w-[35%] lg:min-h-screen">
+        <div className="flex flex-col gap-5 lg:overflow-auto lg:sticky lg:top-32">
+          <div className="w-full h-20 bg-slate-800 rounded-lg flex items-center px-4 gap-2 overflow-hidden">
+            <div className="w-14 h-14 flex items-center justify-center">
+              <i class="bi bi-headphones text-4xl text-white" />
+            </div>
+            <div className="w-full h-14 flex flex-col justify-center">
+              <h1 className="text-md text-white font-bold">Butuh Bantuan?</h1>
+              <p className="text-sm text-white font-semibold">
+                Kamu bisa hubungi admin disini.
+              </p>
+            </div>
+          </div>
+          <div
+            className="w-full h-10 bg-slate-800 rounded-lg flex items-center justify-between px-4 gap-2 hover:cursor-pointer"
+            onClick={() => setOpenInstruction(!openInstruction)}
+          >
+            <p className="text-sm text-white">Tata cara topup</p>
+            <i
+              className={`bi bi-chevron-up text-xl text-white transition-all duration-300 ${
+                openInstruction ? "rotate-180" : ""
+              }`}
+            />
+          </div>
+          {openInstruction && (
+            <div className="w-full bg-slate-800 min-h-[7.5rem] flex flex-col gap-2 rounded-lg overflow-hidden">
+              <div className="mb-5">
+                <div className="w-full h-8 bg-fourth/30 backdrop-blur-xl px-3 py-2">
+                  <h1 className="text-white text-sm font-semibold">
+                    CARA TOP UP
+                  </h1>
+                </div>
+                <div className="p-4 text-sm bg-white rounded-md">
+                  <ol
+                    className="list-decimal space-y-2 pl-5 mt-5"
+                    dangerouslySetInnerHTML={{ __html: product.description }}
+                  ></ol>
+                </div>
+              </div>
+            </div>
+          )}
+          <div className="w-full min-h-20 bg-slate-800 rounded-lg flex flex-col gap-2 px-4 py-3">
+            <div className="w-full h-20 flex gap-4 items-center">
+              <div className="w-24 h-14 rounded-md overflow-hidden">
+                <img
+                  src={product.logo.path}
+                  alt=""
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="w-full h-14 flex flex-col justify-center">
+                <p className="text-white text-sm">
+                  {selected.item ? selected.item : "Belum dipilih"}
+                </p>
+              </div>
+            </div>
+            {groupedFields.length > 1 ? (
+              <div className="w-full min-h-[5.5rem] flex flex-col gap-2">
+                <div className="flex justify-between">
+                  <h1 className="text-white text-md font-semibold">User</h1>
+                  <p className="text-white text-md">
+                    {selected.userId ? selected.userId : "-"}
+                  </p>
+                </div>
+                <div className="flex justify-between">
+                  <h1 className="text-white text-md font-semibold">Zone</h1>
+                  <p className="text-white text-md">
+                    {selected.zoneId ? selected.zoneId : "-"}
+                  </p>
+                </div>
+                <hr className="text-slate-600/60" />
+              </div>
+            ) : (
+              <div className="w-full min-h-[5.5rem] flex flex-col gap-2">
+                <div className="flex justify-between">
+                  <h1 className="text-white text-md font-semibold">User</h1>
+                  <p className="text-white text-md">
+                    {selected.userId ? selected.userId : "-"}
+                  </p>
+                </div>
+                <hr className="text-slate-600/60" />
+              </div>
+            )}
+            <div className="w-full min-h-[5.5rem] flex flex-col gap-2">
+              <div className="flex justify-between">
+                <h1 className="text-white text-md font-semibold">Nomor Telp</h1>
+                <p className="text-white text-md">
+                  {selected.phone ? `+62${selected.phone}` : "-"}
+                </p>
+              </div>
+              <div className="flex justify-between">
+                <h1 className="text-white text-md font-semibold">Harga</h1>
+                <p className="text-white text-md">
+                  {selected.price
+                    ? new Intl.NumberFormat("id-ID", {
+                        style: "currency",
+                        currency: "IDR",
+                      }).format(selected.price)
+                    : "Rp 0"}
+                </p>
+              </div>
+              <div className="flex justify-between">
+                <h1 className="text-white text-md font-semibold">
+                  Payment Fee
+                </h1>
+                <p className="text-white text-md">
+                  {selected.feePayment
+                    ? new Intl.NumberFormat("id-ID", {
+                        style: "currency",
+                        currency: "IDR",
+                      }).format(selected.feePayment)
+                    : "Rp 0"}
+                </p>
+              </div>
+              <div className="flex justify-between">
+                <h1 className="text-white text-md font-semibold">Pembayaran</h1>
+                <p className="text-white text-md">
+                  {selected.paymentName
+                    ? selected.paymentName
+                    : "Belum dipilih"}
+                </p>
+              </div>
+              <hr className="text-slate-600/60" />
+            </div>
+            <div className="w-full h-14 flex items-center justify-between">
+              <h1 className="text-lg text-white font-bold">Total Pembayaran</h1>
+              <p className="text-orange-400 text-md font-bold">
+                {selected.price !== null || selected.feePayment !== null
+                  ? new Intl.NumberFormat("id-ID", {
+                      style: "currency",
+                      currency: "IDR",
+                    }).format(
+                      Number(selected.price) + Number(selected.feePayment)
+                    )
+                  : "Rp 0"}
+              </p>
+            </div>
+          </div>
+          <button
+            className={`w-full py-2 ${
+              isDisabled ? "bg-gray-400 cursor-not-allowed" : "bg-seventh"
+            } text-white font-semibold shadow-md shadow-slate-900 rounded-lg flex items-center justify-center gap-2`}
+            disabled={isDisabled}
+            onClick={() => handleModalSummary()}
+          >
+            <i class="bi bi-bag-check text-white text-xl" />
+            <p>Pesan Sekarang!</p>
+          </button>
+        </div>
       </div>
 
       <Modal open={showModal} close={() => setShowModal(!showModal)}>
