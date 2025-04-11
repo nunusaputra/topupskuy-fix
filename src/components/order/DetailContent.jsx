@@ -245,7 +245,7 @@ const DetailContent = ({
 
   return (
     <>
-      <div className="lg:w-[35%] lg:min-h-screen">
+      <div className="hidden lg:block lg:w-[35%] lg:min-h-screen">
         <div className="flex flex-col gap-5 lg:overflow-auto lg:sticky lg:top-32">
           <div className="w-full h-20 bg-slate-800 rounded-lg flex items-center px-4 gap-2 overflow-hidden">
             <div className="w-14 h-14 flex items-center justify-center">
@@ -1457,6 +1457,157 @@ const DetailContent = ({
             untuk menyelesaikan transaksi.
           </h1>
         </Modal>
+      </div>
+
+      <div className="lg:hidden">
+        <div className="flex flex-col gap-5 lg:overflow-auto lg:sticky lg:top-32">
+          <div className="w-full h-20 bg-slate-800 rounded-lg flex items-center px-4 gap-2 overflow-hidden">
+            <div className="w-14 h-14 flex items-center justify-center">
+              <i class="bi bi-headphones text-4xl text-white" />
+            </div>
+            <div className="w-full h-14 flex flex-col justify-center">
+              <h1 className="text-md text-white font-bold">Butuh Bantuan?</h1>
+              <p className="text-sm text-white font-semibold">
+                Kamu bisa hubungi admin disini.
+              </p>
+            </div>
+          </div>
+          <div
+            className="w-full h-10 bg-slate-800 rounded-lg flex items-center justify-between px-4 gap-2 hover:cursor-pointer"
+            onClick={() => setOpenInstruction(!openInstruction)}
+          >
+            <p className="text-sm text-white">Tata cara topup</p>
+            <i
+              className={`bi bi-chevron-up text-xl text-white transition-all duration-300 ${
+                openInstruction ? "rotate-180" : ""
+              }`}
+            />
+          </div>
+          {openInstruction && (
+            <div className="w-full bg-slate-800 min-h-[7.5rem] flex flex-col gap-2 rounded-lg overflow-hidden">
+              <div className="mb-5">
+                <div className="w-full h-8 bg-fourth/30 backdrop-blur-xl px-3 py-2">
+                  <h1 className="text-white text-sm font-semibold">
+                    CARA TOP UP
+                  </h1>
+                </div>
+                <div className="p-4 text-sm bg-white rounded-md">
+                  <ol
+                    className="list-decimal space-y-2 pl-5 mt-5"
+                    dangerouslySetInnerHTML={{ __html: product.description }}
+                  ></ol>
+                </div>
+              </div>
+            </div>
+          )}
+          <div className="w-full min-h-20 bg-slate-800 rounded-lg flex flex-col gap-2 px-4 py-3">
+            <div className="w-full h-20 flex gap-4 items-center">
+              <div className="w-24 h-14 rounded-md overflow-hidden">
+                <img
+                  src={product.logo.path}
+                  alt=""
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="w-full h-14 flex flex-col justify-center">
+                <p className="text-white text-sm">
+                  {selected.item ? selected.item : "Belum dipilih"}
+                </p>
+              </div>
+            </div>
+            {groupedFields.length > 1 ? (
+              <div className="w-full min-h-[5.5rem] flex flex-col gap-2">
+                <div className="flex justify-between">
+                  <h1 className="text-white text-md font-semibold">User</h1>
+                  <p className="text-white text-md">
+                    {selected.userId ? selected.userId : "-"}
+                  </p>
+                </div>
+                <div className="flex justify-between">
+                  <h1 className="text-white text-md font-semibold">Zone</h1>
+                  <p className="text-white text-md">
+                    {selected.zoneId ? selected.zoneId : "-"}
+                  </p>
+                </div>
+                <hr className="text-slate-600/60" />
+              </div>
+            ) : (
+              <div className="w-full min-h-[5.5rem] flex flex-col gap-2">
+                <div className="flex justify-between">
+                  <h1 className="text-white text-md font-semibold">User</h1>
+                  <p className="text-white text-md">
+                    {selected.userId ? selected.userId : "-"}
+                  </p>
+                </div>
+                <hr className="text-slate-600/60" />
+              </div>
+            )}
+            <div className="w-full min-h-[5.5rem] flex flex-col gap-2">
+              <div className="flex justify-between">
+                <h1 className="text-white text-md font-semibold">Nomor Telp</h1>
+                <p className="text-white text-md">
+                  {selected.phone ? `+62${selected.phone}` : "-"}
+                </p>
+              </div>
+              <div className="flex justify-between">
+                <h1 className="text-white text-md font-semibold">Harga</h1>
+                <p className="text-white text-md">
+                  {selected.price
+                    ? new Intl.NumberFormat("id-ID", {
+                        style: "currency",
+                        currency: "IDR",
+                      }).format(selected.price)
+                    : "Rp 0"}
+                </p>
+              </div>
+              <div className="flex justify-between">
+                <h1 className="text-white text-md font-semibold">
+                  Payment Fee
+                </h1>
+                <p className="text-white text-md">
+                  {selected.feePayment
+                    ? new Intl.NumberFormat("id-ID", {
+                        style: "currency",
+                        currency: "IDR",
+                      }).format(selected.feePayment)
+                    : "Rp 0"}
+                </p>
+              </div>
+              <div className="flex justify-between">
+                <h1 className="text-white text-md font-semibold">Pembayaran</h1>
+                <p className="text-white text-md">
+                  {selected.paymentName
+                    ? selected.paymentName
+                    : "Belum dipilih"}
+                </p>
+              </div>
+              <hr className="text-slate-600/60" />
+            </div>
+            <div className="w-full h-14 flex items-center justify-between">
+              <h1 className="text-lg text-white font-bold">Total Pembayaran</h1>
+              <p className="text-orange-400 text-md font-bold">
+                {selected.price !== null || selected.feePayment !== null
+                  ? new Intl.NumberFormat("id-ID", {
+                      style: "currency",
+                      currency: "IDR",
+                    }).format(
+                      Number(selected.price) + Number(selected.feePayment)
+                    )
+                  : "Rp 0"}
+              </p>
+            </div>
+          </div>
+          <button
+            className={`w-full py-2 ${
+              isDisabled ? "bg-gray-400 cursor-not-allowed" : "bg-seventh"
+            } text-white font-semibold shadow-md shadow-slate-900 rounded-lg flex items-center justify-center gap-2`}
+            disabled={isDisabled}
+            onClick={() => handleModalSummary()}
+          >
+            <i class="bi bi-bag-check text-white text-xl" />
+            <p>Pesan Sekarang!</p>
+          </button>
+        </div>
       </div>
 
       <Modal open={showModal} close={() => setShowModal(!showModal)}>
