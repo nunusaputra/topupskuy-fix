@@ -30,8 +30,12 @@ const FormForgot = () => {
   }, []);
 
   const request = () => {
+    let phone = !telp.startsWith("+62")
+    ? `+62${telp}`
+    : telp;
+
     axios
-      .post(`${API_URL}/user/request-otp/${telp}`, {
+      .post(`${API_URL}/user/request-otp/${phone}`, {
         headers: { "Content-Type": "application/json" },
       })
       .then((response) => {
@@ -65,7 +69,6 @@ const FormForgot = () => {
   };
 
   const process = () => {
-    console.log(input.password, input.confPassword);
     if (input.password !== input.confPassword) {
       toast.info("password tidak sesuai");
     }
@@ -84,11 +87,11 @@ const FormForgot = () => {
       input.confPassword !== null
     ) {
       const object = {
-        username: telp,
+        username: !telp.startsWith("+62")
+        ? `+62${telp}`
+        : telp,
         newPassword: input.password,
       };
-
-      console.log(object);
 
       axios
         .post(`${API_URL}/user/forgot-password`, JSON.stringify(object), {
@@ -108,10 +111,6 @@ const FormForgot = () => {
           );
         });
     }
-  };
-
-  const processv2 = () => {
-    console.log(1);
   };
 
   return (

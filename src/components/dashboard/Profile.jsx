@@ -18,8 +18,6 @@ const Profile = () => {
     enabled: !!uniqueCode,
   });
 
-  console.log(member);
-
   return (
     <div className="w-full lg:w-[80%] mt-6 lg:mt-0 flex flex-col gap-10">
       <div className="w-full min-h-30 flex flex-col">

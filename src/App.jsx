@@ -13,14 +13,13 @@ const App = () => {
 
   useEffect(() => {
     if (metadata) {
-      console.log(metadata)
       document.title = metadata.settings[0].value_
       const favicon = document.querySelector("link[rel~='icon']")
       if (favicon) {
         favicon.href = metadata.images[1].value_
       }
     }
-  }, [])
+  }, [metadata])
 
   return (
     <div>

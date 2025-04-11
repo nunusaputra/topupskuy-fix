@@ -43,8 +43,6 @@ const Payment = () => {
 
   const result = orderId.split("-")[0];
 
-  console.log(result)
-
   const { data: purchase } = useQuery({
     queryKey: ["data", orderId],
     queryFn: orderId
@@ -52,8 +50,7 @@ const Payment = () => {
         ? () => fetchUpgradeTopupDetail(orderId)
         : () => fetchPurchaseDetail(orderId)
       : () => Promise.resolve(null),
-    staleTime: 60000,
-    refetchInterval: 60000,
+    enabled: !!orderId,
     select: (data) => {
       if (!data) return null;
 
@@ -69,8 +66,6 @@ const Payment = () => {
       return normalizedData;
     },
   });
-
-  console.log(purchase)
 
   const imageSrc = useMemo(
     () => statusImages[purchase?.status] || null,
