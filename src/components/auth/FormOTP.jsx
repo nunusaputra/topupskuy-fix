@@ -27,7 +27,6 @@ const FormOTP = () => {
         }
       })
       .catch((error) => {
-        console.log(error)
         toast.info("terjadi kesalahan, silahkan kontak admin");
       });
   };
