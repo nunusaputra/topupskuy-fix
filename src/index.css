@@ -11,52 +11,52 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("/fonts/plus-jakarta-sans.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --background-primary: #060911;
+  --background-secondary: #0f172a;
+  --button-auth: #d8b4fe;
+  --dots-color: #4c0487;
+  --aurora-1: #3a29ff;
+  --aurora-2: #9333ea;
+  --aurora-3: #7e22ce;
+  --border-color: #a855f7;
+  --order-and-button-color: #f97316;
+  --card-color: #475569;
+  --card-color-opacity-one: #475569;
+  --card-color-opacity-two: #475569;
+  --background-secondary-opacity: #0f172a;
+}
+
 @layer components {
   .container {
     @apply max-w-full w-[1440px] px-28 mx-auto;
   }
 
-  .shadow-custom {
-    box-shadow: 5px 5px black;
-  }
-
   .background-dots {
-    background-image: radial-gradient(circle, #4c0487 2px, transparent 1px);
+    background-image: radial-gradient(
+      circle,
+      var(--dots-color) 2px,
+      transparent 1px
+    );
     background-size: 30px 30px;
   }
 
   .shadow-custom {
     box-shadow: 5px 5px rgb(168 85 247 / 0.6);
   }
-
-  .box-timer {
-    @apply w-full h-20 bg-red-500/60 backdrop-opacity-10 ring-2 ring-red-500 hover:ring-offset-4 
-                          hover:ring-offset-slate-800 transition-all duration-200 hover:cursor-pointer ring-offset-0
-                          rounded-md;
-  }
 }
 
 @layer base {
   section {
     @apply py-[75px];
-  }
-}
-
-@media only screen and (max-width: 374px) {
-  .mini-card {
-    @apply w-[8.75rem] h-[11.25rem];
-  }
-
-  .mini-img {
-    @apply w-[6.5rem] h-[6.5rem];
-  }
-
-  .mini-text {
-    @apply text-[13px];
-  }
-
-  .mini-text-2 {
-    @apply text-center text-[14px];
   }
 }
 

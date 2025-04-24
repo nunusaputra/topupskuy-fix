@@ -13,64 +13,67 @@ const RiwayatTransaksi = () => {
 
   let table = null;
   useEffect(() => {
-    table = $("#transactionTable").DataTable({
-      serverSide: true,
-      processing: true,
-      ajax: {
-        url: `${API_URL}/trx-user/${localStorage.getItem(
-          "unique-code"
-        )}/${selectedStatus}`,
-        type: "GET",
-        data: (d) => ({
-          draw: d.draw,
-          start: d.start,
-          length: d.length,
-          search: d.search?.value || "",
-        }),
-        dataSrc: (json) => json.data,
-      },
-      columns: [
-        {
-          data: null,
-          title: "#",
-          render: (data, type, row, meta) => meta.row + 1,
+    table = $("#transactionTable").DataTable(
+      {
+        serverSide: true,
+        processing: true,
+        ajax: {
+          url: `${API_URL}/trx-user/${localStorage.getItem(
+            "unique-code"
+          )}/${selectedStatus}`,
+          type: "GET",
+          data: (d) => ({
+            draw: d.draw,
+            start: d.start,
+            length: d.length,
+            search: d.search?.value || "",
+          }),
+          dataSrc: (json) => json.data,
         },
-        {
-          data: "orderId",
-          title: "No Pesanan",
-        },
-        {
-          data: "product",
-          title: "Product",
-        },
-        {
-          data: "item",
-          title: "Item",
-        },
-        {
-          data: "payment",
-          title: "Pembayaran",
-        },
-        {
-          data: "status",
-          title: "Status",
-        },
-        {
-          data: null,
-          title: "Aksi",
-          orderable: false,
-          searchable: false,
-          render: (data, type, row) => {
-            return `
+        columns: [
+          {
+            data: null,
+            title: "#",
+            render: (data, type, row, meta) => meta.row + 1,
+          },
+          {
+            data: "orderId",
+            title: "No Pesanan",
+          },
+          {
+            data: "product",
+            title: "Product",
+          },
+          {
+            data: "item",
+            title: "Item",
+          },
+          {
+            data: "payment",
+            title: "Pembayaran",
+          },
+          {
+            data: "status",
+            title: "Status",
+          },
+          {
+            data: null,
+            title: "Aksi",
+            orderable: false,
+            searchable: false,
+            render: (data, type, row) => {
+              return `
               <a onclick="window.location.href='/payment/${row.orderId}'">
                 Detail
               </a>
             `;
+            },
           },
-        },
-      ],
-      order: [[1, "desc"]],
-    }, [selectedStatus]);
+        ],
+        order: [[1, "desc"]],
+      },
+      [selectedStatus]
+    );
 
     return () => {
       if ($.fn.DataTable.isDataTable("#transactionTable")) {
@@ -82,7 +85,7 @@ const RiwayatTransaksi = () => {
 
   return (
     <div className="w-full lg:w-[80%] mt-6 lg:mt-0 flex flex-col gap-10">
-      <div className="bg-secondary/80 p-4 rounded-xl overflow-hidden">
+      <div className="bg-secondary_opacity p-4 rounded-xl overflow-hidden">
         <a href="/dashboard/profile">
           <div className="flex items-center gap-4 cursor-pointer border-b-2 pb-4">
             <i className="bi bi-arrow-left text-3xl text-white" />

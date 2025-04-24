@@ -23,7 +23,7 @@ const Profile = () => {
       <div className="w-full min-h-30 flex flex-col">
         <div className="grid grid-cols-1 sm:grid-cols-3 sm:grid-rows-2 gap-2 sm:gap-4 items-start">
           {/* Profile */}
-          <div className="col-span-3 sm:col-span-2 bg-secondary/80 rounded-md p-4">
+          <div className="col-span-3 sm:col-span-2 bg-secondary_opacity rounded-md p-4">
             <div className="w-full flex flex-col justify-center gap-4">
               <div className="flex items-center gap-4 border-b-2 pb-4">
                 <div className="w-[20%] lg:w-[15%]">
@@ -123,7 +123,7 @@ const Profile = () => {
           </div>
 
           {/* Saldo */}
-          <div className="col-span-3 sm:col-span-2 h-28 bg-secondary/80 rounded-md p-6">
+          <div className="col-span-3 sm:col-span-2 h-28 bg-secondary_opacity rounded-md p-6">
             <div className="flex items-center gap-2">
               <i className="bi bi-coin text-xl text-yellow-500" />
               <h1 className="text-lg text-white font-semibold">Saldo</h1>
