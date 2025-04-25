@@ -6,28 +6,29 @@ import { Autoplay, EffectCards } from "swiper/modules";
 import Aurora from "../animation/aurora/Aurora";
 
 const Heroimages = (props) => {
-  const minMetadata = (() => {
-    const original = props.metadata || [];
-    if (original.length >= 5) return original;
-    const result = [];
-    while (result.length < 5) {
-      result.push(original[result.length % original.length]);
-    }
-    return result;
-  })();
+  const colors = JSON.parse(localStorage.getItem("theme-colors"));
+
+  const images =
+    props.metadata
+      ?.filter((item) => item.id.includes("BANNER"))
+      .map((item) => item.value_) || [];
 
   return (
     <section>
       <Aurora
-        colorStops={["#3A29FF", "#9333ea", "#7e22ce"]}
+        colorStops={[
+          colors.aurora_color[0],
+          colors.aurora_color[1],
+          colors.aurora_color[2],
+        ]}
         blend={0.5}
         amplitude={1.3}
         speed={1.5}
       />
 
       <div className="flex flex-col relative py-4 overflow-hidden">
-        {minMetadata?.length > 0 && (
-          <div className="aspect-[3.3/1] relative ">
+        {images?.length > 0 && (
+          <div className="p-2 w-full max-h-[28rem] relative ">
             <Swiper
               effect={"cards"}
               grabCursor={true}
@@ -37,14 +38,18 @@ const Heroimages = (props) => {
                 disableOnInteraction: false,
               }}
               modules={[EffectCards, Autoplay]}
-              className="w-[85%] xl:w-[80%] h-full"
+              className="w-[90%] h-full object-contain"
             >
-              {minMetadata?.map((item, index) => (
-                <SwiperSlide key={index} className="rounded-lg overflow-hidden">
+              {images?.map((image, index) => (
+                <SwiperSlide
+                  key={index}
+                  className="rounded-lg overflow-hidden aspect-[3/1]"
+                >
                   <button>
                     <img
-                      src={item?.asset.path}
+                      src={image}
                       alt={`Image ${index + 1}`}
+                      loading="lazy"
                       className="object-cover w-full h-full"
                     />
                   </button>

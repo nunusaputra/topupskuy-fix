@@ -3,7 +3,7 @@ import React from "react";
 const Sidebar = () => {
   return (
     <div className="lg:w-[20%] lg:min-h-screen">
-      <div className="w-full flex flex-col gap-3 bg-secondary/80 backdrop-blur-4xl rounded-xl lg:overflow-auto lg:sticky lg:top-32 p-3">
+      <div className="w-full flex flex-col gap-3 bg-secondary_opacity backdrop-blur-4xl rounded-xl lg:overflow-auto lg:sticky lg:top-32 p-3">
         <a href="/dashboard/profile">
           <div className="p-2 flex items-center gap-3">
             <i className="bi bi-grid-1x2 text-sm text-white" />
@@ -28,10 +28,13 @@ const Sidebar = () => {
             <h1 className="text-sm text-white font-semibold">Mutasi</h1>
           </div>
         </a>
-        <div className="p-2 flex items-center gap-2" onClick={() => {
-          localStorage.removeItem("unique-code");
-          window.location.href = "/"
-        }}>
+        <div
+          className="p-2 flex items-center gap-2"
+          onClick={() => {
+            localStorage.removeItem("unique-code");
+            window.location.href = "/";
+          }}
+        >
           <i className="bi bi-box-arrow-right text-lg text-red-400" />
           <h1 className="text-sm text-red-400 font-semibold">Keluar</h1>
         </div>

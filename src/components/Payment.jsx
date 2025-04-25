@@ -136,7 +136,7 @@ const Payment = () => {
             <div className="w-full min-h-32 grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
               <div className="flex flex-col gap-6">
                 {/* Informasi Akun */}
-                <div className="relative w-full min-h-50 rounded-lg flex flex-col gap-4 group hover:cursor-pointer bg-fourth/30 backdrop-blur-2xl ring-2 ring-slate-700 overflow-hidden">
+                <div className="relative w-full min-h-50 rounded-lg flex flex-col gap-4 group hover:cursor-pointer bg-fourth_opacity_one backdrop-blur-2xl ring-2 ring-slate-700 overflow-hidden">
                   {result !== "UPGRADE" && result !== "TOPUP" ? (
                     <>
                       <div className="w-full h-full flex gap-2 items-center z-20 p-4">
@@ -205,7 +205,7 @@ const Payment = () => {
 
                 {/* Rincian Pembayaran */}
                 <div
-                  className="w-full h-10 bg-fourth/30 backdrop-blur-2xl rounded-lg flex justify-between items-center px-4 hover:cursor-pointer"
+                  className="w-full h-10 bg-fourth_opacity_one backdrop-blur-2xl rounded-lg flex justify-between items-center px-4 hover:cursor-pointer"
                   onClick={() => setShowPayment(!showPayment)}
                 >
                   <h1 className="text-sm sm:text-[15px] text-white font-semibold">
@@ -220,7 +220,7 @@ const Payment = () => {
 
                 {/* Konten Rincian Pembayaran */}
                 {showPayment && (
-                  <div className="w-full min-h-10 bg-fourth/30 backdrop-blur-2xl rounded-lg flex flex-col p-6 gap-6">
+                  <div className="w-full min-h-10 bg-fourth_opacity_one backdrop-blur-2xl rounded-lg flex flex-col p-6 gap-6">
                     {result !== "UPGRADE" && result !== "TOPUP" ? (
                       <>
                         <div className="w-full flex justify-between">
@@ -293,7 +293,7 @@ const Payment = () => {
                 )}
 
                 {/* Rincian Pembayaran */}
-                <div className="w-full h-16 bg-fourth/30 backdrop-blur-2xl rounded-lg flex justify-between items-center px-4">
+                <div className="w-full h-16 bg-fourth_opacity_one backdrop-blur-2xl rounded-lg flex justify-between items-center px-4">
                   <h1 className="text-sm sm:text-[15px] text-white font-bold">
                     Total Pembayaran
                   </h1>
@@ -318,7 +318,7 @@ const Payment = () => {
               </div>
 
               {/* Metode Pembayaran */}
-              <div className="bg-fourth/30 p-6 backdrop-blur-2xl w-full rounded-lg flex flex-col gap-4">
+              <div className="bg-fourth_opacity_one p-6 backdrop-blur-2xl w-full rounded-lg flex flex-col gap-4">
                 <div>
                   <h1 className="text-sm sm:text-[15px] text-white font-semibold">
                     Metode Pembayaran
@@ -577,7 +577,7 @@ const Payment = () => {
                 Instruksi Pembayaran
               </h1>
               <div
-                className="w-full h-10 bg-fourth/30 backdrop-blur-2xl rounded-lg flex justify-between items-center px-6 hover:cursor-pointer"
+                className="w-full h-10 bg-fourth_opacity_one backdrop-blur-2xl rounded-lg flex justify-between items-center px-6 hover:cursor-pointer"
                 onClick={() => setShowInstruction(!showInstruction)}
               >
                 <p className="text-sm text-white font-semibold">
@@ -590,9 +590,13 @@ const Payment = () => {
                 />
               </div>
               {showInstruction && (
-                <div className="w-full min-h-14 bg-fourth/30 backdrop-blur-2xl rounded-lg flex items-center px-6">
-                  <h1 className="text-sm text-white font-semibold" dangerouslySetInnerHTML={{ __html: purchase?.instructionDetail }}>
-                  </h1>
+                <div className="w-full min-h-14 bg-fourth_opacity_one backdrop-blur-2xl rounded-lg flex items-center px-6">
+                  <h1
+                    className="text-sm text-white font-semibold"
+                    dangerouslySetInnerHTML={{
+                      __html: purchase?.instructionDetail,
+                    }}
+                  ></h1>
                 </div>
               )}
             </div>
