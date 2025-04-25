@@ -6,7 +6,15 @@ import { Autoplay, EffectCards } from "swiper/modules";
 import Aurora from "../animation/aurora/Aurora";
 
 const Heroimages = (props) => {
-  const images = props.metadata?.filter(item => item.id.includes("BANNER")).map(item => item.value_) || [];
+  const minMetadata = (() => {
+    const original = props.metadata || [];
+    if (original.length >= 5) return original;
+    const result = [];
+    while (result.length < 5) {
+      result.push(original[result.length % original.length]);
+    }
+    return result;
+  })();
 
   return (
     <section>
@@ -18,7 +26,7 @@ const Heroimages = (props) => {
       />
 
       <div className="flex flex-col relative py-4 overflow-hidden">
-        {images?.length > 0 && (
+        {minMetadata?.length > 0 && (
           <div className="aspect-[3.3/1] relative ">
             <Swiper
               effect={"cards"}
@@ -31,11 +39,11 @@ const Heroimages = (props) => {
               modules={[EffectCards, Autoplay]}
               className="w-[85%] xl:w-[80%] h-full"
             >
-              {images?.map((image, index) => (
+              {minMetadata?.map((item, index) => (
                 <SwiperSlide key={index} className="rounded-lg overflow-hidden">
                   <button>
                     <img
-                      src={image}
+                      src={item?.asset.path}
                       alt={`Image ${index + 1}`}
                       className="object-cover w-full h-full"
                     />

@@ -26,6 +26,12 @@ const Index = () => {
       link.href = metadata?.images[1].value_;
       document.getElementsByTagName("head")[0].appendChild(link);
     }
+
+    if(metadata?.colorTemplate) {
+      console.log(metadata?.colorTemplate[7].value_)
+      const dynamicColor = metadata?.colorTemplate[7].value_;
+      document.documentElement.style.setProperty('--dot-color', dynamicColor);
+    }
   }, [metadata]);
 
   return (

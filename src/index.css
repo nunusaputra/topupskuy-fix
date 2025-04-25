@@ -20,8 +20,12 @@
     box-shadow: 5px 5px black;
   }
 
+  :root {
+    --dot-color: #4c0487;
+  }
+
   .background-dots {
-    background-image: radial-gradient(circle, #4c0487 2px, transparent 1px);
+    background-image: radial-gradient(circle, var(--dot-color) 2px, transparent 1px);
     background-size: 30px 30px;
   }
 

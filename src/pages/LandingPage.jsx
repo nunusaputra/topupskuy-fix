@@ -9,28 +9,29 @@ import { fetchMetadata } from "../services";
 
 const LandingPage = () => {
   const { data: metadata } = useQuery({
-      queryKey: ["metadata"],
-      queryFn: fetchMetadata
-    });
-  
-    useEffect(() => {
-      if (metadata?.settings[0].value_) {
-        document.title = metadata?.settings[0].value_;
-      }
-  
-      if (metadata?.images[1].value_) {
-        const link =
-          document.querySelector("link[rel~='icon']") ||
-          document.createElement("link");
-        link.rel = "icon";
-        link.href = metadata?.images[1].value_;
-        document.getElementsByTagName("head")[0].appendChild(link);
-      }
-    }, []);
+    queryKey: ["metadata"],
+    queryFn: fetchMetadata
+  });
+
+
+  useEffect(() => {
+    if (metadata?.settings[0].value_) {
+      document.title = metadata?.settings[0].value_;
+    }
+
+    if (metadata?.images[1].value_) {
+      const link =
+        document.querySelector("link[rel~='icon']") ||
+        document.createElement("link");
+      link.rel = "icon";
+      link.href = metadata?.images[1].value_;
+      document.getElementsByTagName("head")[0].appendChild(link);
+    }
+  }, []);
 
   return (
     <div>
-      <HeroBanner metadata={metadata?.images} />
+      <HeroBanner metadata={metadata?.banners} />
 
       <div className="container relative">
         {/* <Promo />
