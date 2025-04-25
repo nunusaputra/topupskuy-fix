@@ -41,7 +41,7 @@ const History = () => {
   return (
     <div className="container">
       <section className="">
-        <div className="bg-secondary p-4 md:px-8 md:py-6 bg-secondary/80 backdrop-blur-4xl rounded-xl">
+        <div className="bg-secondary p-4 md:px-8 md:py-6 backdrop-blur-4xl rounded-xl">
           <div className="w-full mb-5 flex items-center gap-2">
             <i class="bi bi-arrow-repeat text-2xl text-white" />
             <h1 className="text-xl font-bold text-white">Riwayat Pesanan</h1>

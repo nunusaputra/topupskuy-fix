@@ -64,7 +64,7 @@ const MainContent = () => {
   }, []);
 
   return (
-    <div className="w-full p-4 md:px-8 md:py-6 bg-secondary/80 backdrop-blur-4xl rounded-xl flex flex-col gap-20 mb-[10rem]">
+    <div className="w-full p-4 md:px-8 md:py-6 bg-secondary_opacity backdrop-blur-4xl rounded-xl flex flex-col gap-20 mb-[10rem]">
       {product?.categories.map((category) => {
         const filteredProducts =
           product?.myProducts.filter(

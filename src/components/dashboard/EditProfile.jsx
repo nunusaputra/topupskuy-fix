@@ -189,7 +189,7 @@ const EditProfile = () => {
 
   return (
     <div className="w-full lg:w-[80%] mt-6 lg:mt-0 flex flex-col gap-10">
-      <div className="bg-secondary/80 min-h-20 rounded-md px-8 py-4">
+      <div className="bg-secondary_opacity min-h-20 rounded-md px-8 py-4">
         <a href="/dashboard/profile">
           <div className="flex items-center gap-4 cursor-pointer">
             <i className="bi bi-arrow-left text-3xl text-white" />
