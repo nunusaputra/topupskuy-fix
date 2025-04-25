@@ -14,7 +14,7 @@ const Topup = () => {
   const [selected, setSelected] = useState({
     itemId: null,
     paymentId: null,
-    nominal: 0
+    nominal: 0,
   });
 
   const handleShow = (id) => {
@@ -34,33 +34,33 @@ const Topup = () => {
 
   const { data: channel } = useQuery({
     queryFn: () => fetchPayment(),
-    staleTime: 21600000
+    staleTime: 21600000,
   });
 
   const formatIDR = (value) => {
-    return new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
       minimumFractionDigits: 0,
     }).format(value || 0);
   };
 
   const handleNominalChange = (e) => {
-    const input = e.target.value.replace(/[^0-9]/g, '');
+    const input = e.target.value.replace(/[^0-9]/g, "");
     const parsedValue = parseInt(input, 10) || 0;
     setNominal(parsedValue);
     setSelected((selected) => ({
       ...selected,
-      nominal: parsedValue
-    }))
+      nominal: parsedValue,
+    }));
   };
 
   const addAmount = (amount) => {
     setNominal((prev) => prev + amount);
     setSelected((selected) => ({
       ...selected,
-      nominal: nominal
-    }))
+      nominal: nominal,
+    }));
   };
 
   const submit = async () => {
@@ -68,10 +68,10 @@ const Topup = () => {
       const response = await axios.post(`${API_URL}/topup-member`, {
         paymentMethod: {
           code: selected.paymentCode,
-          category: ""
+          category: "",
         },
         nominal: nominal,
-        user: localStorage.getItem("unique-code")
+        user: localStorage.getItem("unique-code"),
       });
 
       if (response && response.data && response.data !== "") {
@@ -87,7 +87,7 @@ const Topup = () => {
   return (
     <div className="w-full lg:w-[80%] mt-6 lg:mt-0 flex flex-col gap-10">
       {/* Saldo */}
-      <div className="bg-secondary/80 p-4 rounded-xl flex flex-col gap-4">
+      <div className="bg-secondary_opacity p-4 rounded-xl flex flex-col gap-4">
         <div className="flex items-center gap-2 mb-5 border-b-2 pb-4">
           <i className="bi bi-coin text-lg xl:text-xl text-white" />
           <h1 className="text-sm xl:text-lg text-white font-semibold">
@@ -102,11 +102,11 @@ const Topup = () => {
               <h1 className="text-lg font-semibold text-white transition-all duration-300">
                 {show
                   ? new Intl.NumberFormat("id-ID", {
-                    style: "currency",
-                    currency: "IDR",
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  }).format(member?.saldo)
+                      style: "currency",
+                      currency: "IDR",
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    }).format(member?.saldo)
                   : "*********"}
               </h1>
               {show ? (
@@ -129,7 +129,7 @@ const Topup = () => {
       </div>
 
       {/* Nominal Topup */}
-      <div className="bg-secondary/80 p-4 rounded-xl flex flex-col gap-4">
+      <div className="bg-secondary_opacity p-4 rounded-xl flex flex-col gap-4">
         <div className="flex items-center gap-2 mb-5 border-b-2 pb-4">
           <i className="bi bi-cash-coin text-lg xl:text-xl text-white" />
           <h1 className="text-sm xl:text-lg text-white font-semibold">
@@ -153,10 +153,11 @@ const Topup = () => {
               <div
                 className={`w-full ring-2 ring-offset-0 ring-offset-secondary/80 min-h-20 shadow-md shadow-slate-900 
                         rounded-lg px-4 py-2 flex flex-col gap-1 justify-center hover:cursor-pointer
-                        hover:bg-seventh hover:ring-seventh text-center ${selected.itemId === item.id
-                    ? "bg-seventh ring-orange-500 ring-offset-4"
-                    : "bg-fourth/30 backdrop-blur-xl ring-0 ring-fourth"
-                  }`}
+                        hover:bg-seventh hover:ring-seventh text-center ${
+                          selected.itemId === item.id
+                            ? "bg-seventh ring-orange-500 ring-offset-4"
+                            : "bg-fourth_opacity_one backdrop-blur-xl ring-0 ring-fourth"
+                        }`}
                 onClick={() => addAmount(item.price)}
               >
                 <h1 className="text-white text-xs sm:text-sm lg:text-lg font-semibold">
@@ -169,7 +170,7 @@ const Topup = () => {
       </div>
 
       {/* Metode Pembayaran */}
-      <div className="w-full min-h-30 bg-secondary/80 rounded-lg p-4 flex flex-col gap-4 overflow-hidden">
+      <div className="w-full min-h-30 bg-secondary_opacity rounded-lg p-4 flex flex-col gap-4 overflow-hidden">
         <div className="flex items-center gap-2">
           <i className="bi bi-credit-card-2-front-fill text-lg xl:text-xl text-white" />
           <h1 className="text-sm xl:text-lg text-white font-semibold">
@@ -179,7 +180,7 @@ const Topup = () => {
 
         {nominal !== 0 && channel && (
           <>
-            <div className="w-full min-h-10 bg-fourth/30 backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
+            <div className="w-full min-h-10 bg-fourth_opacity_one backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
               <div
                 className="flex justify-between items-center px-4 py-2"
                 onClick={() => handleShow(1)}
@@ -211,13 +212,15 @@ const Topup = () => {
                       .filter((item) => item.category === "Saldo")
                       .map((value) => (
                         <div
-                          className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${selected.payment === value.id
-                            ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
-                            : "bg-white"
-                            } ${nominal > member.saldo
+                          className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${
+                            selected.payment === value.id
+                              ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
+                              : "bg-white"
+                          } ${
+                            nominal > member.saldo
                               ? "pointer-events-none opacity-50"
                               : ""
-                            }`}
+                          }`}
                           key={value.id}
                           onClick={() => {
                             if (nominal < member.saldo) {
@@ -232,10 +235,11 @@ const Topup = () => {
                           }}
                         >
                           <div
-                            className={`w-24 h-16 lg:w-50 lg:h-18 overflow-hidden flex justify-center ${selected.payment === value.id
-                              ? "bg-white p-1 rounded-md"
-                              : ""
-                              }`}
+                            className={`w-24 h-16 lg:w-50 lg:h-18 overflow-hidden flex justify-center ${
+                              selected.payment === value.id
+                                ? "bg-white p-1 rounded-md"
+                                : ""
+                            }`}
                           >
                             <img
                               src={value.icon.name}
@@ -245,19 +249,21 @@ const Topup = () => {
                           </div>
                           <div className="w-full lg:w-70 flex flex-col justify-center text-center lg:text-left">
                             <h1
-                              className={`text-lg font-semibold ${selected.payment === value.id
-                                ? "text-white"
-                                : ""
-                                }`}
+                              className={`text-lg font-semibold ${
+                                selected.payment === value.id
+                                  ? "text-white"
+                                  : ""
+                              }`}
                             >
                               {value.name}
                             </h1>
                             {nominal > member.saldo ? (
                               <p
-                                className={`text-xs text-red-600 ${selected.payment === value.id
-                                  ? "text-red-200"
-                                  : ""
-                                  }`}
+                                className={`text-xs text-red-600 ${
+                                  selected.payment === value.id
+                                    ? "text-red-200"
+                                    : ""
+                                }`}
                               >
                                 Tidak Tersedia.{" "}
                                 <span className="block">
@@ -274,10 +280,11 @@ const Topup = () => {
                               ""
                             )}
                             <h1
-                              className={`text-sm font-semibold ${selected.payment === value.id
-                                ? "text-white"
-                                : ""
-                                }`}
+                              className={`text-sm font-semibold ${
+                                selected.payment === value.id
+                                  ? "text-white"
+                                  : ""
+                              }`}
                             >
                               {new Intl.NumberFormat("id-ID", {
                                 style: "currency",
@@ -286,8 +293,8 @@ const Topup = () => {
                                 maximumFractionDigits: 2,
                               }).format(
                                 nominal +
-                                (nominal * (value.feePercent / 100) +
-                                  value.feeFlat)
+                                  (nominal * (value.feePercent / 100) +
+                                    value.feeFlat)
                               )}
                             </h1>
                           </div>
@@ -300,10 +307,7 @@ const Topup = () => {
                   {channel
                     .filter((item) => item.category === "Saldo")
                     .map((value) => (
-                      <div
-                        className="w-20 h-8 overflow-hidden"
-                        key={value.id}
-                      >
+                      <div className="w-20 h-8 overflow-hidden" key={value.id}>
                         <img
                           src={value.icon.name}
                           alt=""
@@ -315,7 +319,7 @@ const Topup = () => {
               )}
             </div>
 
-            <div className="w-full min-h-10 bg-fourth/30 backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
+            <div className="w-full min-h-10 bg-fourth_opacity_one backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
               <div
                 className="flex justify-between items-center px-4 py-2"
                 onClick={() => handleShow(2)}
@@ -338,13 +342,15 @@ const Topup = () => {
                       .filter((item) => item.category === "QRIS")
                       .map((value) => (
                         <div
-                          className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${selected.payment === value.id
-                            ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
-                            : "bg-white"
-                            } ${nominal < value.minAmount
+                          className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${
+                            selected.payment === value.id
+                              ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
+                              : "bg-white"
+                          } ${
+                            nominal < value.minAmount
                               ? "pointer-events-none opacity-50"
                               : ""
-                            }`}
+                          }`}
                           key={value.id}
                           onClick={() => {
                             if (nominal >= value.minAmount) {
@@ -362,10 +368,11 @@ const Topup = () => {
                           }}
                         >
                           <div
-                            className={`w-24 h-16 lg:w-50 lg:h-18 overflow-hidden flex justify-center ${selected.payment === value.id
-                              ? "bg-white p-1 rounded-md"
-                              : ""
-                              }`}
+                            className={`w-24 h-16 lg:w-50 lg:h-18 overflow-hidden flex justify-center ${
+                              selected.payment === value.id
+                                ? "bg-white p-1 rounded-md"
+                                : ""
+                            }`}
                           >
                             <img
                               src={value.icon.name}
@@ -375,19 +382,21 @@ const Topup = () => {
                           </div>
                           <div className="w-full lg:w-70 flex flex-col justify-center text-center lg:text-left">
                             <h1
-                              className={`text-lg font-semibold ${selected.payment === value.id
-                                ? "text-white"
-                                : ""
-                                }`}
+                              className={`text-lg font-semibold ${
+                                selected.payment === value.id
+                                  ? "text-white"
+                                  : ""
+                              }`}
                             >
                               {value.name}
                             </h1>
                             {nominal < value.minAmount ? (
                               <p
-                                className={`text-xs text-red-600 ${selected.payment === value.id
-                                  ? "text-red-200"
-                                  : ""
-                                  }`}
+                                className={`text-xs text-red-600 ${
+                                  selected.payment === value.id
+                                    ? "text-red-200"
+                                    : ""
+                                }`}
                               >
                                 Tidak Tersedia.{" "}
                                 <span className="block">
@@ -398,10 +407,11 @@ const Topup = () => {
                               ""
                             )}
                             <h1
-                              className={`text-sm font-semibold ${selected.payment === value.id
-                                ? "text-white"
-                                : ""
-                                }`}
+                              className={`text-sm font-semibold ${
+                                selected.payment === value.id
+                                  ? "text-white"
+                                  : ""
+                              }`}
                             >
                               {new Intl.NumberFormat("id-ID", {
                                 style: "currency",
@@ -410,8 +420,8 @@ const Topup = () => {
                                 maximumFractionDigits: 2,
                               }).format(
                                 nominal +
-                                (nominal * (value.feePercent / 100) +
-                                  value.feeFlat)
+                                  (nominal * (value.feePercent / 100) +
+                                    value.feeFlat)
                               )}
                             </h1>
                           </div>
@@ -424,10 +434,7 @@ const Topup = () => {
                   {channel
                     .filter((item) => item.category === "QRIS")
                     .map((value) => (
-                      <div
-                        className="w-20 h-8 overflow-hidden"
-                        key={value.id}
-                      >
+                      <div className="w-20 h-8 overflow-hidden" key={value.id}>
                         <img
                           src={value.icon.name}
                           alt=""
@@ -439,7 +446,7 @@ const Topup = () => {
               )}
             </div>
 
-            <div className="w-full min-h-10 bg-fourth/30 backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
+            <div className="w-full min-h-10 bg-fourth_opacity_one backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
               <div
                 className="flex justify-between items-center px-4 py-2"
                 onClick={() => handleShow(3)}
@@ -462,13 +469,15 @@ const Topup = () => {
                       .filter((item) => item.category === "E-Wallet")
                       .map((value) => (
                         <div
-                          className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${selected.payment === value.id
-                            ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
-                            : "bg-white"
-                            } ${nominal < value.minAmount
+                          className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${
+                            selected.payment === value.id
+                              ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
+                              : "bg-white"
+                          } ${
+                            nominal < value.minAmount
                               ? "pointer-events-none opacity-50"
                               : ""
-                            }`}
+                          }`}
                           key={value.id}
                           onClick={() => {
                             if (nominal >= value.minAmount) {
@@ -486,10 +495,11 @@ const Topup = () => {
                           }}
                         >
                           <div
-                            className={`w-24 h-16 lg:w-50 lg:h-18 overflow-hidden flex justify-center ${selected.payment === value.id
-                              ? "bg-white p-1 rounded-md"
-                              : ""
-                              }`}
+                            className={`w-24 h-16 lg:w-50 lg:h-18 overflow-hidden flex justify-center ${
+                              selected.payment === value.id
+                                ? "bg-white p-1 rounded-md"
+                                : ""
+                            }`}
                           >
                             <img
                               src={value.icon.name}
@@ -499,19 +509,21 @@ const Topup = () => {
                           </div>
                           <div className="w-full lg:w-70 flex flex-col justify-center text-center lg:text-left">
                             <h1
-                              className={`text-lg font-semibold ${selected.payment === value.id
-                                ? "text-white"
-                                : ""
-                                }`}
+                              className={`text-lg font-semibold ${
+                                selected.payment === value.id
+                                  ? "text-white"
+                                  : ""
+                              }`}
                             >
                               {value.name}
                             </h1>
                             {nominal < value.minAmount ? (
                               <p
-                                className={`text-xs text-red-600 ${selected.payment === value.id
-                                  ? "text-red-200"
-                                  : ""
-                                  }`}
+                                className={`text-xs text-red-600 ${
+                                  selected.payment === value.id
+                                    ? "text-red-200"
+                                    : ""
+                                }`}
                               >
                                 Tidak Tersedia.{" "}
                                 <span className="block">
@@ -522,10 +534,11 @@ const Topup = () => {
                               ""
                             )}
                             <h1
-                              className={`text-sm font-semibold ${selected.payment === value.id
-                                ? "text-white"
-                                : ""
-                                }`}
+                              className={`text-sm font-semibold ${
+                                selected.payment === value.id
+                                  ? "text-white"
+                                  : ""
+                              }`}
                             >
                               {new Intl.NumberFormat("id-ID", {
                                 style: "currency",
@@ -534,8 +547,8 @@ const Topup = () => {
                                 maximumFractionDigits: 2,
                               }).format(
                                 nominal +
-                                (nominal * (value.feePercent / 100) +
-                                  value.feeFlat)
+                                  (nominal * (value.feePercent / 100) +
+                                    value.feeFlat)
                               )}
                             </h1>
                           </div>
@@ -548,10 +561,7 @@ const Topup = () => {
                   {channel
                     .filter((item) => item.category === "E-Wallet")
                     .map((value) => (
-                      <div
-                        className="w-20 h-8 overflow-hidden"
-                        key={value.id}
-                      >
+                      <div className="w-20 h-8 overflow-hidden" key={value.id}>
                         <img
                           src={value.icon.name}
                           alt=""
@@ -563,7 +573,7 @@ const Topup = () => {
               )}
             </div>
 
-            <div className="w-full min-h-10 bg-fourth/30 backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
+            <div className="w-full min-h-10 bg-fourth_opacity_one backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
               <div
                 className="flex justify-between items-center px-4 py-2"
                 onClick={() => handleShow(4)}
@@ -588,13 +598,15 @@ const Topup = () => {
                       .filter((item) => item.category === "Virtual Account")
                       .map((value) => (
                         <div
-                          className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${selected.payment === value.id
-                            ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
-                            : "bg-white"
-                            } ${nominal < value.minAmount
+                          className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${
+                            selected.payment === value.id
+                              ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
+                              : "bg-white"
+                          } ${
+                            nominal < value.minAmount
                               ? "pointer-events-none opacity-50"
                               : ""
-                            }`}
+                          }`}
                           key={value.id}
                           onClick={() => {
                             if (nominal >= value.minAmount) {
@@ -612,10 +624,11 @@ const Topup = () => {
                           }}
                         >
                           <div
-                            className={`w-24 h-16 lg:w-50 lg:h-18 overflow-hidden flex justify-center ${selected.payment === value.id
-                              ? "bg-white p-1 rounded-md"
-                              : ""
-                              }`}
+                            className={`w-24 h-16 lg:w-50 lg:h-18 overflow-hidden flex justify-center ${
+                              selected.payment === value.id
+                                ? "bg-white p-1 rounded-md"
+                                : ""
+                            }`}
                           >
                             <img
                               src={value.icon.name}
@@ -625,19 +638,21 @@ const Topup = () => {
                           </div>
                           <div className="w-full lg:w-70 flex flex-col justify-center text-center lg:text-left">
                             <h1
-                              className={`text-lg font-semibold ${selected.payment === value.id
-                                ? "text-white"
-                                : ""
-                                }`}
+                              className={`text-lg font-semibold ${
+                                selected.payment === value.id
+                                  ? "text-white"
+                                  : ""
+                              }`}
                             >
                               {value.name}
                             </h1>
                             {nominal < value.minAmount ? (
                               <p
-                                className={`text-xs text-red-600 ${selected.payment === value.id
-                                  ? "text-red-200"
-                                  : ""
-                                  }`}
+                                className={`text-xs text-red-600 ${
+                                  selected.payment === value.id
+                                    ? "text-red-200"
+                                    : ""
+                                }`}
                               >
                                 Tidak Tersedia.{" "}
                                 <span className="block">
@@ -648,10 +663,11 @@ const Topup = () => {
                               ""
                             )}
                             <h1
-                              className={`text-sm font-semibold ${selected.payment === value.id
-                                ? "text-white"
-                                : ""
-                                }`}
+                              className={`text-sm font-semibold ${
+                                selected.payment === value.id
+                                  ? "text-white"
+                                  : ""
+                              }`}
                             >
                               {new Intl.NumberFormat("id-ID", {
                                 style: "currency",
@@ -660,8 +676,8 @@ const Topup = () => {
                                 maximumFractionDigits: 2,
                               }).format(
                                 nominal +
-                                (nominal * (value.feePercent / 100) +
-                                  value.feeFlat)
+                                  (nominal * (value.feePercent / 100) +
+                                    value.feeFlat)
                               )}
                             </h1>
                           </div>
@@ -674,10 +690,7 @@ const Topup = () => {
                   {channel
                     .filter((item) => item.category === "Virtual Account")
                     .map((value) => (
-                      <div
-                        className="w-20 h-8 overflow-hidden"
-                        key={value.id}
-                      >
+                      <div className="w-20 h-8 overflow-hidden" key={value.id}>
                         <img
                           src={value.icon.name}
                           alt=""
@@ -689,7 +702,7 @@ const Topup = () => {
               )}
             </div>
 
-            <div className="w-full min-h-10 bg-fourth/30 backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
+            <div className="w-full min-h-10 bg-fourth_opacity_one backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
               <div
                 className="flex justify-between items-center px-4 py-2"
                 onClick={() => handleShow(5)}
@@ -714,13 +727,15 @@ const Topup = () => {
                       .filter((item) => item.category === "Convenience Store")
                       .map((value) => (
                         <div
-                          className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${selected.payment === value.id
-                            ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
-                            : "bg-white"
-                            } ${nominal < value.minAmount
+                          className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${
+                            selected.payment === value.id
+                              ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
+                              : "bg-white"
+                          } ${
+                            nominal < value.minAmount
                               ? "pointer-events-none opacity-50"
                               : ""
-                            }`}
+                          }`}
                           key={value.id}
                           onClick={() => {
                             if (nominal >= value.minAmount) {
@@ -738,10 +753,11 @@ const Topup = () => {
                           }}
                         >
                           <div
-                            className={`w-24 h-16 lg:w-50 lg:h-18 overflow-hidden flex justify-center ${selected.payment === value.id
-                              ? "bg-white p-1 rounded-md"
-                              : ""
-                              }`}
+                            className={`w-24 h-16 lg:w-50 lg:h-18 overflow-hidden flex justify-center ${
+                              selected.payment === value.id
+                                ? "bg-white p-1 rounded-md"
+                                : ""
+                            }`}
                           >
                             <img
                               src={value.icon.name}
@@ -751,19 +767,21 @@ const Topup = () => {
                           </div>
                           <div className="w-full lg:w-70 flex flex-col justify-center text-center lg:text-left">
                             <h1
-                              className={`text-lg font-semibold ${selected.payment === value.id
-                                ? "text-white"
-                                : ""
-                                }`}
+                              className={`text-lg font-semibold ${
+                                selected.payment === value.id
+                                  ? "text-white"
+                                  : ""
+                              }`}
                             >
                               {value.name}
                             </h1>
                             {nominal < value.minAmount ? (
                               <p
-                                className={`text-xs text-red-600 ${selected.payment === value.id
-                                  ? "text-red-200"
-                                  : ""
-                                  }`}
+                                className={`text-xs text-red-600 ${
+                                  selected.payment === value.id
+                                    ? "text-red-200"
+                                    : ""
+                                }`}
                               >
                                 Tidak Tersedia.{" "}
                                 <span className="block">
@@ -774,10 +792,11 @@ const Topup = () => {
                               ""
                             )}
                             <h1
-                              className={`text-sm font-semibold ${selected.payment === value.id
-                                ? "text-white"
-                                : ""
-                                }`}
+                              className={`text-sm font-semibold ${
+                                selected.payment === value.id
+                                  ? "text-white"
+                                  : ""
+                              }`}
                             >
                               {new Intl.NumberFormat("id-ID", {
                                 style: "currency",
@@ -786,8 +805,8 @@ const Topup = () => {
                                 maximumFractionDigits: 2,
                               }).format(
                                 nominal +
-                                (nominal * (value.feePercent / 100) +
-                                  value.feeFlat)
+                                  (nominal * (value.feePercent / 100) +
+                                    value.feeFlat)
                               )}
                             </h1>
                           </div>
@@ -800,10 +819,7 @@ const Topup = () => {
                   {channel
                     .filter((item) => item.category === "Convenience Store")
                     .map((value) => (
-                      <div
-                        className="w-20 h-8 overflow-hidden"
-                        key={value.id}
-                      >
+                      <div className="w-20 h-8 overflow-hidden" key={value.id}>
                         <img
                           src={value.icon.name}
                           alt=""
@@ -815,7 +831,7 @@ const Topup = () => {
               )}
             </div>
 
-            <div className="w-full min-h-10 bg-fourth/30 backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
+            <div className="w-full min-h-10 bg-fourth_opacity_one backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
               <div
                 className="flex justify-between items-center px-4 py-2"
                 onClick={() => handleShow(6)}
@@ -838,13 +854,15 @@ const Topup = () => {
                       .filter((item) => item.category === "Bank")
                       .map((value) => (
                         <div
-                          className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${selected.payment === value.id
-                            ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
-                            : "bg-white"
-                            } ${nominal < value.minAmount
+                          className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${
+                            selected.payment === value.id
+                              ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
+                              : "bg-white"
+                          } ${
+                            nominal < value.minAmount
                               ? "pointer-events-none opacity-50"
                               : ""
-                            }`}
+                          }`}
                           key={value.id}
                           onClick={() => {
                             if (nominal >= value.minAmount) {
@@ -862,10 +880,11 @@ const Topup = () => {
                           }}
                         >
                           <div
-                            className={`w-24 h-16 lg:w-50 lg:h-18 overflow-hidden flex justify-center ${selected.payment === value.id
-                              ? "bg-white p-1 rounded-md"
-                              : ""
-                              }`}
+                            className={`w-24 h-16 lg:w-50 lg:h-18 overflow-hidden flex justify-center ${
+                              selected.payment === value.id
+                                ? "bg-white p-1 rounded-md"
+                                : ""
+                            }`}
                           >
                             <img
                               src={value.icon.name}
@@ -875,19 +894,21 @@ const Topup = () => {
                           </div>
                           <div className="w-full lg:w-70 flex flex-col justify-center text-center lg:text-left">
                             <h1
-                              className={`text-lg font-semibold ${selected.payment === value.id
-                                ? "text-white"
-                                : ""
-                                }`}
+                              className={`text-lg font-semibold ${
+                                selected.payment === value.id
+                                  ? "text-white"
+                                  : ""
+                              }`}
                             >
                               {value.name}
                             </h1>
                             {nominal < value.minAmount ? (
                               <p
-                                className={`text-xs text-red-600 ${selected.payment === value.id
-                                  ? "text-red-200"
-                                  : ""
-                                  }`}
+                                className={`text-xs text-red-600 ${
+                                  selected.payment === value.id
+                                    ? "text-red-200"
+                                    : ""
+                                }`}
                               >
                                 Tidak Tersedia.{" "}
                                 <span className="block">
@@ -898,10 +919,11 @@ const Topup = () => {
                               ""
                             )}
                             <h1
-                              className={`text-sm font-semibold ${selected.payment === value.id
-                                ? "text-white"
-                                : ""
-                                }`}
+                              className={`text-sm font-semibold ${
+                                selected.payment === value.id
+                                  ? "text-white"
+                                  : ""
+                              }`}
                             >
                               {new Intl.NumberFormat("id-ID", {
                                 style: "currency",
@@ -910,8 +932,8 @@ const Topup = () => {
                                 maximumFractionDigits: 2,
                               }).format(
                                 nominal +
-                                (nominal * (value.feePercent / 100) +
-                                  value.feeFlat)
+                                  (nominal * (value.feePercent / 100) +
+                                    value.feeFlat)
                               )}
                             </h1>
                           </div>
@@ -924,10 +946,7 @@ const Topup = () => {
                   {channel
                     .filter((item) => item.category === "Bank")
                     .map((value) => (
-                      <div
-                        className="w-20 h-8 overflow-hidden"
-                        key={value.id}
-                      >
+                      <div className="w-20 h-8 overflow-hidden" key={value.id}>
                         <img
                           src={value.icon.name}
                           alt=""
@@ -943,7 +962,7 @@ const Topup = () => {
       </div>
 
       {/* Informasi Pembayaran */}
-      <div className="bg-secondary/80 p-4 rounded-xl">
+      <div className="bg-secondary_opacity p-4 rounded-xl">
         <div className="flex items-center gap-2 mb-5 border-b-2 pb-4">
           <i className="bi bi-info-circle text-lg xl:text-xl text-white" />
           <h1 className="text-sm xl:text-lg text-white font-semibold">
@@ -959,27 +978,32 @@ const Topup = () => {
             <h1 className="text-sm text-white font-semibold">
               Sistem Pembayaran
             </h1>
-            <p className="text-sm text-white">{selected.paymentName ? selected.paymentName : "Belum dipilih"}</p>
+            <p className="text-sm text-white">
+              {selected.paymentName ? selected.paymentName : "Belum dipilih"}
+            </p>
           </div>
           <div className="flex justify-between">
             <h1 className="text-sm text-white font-semibold">
               Total Pembayaran
             </h1>
-            <p className="text-sm text-white">{selected.price !== null || selected.feePayment !== null
-              ? new Intl.NumberFormat("id-ID", {
-                style: "currency",
-                currency: "IDR",
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0,
-              }).format(
-                Number(nominal) + Number(selected.feePayment)
-              )
-              : "Rp 0"}</p>
+            <p className="text-sm text-white">
+              {selected.price !== null || selected.feePayment !== null
+                ? new Intl.NumberFormat("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0,
+                  }).format(Number(nominal) + Number(selected.feePayment))
+                : "Rp 0"}
+            </p>
           </div>
         </div>
       </div>
 
-      <button onClick={submit} className="w-full h-10 bg-seventh ring-2 ring-offset-0 ring-seventh text-white hover:ring-offset-secondary hover:ring-offset-2 rounded-lg transition-all duration-300">
+      <button
+        onClick={submit}
+        className="w-full h-10 bg-seventh ring-2 ring-offset-0 ring-seventh text-white hover:ring-offset-secondary hover:ring-offset-2 rounded-lg transition-all duration-300"
+      >
         Order Sekarang
       </button>
     </div>

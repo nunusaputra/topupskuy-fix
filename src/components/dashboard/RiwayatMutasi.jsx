@@ -11,7 +11,7 @@ DataTable.use(DT);
 
 const RiwayatMutasi = () => {
   let table = null;
-  const [ menuTypeSelected, setMenuTypeSelected ] = useState("All");
+  const [menuTypeSelected, setMenuTypeSelected] = useState("All");
 
   useEffect(() => {
     table = $("#transactionTable").DataTable({
@@ -104,7 +104,7 @@ const RiwayatMutasi = () => {
 
   return (
     <div className="w-full lg:w-[80%] mt-6 lg:mt-0 flex flex-col gap-10">
-      <div className="bg-secondary/80 p-4 rounded-xl overflow-hidden">
+      <div className="bg-secondary_opacity p-4 rounded-xl overflow-hidden">
         <a href="/dashboard/profile">
           <div className="flex items-center gap-4 cursor-pointer border-b-2 pb-4">
             <i className="bi bi-arrow-left text-3xl text-white" />
@@ -139,8 +139,7 @@ const RiwayatMutasi = () => {
                 <th>Aksi</th>
               </tr>
             </thead>
-            <tbody>
-            </tbody>
+            <tbody></tbody>
           </table>
         </div>
       </div>

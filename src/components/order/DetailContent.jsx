@@ -274,7 +274,7 @@ const DetailContent = ({
           {openInstruction && (
             <div className="w-full bg-slate-800 min-h-[7.5rem] flex flex-col gap-2 rounded-lg overflow-hidden">
               <div className="mb-5">
-                <div className="w-full h-8 bg-fourth/30 backdrop-blur-xl px-3 py-2">
+                <div className="w-full h-8 bg-fourth_opacity_one backdrop-blur-xl px-3 py-2">
                   <h1 className="text-white text-sm font-semibold">
                     CARA TOP UP
                   </h1>
@@ -489,7 +489,7 @@ const DetailContent = ({
                     hover:bg-seventh hover:ring-seventh ${
                       selected.itemId === item.id
                         ? "bg-seventh ring-orange-500 ring-offset-4"
-                        : "bg-fourth/30 backdrop-blur-xl ring-0 ring-fourth"
+                        : "bg-fourth_opacity_one backdrop-blur-xl ring-0 ring-fourth"
                     }`}
                         key={item.id}
                         onClick={() => {
@@ -518,7 +518,7 @@ const DetailContent = ({
                 {selected.price != null && item.userInput.id === 3 ? (
                   <div>
                     {localStorage.getItem("unique-code") !== null && (
-                      <div className="w-full min-h-10 bg-fourth/30 backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
+                      <div className="w-full min-h-10 bg-fourth_opacity_one backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
                         <div
                           className="flex justify-between items-center px-4 py-2"
                           onClick={() => handleShow(1)}
@@ -669,7 +669,7 @@ const DetailContent = ({
                     )}
 
                     <div className="flex flex-col gap-3">
-                      <div className="w-full min-h-10 bg-fourth/30 backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
+                      <div className="w-full min-h-10 bg-fourth_opacity_one backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
                         <div
                           className="flex justify-between items-center px-4 py-2"
                           onClick={() => handleShow(2)}
@@ -806,7 +806,7 @@ const DetailContent = ({
                         )}
                       </div>
 
-                      <div className="w-full min-h-10 bg-fourth/30 backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
+                      <div className="w-full min-h-10 bg-fourth_opacity_one backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
                         <div
                           className="flex justify-between items-center px-4 py-2"
                           onClick={() => handleShow(3)}
@@ -943,7 +943,7 @@ const DetailContent = ({
                         )}
                       </div>
 
-                      <div className="w-full min-h-10 bg-fourth/30 backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
+                      <div className="w-full min-h-10 bg-fourth_opacity_one backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
                         <div
                           className="flex justify-between items-center px-4 py-2"
                           onClick={() => handleShow(4)}
@@ -1084,7 +1084,7 @@ const DetailContent = ({
                         )}
                       </div>
 
-                      <div className="w-full min-h-10 bg-fourth/30 backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
+                      <div className="w-full min-h-10 bg-fourth_opacity_one backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
                         <div
                           className="flex justify-between items-center px-4 py-2"
                           onClick={() => handleShow(5)}
@@ -1226,7 +1226,7 @@ const DetailContent = ({
                         )}
                       </div>
 
-                      <div className="w-full min-h-10 bg-fourth/30 backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
+                      <div className="w-full min-h-10 bg-fourth_opacity_one backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
                         <div
                           className="flex justify-between items-center px-4 py-2"
                           onClick={() => handleShow(6)}
@@ -1462,7 +1462,7 @@ const DetailContent = ({
           {openInstruction && (
             <div className="w-full bg-slate-800 min-h-[7.5rem] flex flex-col gap-2 rounded-lg overflow-hidden">
               <div className="mb-5">
-                <div className="w-full h-8 bg-fourth/30 backdrop-blur-xl px-3 py-2">
+                <div className="w-full h-8 bg-fourth_opacity_one backdrop-blur-xl px-3 py-2">
                   <h1 className="text-white text-sm font-semibold">
                     CARA TOP UP
                   </h1>

@@ -62,7 +62,7 @@ const Membership = () => {
   return (
     <div className="w-full lg:w-[80%] mt-6 lg:mt-0 flex flex-col gap-10">
       {/* Upgrade Membership */}
-      <div className="bg-secondary/80 p-4 rounded-xl">
+      <div className="bg-secondary_opacity p-4 rounded-xl">
         <div className="flex items-center gap-2 mb-5 border-b-2 pb-4">
           <i className="bi bi-coin text-lg xl:text-xl text-white" />
           <h1 className="text-sm xl:text-lg text-white font-semibold">
@@ -77,7 +77,7 @@ const Membership = () => {
                     hover:bg-seventh hover:ring-seventh ${
                       selected.itemId === item.id
                         ? "bg-seventh ring-orange-500 ring-offset-4"
-                        : "bg-fourth/30 backdrop-blur-xl ring-0 ring-fourth"
+                        : "bg-fourth_opacity_one backdrop-blur-xl ring-0 ring-fourth"
                     }`}
               key={item.id}
               onClick={() => {
@@ -100,7 +100,7 @@ const Membership = () => {
       </div>
 
       {/* Payment Method */}
-      <div className="bg-secondary/80 p-4 rounded-xl">
+      <div className="bg-secondary_opacity p-4 rounded-xl">
         <div className="w-full min-h-30 bg-slate-800 rounded-lg ring-2 ring-slate-500 shadow-md shadow-slate-900 p-4 flex flex-col gap-4 overflow-hidden">
           <div className="flex items-center gap-2 border-b-2 pb-4">
             <i className="bi bi-cash-coin text-lg xl:text-xl text-white" />
@@ -111,7 +111,7 @@ const Membership = () => {
 
           {selected.itemId != null && (
             <div>
-              <div className="w-full min-h-10 bg-fourth/30 backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
+              <div className="w-full min-h-10 bg-fourth_opacity_one backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
                 <div
                   className="flex justify-between items-center px-4 py-2"
                   onClick={() => handleShow(1)}
@@ -253,7 +253,7 @@ const Membership = () => {
                 )}
               </div>
 
-              <div className="w-full min-h-10 bg-fourth/30 backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
+              <div className="w-full min-h-10 bg-fourth_opacity_one backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
                 <div
                   className="flex justify-between items-center px-4 py-2"
                   onClick={() => handleShow(2)}
@@ -383,7 +383,7 @@ const Membership = () => {
                 )}
               </div>
 
-              <div className="w-full min-h-10 bg-fourth/30 backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
+              <div className="w-full min-h-10 bg-fourth_opacity_one backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
                 <div
                   className="flex justify-between items-center px-4 py-2"
                   onClick={() => handleShow(3)}
@@ -513,7 +513,7 @@ const Membership = () => {
                 )}
               </div>
 
-              <div className="w-full min-h-10 bg-fourth/30 backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
+              <div className="w-full min-h-10 bg-fourth_opacity_one backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
                 <div
                   className="flex justify-between items-center px-4 py-2"
                   onClick={() => handleShow(4)}
@@ -645,7 +645,7 @@ const Membership = () => {
                 )}
               </div>
 
-              <div className="w-full min-h-10 bg-fourth/30 backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
+              <div className="w-full min-h-10 bg-fourth_opacity_one backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
                 <div
                   className="flex justify-between items-center px-4 py-2"
                   onClick={() => handleShow(5)}
@@ -777,7 +777,7 @@ const Membership = () => {
                 )}
               </div>
 
-              <div className="w-full min-h-10 bg-fourth/30 backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
+              <div className="w-full min-h-10 bg-fourth_opacity_one backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
                 <div
                   className="flex justify-between items-center px-4 py-2"
                   onClick={() => handleShow(6)}
@@ -912,7 +912,7 @@ const Membership = () => {
       </div>
 
       {/* Informasi Pembayaran */}
-      <div className="bg-secondary/80 p-4 rounded-xl">
+      <div className="bg-secondary_opacity p-4 rounded-xl">
         <div className="flex items-center gap-2 mb-5 border-b-2 pb-4">
           <i className="bi bi-info-circle text-lg xl:text-xl text-white" />
           <h1 className="text-sm xl:text-lg text-white font-semibold">

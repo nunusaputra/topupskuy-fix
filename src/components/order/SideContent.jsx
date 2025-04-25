@@ -38,7 +38,7 @@ const SideContent = (data) => {
         {openInstruction && (
           <div className="w-full bg-slate-800 min-h-[7.5rem] flex flex-col gap-2 rounded-lg overflow-hidden">
             <div className="mb-5">
-              <div className="w-full h-8 bg-fourth/30 backdrop-blur-xl px-3 py-2">
+              <div className="w-full h-8 bg-fourth_opacity_one backdrop-blur-xl px-3 py-2">
                 <h1 className="text-white text-sm font-semibold">
                   CARA TOP UP
                 </h1>

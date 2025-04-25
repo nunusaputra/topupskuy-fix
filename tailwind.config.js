@@ -4,13 +4,19 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#060911",
-        secondary: "#0f172a",
-        third: "#d8b4fe",
-        fourth: "#475569",
+        primary: "var(--background-primary)",
+        secondary: "var(--background-secondary)",
+        secondary_opacity: "var(--background-secondary-opacity)",
+        third: "var(--button-auth)",
+        fourth: "var(--card-color)",
+        fourth_opacity_one: "var(--card-color-opacity-one)",
+        fourth_opacity_two: "var(--card-color-opacity-two)",
         fifth: "#64748b",
         sixth: "#a855f7",
-        seventh: "#f97316",
+        seventh: "var(--order-and-button-color)",
+        aurora_1: "var(--aurora-1)",
+        aurora_2: "var(--aurora-2)",
+        aurora_3: "var(--aurora-3)",
       },
       fontSize: {
         md: "1.125rem",
