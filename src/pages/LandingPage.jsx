@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import HeroBanner from "../components/landing-page/HeroBanner";
 import Promo from "../components/landing-page/Promo";
 import Popular from "../components/landing-page/Popular";
@@ -10,15 +10,28 @@ import { fetchMetadata } from "../services";
 const LandingPage = () => {
   const { data: metadata } = useQuery({
     queryKey: ["metadata"],
-    queryFn: fetchMetadata,
-    staleTime: 21600000, 
+    queryFn: fetchMetadata
   });
 
-  console.log(metadata)
+
+  useEffect(() => {
+    if (metadata?.settings[0].value_) {
+      document.title = metadata?.settings[0].value_;
+    }
+
+    if (metadata?.images[1].value_) {
+      const link =
+        document.querySelector("link[rel~='icon']") ||
+        document.createElement("link");
+      link.rel = "icon";
+      link.href = metadata?.images[1].value_;
+      document.getElementsByTagName("head")[0].appendChild(link);
+    }
+  }, []);
 
   return (
     <div>
-      <HeroBanner metadata={metadata?.images} />
+      <HeroBanner metadata={metadata?.banners} />
 
       <div className="container relative">
         {/* <Promo />

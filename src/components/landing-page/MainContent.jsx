@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { dataList, fetchProducts } from "../../services";
+import { fetchProducts } from "../../services";
 import ShinyText from "../animation/shiny-text/ShinyText";
-import { IoGameController, IoSearchOutline } from "react-icons/io5";
 
 import { useQuery } from "@tanstack/react-query";
 
 const MainContent = () => {
   const [visibleCounts, setVisibleCounts] = useState(10);
+  const [searchKeywords, setSearchKeywords] = useState("");
 
   const handleShowMore = (categoryId) => {
     setVisibleCounts((prev) => ({
@@ -18,7 +18,7 @@ const MainContent = () => {
   const { data: product } = useQuery({
     queryKey: ["product"],
     queryFn: fetchProducts,
-    staleTime: 21600000, 
+    staleTime: 21600000,
   });
 
   const [size, setSize] = useState({
@@ -65,21 +65,30 @@ const MainContent = () => {
   }, []);
 
   return (
-    <div className="w-full p-4 md:px-8 md:py-6 bg-secondary/80 backdrop-blur-4xl rounded-xl flex flex-col gap-20 mb-[10rem]">
-      {product?.categories.map((category) => {
-        const filteredProducts =
-          product?.myProducts.filter(
-            (item) => item.category.name === category.name
+    <div className="w-full p-4 md:px-8 md:py-6 bg-secondary_opacity backdrop-blur-4xl rounded-xl flex flex-col gap-20 mb-[10rem]">
+      {product?.categories.filter(x => x.active === true).map((category) => {
+        let filteredProducts = [];
+        if (searchKeywords !== "") {
+          let value = searchKeywords.toLowerCase();
+          filteredProducts = product?.myProducts.filter(
+            (item) => item.category.name === category.name && item.active === true && item.title.toLowerCase().includes(value)
           ) || [];
+        } else {
+          filteredProducts = product?.myProducts.filter(
+            (item) => item.category.name === category.name && item.active === true
+          ) || [];
+        }
+        
+        const sortedProducts = filteredProducts.sort((a, b) => a.position - b.position);
 
         const visibleCount = visibleCounts[category.id] || 10;
-        const displayedProducts = filteredProducts.slice(0, visibleCount);
+        const displayedProducts = sortedProducts.slice(0, visibleCount);
 
         return (
           <div key={category.id} className="flex flex-col gap-5">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-5">
               <div className="flex gap-2">
-                <IoGameController className="text-2xl md:text-3xl text-purple-300 mt-[0.1rem]" />
+                <i class="bi bi-controller text-2xl md:text-3xl text-purple-300 mt-[0.1rem]" />
                 <h1 className="text-lg md:text-2xl text-white font-semibold mb-2">
                   {category.name}
                 </h1>
@@ -91,12 +100,15 @@ const MainContent = () => {
                 >
                   <span className="sr-only">Search</span>
                   <span className="absolute inset-y-0 left-0 flex items-center pl-2">
-                    <IoSearchOutline className="w-5 h-5" />
+                    <i class="bi bi-search w-5 h-5"></i>
                   </span>
                   <input
                     type="text"
                     name="search"
                     placeholder="Search for anything..."
+                    onChange={(e) =>
+                      setSearchKeywords(e.target.value)
+                    }
                     className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border-2 border-purple-500 rounded-md py-2 pl-9 pr-3 shadow-custom focus:outline-none sm:text-sm"
                   />
                 </label>
@@ -106,7 +118,7 @@ const MainContent = () => {
               {displayedProducts.map((item) => (
                 <a href={`/order/${item.slug}`} key={item.slug}>
                   <div className="w-[100%] h-[12.5] md:h-[16.5rem] flex flex-col bg-[#060911] rounded-lg ring-2 ring-purple-500 ring-offset-0 transition-all duration-300 hover:ring-offset-8 hover:rotate-3 hover:ring-offset-secondary hover:cursor-pointer overflow-hidden">
-                    <div className="w-full h-[8.8rem] md:h-[12.5rem] bg-red-500">
+                    <div className="w-full h-[8.8rem] md:h-[12.5rem] bg-white">
                       <img
                         src={item.logo.path}
                         alt=""
@@ -114,7 +126,7 @@ const MainContent = () => {
                       />
                     </div>
                     <div className="w-full h-16 bg-sixth/20 px-2 py-1 flex flex-col">
-                      <h1 className="text-white text-md sm:text-lg font-bold">
+                      <h1 className="text-white text-sm sm:text-lg font-bold">
                         {item.title.length > 20
                           ? `${item.title.substring(0, 20)}...`
                           : item.title}
@@ -129,7 +141,7 @@ const MainContent = () => {
                 </a>
               ))}
             </div>
-            {filteredProducts.length > visibleCount && (
+            {sortedProducts.length > visibleCount && (
               <div className="mt-5 flex items-center justify-center">
                 <ShinyText
                   text="Show more"
@@ -140,10 +152,10 @@ const MainContent = () => {
               </div>
             )}
           </div>
-        )
+        );
       })}
     </div>
-  )
+  );
 };
 
 export default MainContent;

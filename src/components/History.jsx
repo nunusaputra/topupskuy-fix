@@ -1,9 +1,6 @@
 import React from "react";
 import pattern from "../assets/images/pattern.png";
-import { MdHistory } from "react-icons/md";
 import { fetchHistory } from "../services";
-import { FaRegCreditCard } from "react-icons/fa";
-import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
@@ -38,15 +35,15 @@ const History = () => {
   };
 
   const goto = (id) => {
-    window.location.href = `/payment/${id}`
-  }
+    window.location.href = `/payment/${id}`;
+  };
 
   return (
     <div className="container">
       <section className="">
-        <div className="bg-secondary p-4 md:px-8 md:py-6 bg-secondary/80 backdrop-blur-4xl rounded-xl">
+        <div className="bg-secondary p-4 md:px-8 md:py-6 backdrop-blur-4xl rounded-xl">
           <div className="w-full mb-5 flex items-center gap-2">
-            <MdHistory className="text-2xl text-white" />
+            <i class="bi bi-arrow-repeat text-2xl text-white" />
             <h1 className="text-xl font-bold text-white">Riwayat Pesanan</h1>
           </div>
           {currentItems?.map((item) => (
@@ -72,7 +69,7 @@ const History = () => {
                       {item.name}
                     </h1>
                     <div className="flex items-center gap-2">
-                      <FaRegCreditCard className="text-sm xl:text-lg text-white" />
+                      <i class="bi bi-credit-card-2-front-fill text-sm xl:text-lg text-white" />
                       <h1 className="text-sm text-white">
                         {item.paymentMethod}
                       </h1>
@@ -85,7 +82,11 @@ const History = () => {
                       {item.id}
                     </h1>
                     <h1 className="text-xs xl:text-[16px] text-white">
-                      {new Intl.DateTimeFormat("id-ID", { day: "2-digit", month: "long", year: "numeric" }).format(new Date(item.purchaseDate))}
+                      {new Intl.DateTimeFormat("id-ID", {
+                        day: "2-digit",
+                        month: "long",
+                        year: "numeric",
+                      }).format(new Date(item.purchaseDate))}
                     </h1>
                     <div
                       className="px-4 py-1 text-sm rounded-md font-semibold"
@@ -113,7 +114,11 @@ const History = () => {
             <button
               onClick={prevPage}
               disabled={currentPage === 1}
-              className={`px-4 py-2 text-sm font-medium text-white ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-50 hover:text-black"}`}
+              className={`px-4 py-2 text-sm font-medium text-white ${
+                currentPage === 1
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:bg-gray-50 hover:text-black"
+              }`}
             >
               Previous
             </button>
@@ -125,7 +130,11 @@ const History = () => {
             <button
               onClick={nextPage}
               disabled={currentPage === totalPages}
-              className={`px-4 py-2 text-sm font-medium text-white ${currentPage === totalPages ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-50 hover:text-black"}`}
+              className={`px-4 py-2 text-sm font-medium text-white ${
+                currentPage === totalPages
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:bg-gray-50 hover:text-black"
+              }`}
             >
               Next
             </button>

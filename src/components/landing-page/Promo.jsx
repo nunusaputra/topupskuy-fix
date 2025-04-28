@@ -37,7 +37,7 @@ const Promo = () => {
 
   return (
     <div className="relative z-30">
-      <div className="w-full p-4 md:px-8 md:py-6 bg-secondary/80 backdrop-blur-4xl rounded-xl">
+      <div className="w-full p-4 md:px-8 md:py-6 bg-secondary_opacity backdrop-blur-4xl rounded-xl">
         {/* Promo Content */}
         <div className="flex items-center gap-7 sm:justify-between">
           <div className="flex items-center gap-5">

@@ -6,11 +6,29 @@ import OrderDetail from "../pages/OrderDetail";
 import Transaction from "../components/Transaction";
 import History from "../components/History";
 import Payment from "../components/Payment";
+import Login from "../pages/Login";
+import Register from "../pages/Register";
+import ForgotPassword from "../pages/ForgotPassword";
+import OTP from "../pages/OTP";
+import DashboardLayouts from "../layouts/DashboardLayouts";
+import Profile from "../components/dashboard/Profile";
+import EditProfile from "../components/dashboard/EditProfile";
+import Membership from "../components/dashboard/Membership";
+import RiwayatTransaksi from "../components/dashboard/RiwayatTransaksi";
+import RiwayatMutasi from "../components/dashboard/RiwayatMutasi";
+import Topup from "../components/dashboard/Topup";
 
 const Routers = () => {
   return (
     <div>
       <Routes>
+        {/* Authentication */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/otp" element={<OTP />} />
+
+        {/* Main Content */}
         <Route element={<Index />}>
           <Route path="/" element={<LandingPage />} />
           <Route path="/order/:slug" element={<OrderDetail />} />
@@ -18,9 +36,26 @@ const Routers = () => {
           <Route path="/history/:phone" element={<History />} />
           <Route path="/payment/:orderId" element={<Payment />} />
         </Route>
+
+        {/* Dashboard Profile */}
+        <Route element={<DashboardLayouts />}>
+          <Route path="/dashboard/profile" element={<Profile />} />
+          <Route path="/dashboard/edit-profile" element={<EditProfile />} />
+          <Route
+            path="/dashboard/upgrade-membership"
+            element={<Membership />}
+          />
+          <Route
+            path="/dashboard/riwayat-transaksi"
+            element={<RiwayatTransaksi />}
+          />
+          <Route path="/dashboard/riwayat-mutasi" element={<RiwayatMutasi />} />
+          <Route path="/dashboard/topup" element={<Topup />} />
+        </Route>
       </Routes>
     </div>
   );
 };
 
 export default Routers;
+// dev

@@ -45,24 +45,50 @@ export const fetchMetadata = async () => {
   return data;
 };
 
+export const fetchColorTemplate = async () => {
+  const { data } = await axios.get(`${API_URL}/color-template`);
+  return data;
+}
+
 export const fetchProducts = async () => {
   const { data } = await axios.get(`${API_URL}/products`);
-  console.log(data);
   return data;
 };
 
-export const fetchProduct = async (slug) => {
-  const { data } = await axios.get(`${API_URL}/product-detail/${slug}`);
+export const fetchProduct = async (slug, unique) => {
+  const { data } = await axios.get(
+    `${API_URL}/product-detail/${slug}/${unique}`
+  );
   return data;
 };
 
 export const fetchHistory = async (phone) => {
   const { data } = await axios.get(`${API_URL}/purchases/${phone}`);
   return data;
-}
+};
 
 export const fetchPurchaseDetail = async (slug) => {
   const { data } = await axios.get(`${API_URL}/purchase-detail/${slug}`);
+  return data;
+};
+
+export const fetchUpgradeTopupDetail = async (invoice) => {
+  const { data } = await axios.get(`${API_URL}/topup-member/${invoice}`);
+  return data;
+};
+
+export const fetchDataMember = async (uniqueCode) => {
+  const { data } = await axios.get(`${API_URL}/user/data/${uniqueCode}`);
+  return data;
+};
+
+export const fetchUpgradeMembership = async () => {
+  const { data } = await axios.get(`${API_URL}/upgrade-membership/`);
+  return data;
+};
+
+export const fetchPayment = async () => {
+  const { data } = await axios.get(`${API_URL}/channel`);
   return data;
 }
 
@@ -666,5 +692,43 @@ export const historyPayment = [
     date: "28 Februari 2025",
     status: "Belum Bayar",
     color: "#FFFF00",
+  },
+];
+
+export const upgrade = [
+  {
+    id: 1,
+    paket: "Non Membership",
+    price: 0,
+  },
+  {
+    id: 2,
+    paket: "Silver",
+    price: 200000,
+  },
+  {
+    id: 3,
+    paket: "Gold",
+    price: 250000,
+  },
+  {
+    id: 4,
+    paket: "Platinum",
+    price: 300000,
+  },
+];
+
+export const topup = [
+  {
+    id: 1,
+    price: 20000,
+  },
+  {
+    id: 2,
+    price: 50000,
+  },
+  {
+    id: 3,
+    price: 100000,
   },
 ];

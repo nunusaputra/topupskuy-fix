@@ -1,11 +1,7 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
-import { dataList } from "../../services/index";
 import { ImHeadphones } from "react-icons/im";
-import { IoIosArrowUp, IoMdInformationCircle } from "react-icons/io";
+import { IoIosArrowUp } from "react-icons/io";
 import { FiShoppingBag } from "react-icons/fi";
-import Modal from "../Modal";
-import { IoArrowUp } from "react-icons/io5";
 
 const SideContent = (data) => {
   const [openInstruction, setOpenInstruction] = useState(false);
@@ -33,20 +29,25 @@ const SideContent = (data) => {
         >
           <p className="text-sm text-white">Tata cara topup</p>
           <IoIosArrowUp
-            className={`text-xl text-white transition-all duration-300 ${openInstruction ? "rotate-180" : ""
-              }`}
+            className={`text-xl text-white transition-all duration-300 ${
+              openInstruction ? "rotate-180" : ""
+            }`}
           />
         </div>
 
         {openInstruction && (
           <div className="w-full bg-slate-800 min-h-[7.5rem] flex flex-col gap-2 rounded-lg overflow-hidden">
             <div className="mb-5">
-              <div className="w-full h-8 bg-fourth/30 backdrop-blur-xl px-3 py-2">
-                <h1 className="text-white text-sm font-semibold">CARA TOP UP</h1>
+              <div className="w-full h-8 bg-fourth_opacity_one backdrop-blur-xl px-3 py-2">
+                <h1 className="text-white text-sm font-semibold">
+                  CARA TOP UP
+                </h1>
               </div>
               <div className="text-white px-4 text-sm">
-                <ol className="list-decimal space-y-2 pl-5 mt-5" dangerouslySetInnerHTML={{ __html: data.data.description }}>
-                </ol>
+                <ol
+                  className="list-decimal space-y-2 pl-5 mt-5"
+                  dangerouslySetInnerHTML={{ __html: data.data.description }}
+                ></ol>
               </div>
             </div>
           </div>
