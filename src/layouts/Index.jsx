@@ -2,10 +2,9 @@ import React, { useEffect } from "react";
 import Navbar from "../components/Navbar";
 import { Outlet } from "react-router-dom";
 import Footer from "../components/Footer";
-
 import { useQuery } from "@tanstack/react-query";
-import { fetchMetadata } from "../services";
-import axios from "axios";
+import { fetchColorTemplate, fetchMetadata } from "../services";
+import { color } from "framer-motion";
 
 const Index = () => {
   const { data: metadata } = useQuery({
@@ -14,87 +13,91 @@ const Index = () => {
     staleTime: 60,
   });
 
+  const { data: colorTemplate } = useQuery({
+    queryFn: fetchColorTemplate,
+  });
+
   useEffect(() => {
     const fetchColor = async () => {
       try {
-        const response = await axios.get(
-          "https://680432d879cb28fb3f5a8bb7.mockapi.io/color-picker"
-        );
-        const colors = response.data[0];
-
-        localStorage.setItem("theme-colors", JSON.stringify(colors));
-
-        setThemeColors(colors);
+        if(colorTemplate != null || colorTemplate != undefined) {
+          localStorage.setItem("theme-colors", JSON.stringify(colorTemplate));
+          setThemeColors(colorTemplate);
+        }
       } catch (error) {
-        console.log("Gagal ambil warna:", error);
-
         const savedColors = localStorage.getItem("theme-colors");
         if (savedColors) {
           setThemeColors(JSON.parse(savedColors));
         }
       }
-    };
+    }
 
-    fetchColor();
-  }, []);
+    fetchColor()
+  }, [colorTemplate])
 
   function hexToRgba(hex, opacity = 1) {
-    hex = hex.replace("#", "");
-    const r = parseInt(hex.substring(0, 2), 16);
-    const g = parseInt(hex.substring(2, 4), 16);
-    const b = parseInt(hex.substring(4, 6), 16);
+    hex = hex?.replace("#", "");
+    const r = parseInt(hex?.substring(0, 2), 16);
+    const g = parseInt(hex?.substring(2, 4), 16);
+    const b = parseInt(hex?.substring(4, 6), 16);
     return `rgba(${r}, ${g}, ${b}, ${opacity})`;
   }
 
   const setThemeColors = (colors) => {
-    document.documentElement.style.setProperty(
-      "--background-primary",
-      colors.background_primary
-    );
-    document.documentElement.style.setProperty(
-      "--background-secondary",
-      colors.background_secondary
-    );
-    document.documentElement.style.setProperty(
-      "--button-auth",
-      colors.button_login
-    );
-    document.documentElement.style.setProperty(
-      "--dots-color",
-      colors.dots_background
-    );
+    if (colors) {
+      document.documentElement.style.setProperty(
+        "--background-primary",
+        colors[3].value_
+      );
+      document.documentElement.style.setProperty(
+        "--background-secondary",
+        colors[4].value_
+      );
+      document.documentElement.style.setProperty(
+        "--button-auth",
+        colors[9].value_
+      );
+      document.documentElement.style.setProperty(
+        "--dots-color",
+        colors[7].value_
+      );
 
-    colors.aurora_color?.forEach((color, index) => {
-      document.documentElement.style.setProperty(`--aurora-${index}`, color);
-    });
+      const auroraColors = colors
+        .filter((color) => color.id.startsWith("AURORA_ANIMATION_COLOR_"))
+        .map((color) => color.value_);
 
-    document.documentElement.style.setProperty(
-      "--border-color",
-      colors.border_color
-    );
-    document.documentElement.style.setProperty(
-      "--order-color",
-      colors.order_color
-    );
-    document.documentElement.style.setProperty(
-      "--card-color",
-      colors.card_color
-    );
+      auroraColors.forEach((color, index) => {
+        document.documentElement.style.setProperty(`--aurora-${index + 1}`, color);
+      });
 
-    document.documentElement.style.setProperty(
-      "--background-secondary-opacity",
-      hexToRgba(colors.background_secondary, 0.8)
-    );
+      document.documentElement.style.setProperty(
+        "--border-color",
+        colors[5].value_
+      );
+      document.documentElement.style.setProperty(
+        "--order-color",
+        colors[8].value_
+      );
+      document.documentElement.style.setProperty(
+        "--card-color",
+        colors[6].value_
+      );
 
-    document.documentElement.style.setProperty(
-      "--card-color-opacity-one",
-      hexToRgba(colors.card_color, 0.3)
-    );
+      document.documentElement.style.setProperty(
+        "--background-secondary-opacity",
+        hexToRgba(colors[4].value_, 0.8)
+      );
 
-    document.documentElement.style.setProperty(
-      "--card-color-opacity-two",
-      hexToRgba(colors.card_color, 0.2)
-    );
+      document.documentElement.style.setProperty(
+        "--card-color-opacity-one",
+        hexToRgba(colors[6].value_, 0.3)
+      );
+
+      document.documentElement.style.setProperty(
+        "--card-color-opacity-two",
+        hexToRgba(colors[6].value_, 0.2)
+      );
+    }
   };
 
   useEffect(() => {

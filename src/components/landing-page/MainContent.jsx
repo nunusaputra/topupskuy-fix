@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 
 const MainContent = () => {
   const [visibleCounts, setVisibleCounts] = useState(10);
+  const [searchKeywords, setSearchKeywords] = useState("");
 
   const handleShowMore = (categoryId) => {
     setVisibleCounts((prev) => ({
@@ -65,14 +66,23 @@ const MainContent = () => {
 
   return (
     <div className="w-full p-4 md:px-8 md:py-6 bg-secondary_opacity backdrop-blur-4xl rounded-xl flex flex-col gap-20 mb-[10rem]">
-      {product?.categories.map((category) => {
-        const filteredProducts =
-          product?.myProducts.filter(
-            (item) => item.category.name === category.name
+      {product?.categories.filter(x => x.active === true).map((category) => {
+        let filteredProducts = [];
+        if (searchKeywords !== "") {
+          let value = searchKeywords.toLowerCase();
+          filteredProducts = product?.myProducts.filter(
+            (item) => item.category.name === category.name && item.active === true && item.title.toLowerCase().includes(value)
           ) || [];
+        } else {
+          filteredProducts = product?.myProducts.filter(
+            (item) => item.category.name === category.name && item.active === true
+          ) || [];
+        }
+        
+        const sortedProducts = filteredProducts.sort((a, b) => a.position - b.position);
 
         const visibleCount = visibleCounts[category.id] || 10;
-        const displayedProducts = filteredProducts.slice(0, visibleCount);
+        const displayedProducts = sortedProducts.slice(0, visibleCount);
 
         return (
           <div key={category.id} className="flex flex-col gap-5">
@@ -96,6 +106,9 @@ const MainContent = () => {
                     type="text"
                     name="search"
                     placeholder="Search for anything..."
+                    onChange={(e) =>
+                      setSearchKeywords(e.target.value)
+                    }
                     className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border-2 border-purple-500 rounded-md py-2 pl-9 pr-3 shadow-custom focus:outline-none sm:text-sm"
                   />
                 </label>
@@ -128,7 +141,7 @@ const MainContent = () => {
                 </a>
               ))}
             </div>
-            {filteredProducts.length > visibleCount && (
+            {sortedProducts.length > visibleCount && (
               <div className="mt-5 flex items-center justify-center">
                 <ShinyText
                   text="Show more"
