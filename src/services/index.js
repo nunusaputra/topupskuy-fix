@@ -85,7 +85,7 @@ export const fetchUpgradeMembership = async () => {
 export const fetchPayment = async () => {
   const { data } = await axios.get(`${API_URL}/channel`);
   return data;
-}
+};
 
 export const dataList = [
   {

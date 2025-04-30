@@ -17,6 +17,7 @@ export default {
         aurora_1: "var(--aurora-1)",
         aurora_2: "var(--aurora-2)",
         aurora_3: "var(--aurora-3)",
+        border_color: "var(--border-color)",
       },
       fontSize: {
         md: "1.125rem",

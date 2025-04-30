@@ -83,11 +83,14 @@ const Navbar = (props) => {
             </DisclosureButton>
           </div>
           <div className="flex flex-1 items-center justify-center sm:ml-[25%] lg:ml-0 lg:justify-start">
-            <div className="flex shrink-0 items-center w-20 h-14 overflow-hidden">
+            <div className="flex shrink-0 items-center w-20 h-14 p-2 overflow-hidden">
               <img
                 alt="Your Company"
                 src={logo}
                 className="h-full w-full object-cover"
+                loading="lazy"
+                width={50}
+                height={50}
               />
             </div>
             <div className="hidden lg:ml-6 lg:block">
@@ -98,13 +101,13 @@ const Navbar = (props) => {
                     href={item.href}
                     aria-current={item.current ? "page" : undefined}
                     className={classNames(
-                      item.current ? "text-purple-300" : "text-white ",
-                      "relative rounded-md py-2 text-sm font-medium group hover:text-purple-300 hover:cursor-pointer"
+                      item.current ? "text-border_color" : "text-white ",
+                      "relative rounded-md py-2 text-sm font-medium group hover:text-border_color hover:cursor-pointer"
                     )}
                   >
                     {item.name}
                     {/* Underline */}
-                    <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full group-hover:bg-purple-600"></span>
+                    <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full group-hover:bg-border_color"></span>
                   </a>
                 ))}
               </div>
@@ -117,14 +120,14 @@ const Navbar = (props) => {
                 <Menu as="div" className="relative ml-3">
                   <div className="flex gap-4">
                     <div className="hidden px-4 py-2 bg-transparent text-white ring-2 ring-sixth rounded-md md:flex items-center gap-2 hover:bg-sixth cursor-pointer transition-all duration-300">
-                      <i class="bi bi-person-lines-fill text-sm text-white" />
+                      <i className="bi bi-person-lines-fill text-sm text-white" />
                       <h1 className="text-sm text-white font-semibold">
                         {member.role}
                       </h1>
                     </div>
                     <MenuButton className="relative">
                       <div className="px-4 py-2 bg-transparent text-white ring-2 ring-sixth rounded-md flex items-center gap-2 hover:bg-sixth cursor-pointer transition-all duration-300">
-                        <i class="bi bi-person-fill text-sm text-white" />
+                        <i className="bi bi-person-fill text-sm text-white" />
                         <h1 className="text-sm text-white font-semibold">
                           {member.name}
                         </h1>
