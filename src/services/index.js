@@ -45,6 +45,11 @@ export const fetchMetadata = async () => {
   return data;
 };
 
+export const fetchColorTemplate = async () => {
+  const { data } = await axios.get(`${API_URL}/color-template`);
+  return data;
+}
+
 export const fetchProducts = async () => {
   const { data } = await axios.get(`${API_URL}/products`);
   return data;
