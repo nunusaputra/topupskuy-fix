@@ -52,7 +52,7 @@ const Popular = () => {
     <section className="">
       <div className="w-full p-4 md:px-8 md:py-6 bg-secondary_opacity backdrop-blur-4xl rounded-xl">
         <div className="flex gap-2 mb-5">
-          <FaFire className="text-2xl text-purple-300 mt-1" />
+          <FaFire className="text-2xl text-border_color mt-1" />
           <div className="flex flex-col">
             <h1 className="text-xl sm:text-2xl text-white font-semibold mb-2">
               Popular

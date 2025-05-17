@@ -41,7 +41,7 @@ const Promo = () => {
         {/* Promo Content */}
         <div className="flex items-center gap-7 sm:justify-between">
           <div className="flex items-center gap-5">
-            <RiDiscountPercentFill className="text-2xl sm:text-3xl text-purple-300" />
+            <RiDiscountPercentFill className="text-2xl sm:text-3xl text-border_color" />
             <TrueFocus
               sentence="PROMO EKSLUSIF"
               manualMode={false}
@@ -71,7 +71,7 @@ const Promo = () => {
           <Marquee autoFill pauseOnHover className="">
             {dataList.map((item) => (
               <div
-                className="relative w-80 min-h-48 bg-slate-800/40 backdrop-blur-md rounded-xl flex flex-col p-4 gap-2 mr-4 ring-2 ring-purple-300 overflow-hidden"
+                className="relative w-80 min-h-48 bg-slate-800/40 backdrop-blur-md rounded-xl flex flex-col p-4 gap-2 mr-4 ring-2 ring-border_color overflow-hidden"
                 key={item.id}
               >
                 <div className="flex flex-col">

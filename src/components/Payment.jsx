@@ -2,11 +2,7 @@ import React, { useState, useEffect, useRef, useMemo } from "react";
 import coverBottom from "../assets/images/cover-bottom.png";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import {
-  fetchPurchaseDetail,
-  fetchUpgradeTopupDetail,
-  historyPayment,
-} from "../services";
+import { fetchPurchaseDetail, fetchUpgradeTopupDetail } from "../services";
 import Canceled from "../assets/images/canceled.png";
 import Expired from "../assets/images/expired.png";
 import Failed from "../assets/images/failed.png";
@@ -25,7 +21,6 @@ const Payment = () => {
   const [showInstruction, setShowInstruction] = useState(true);
   const [copied, setCopied] = useState(false);
 
-  const data = historyPayment.find((item) => item.id === parseInt(orderId));
   const nickname = localStorage.getItem("nickname")
     ? localStorage.getItem("nickname")
     : "-";
