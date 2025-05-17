@@ -451,6 +451,12 @@ const DetailContent = ({
                             <select
                               name={item.name}
                               className="w-full h-9 border border-white/70 bg-slate-800 text-slate-300 rounded-md p-1 text-sm"
+                              onChange={(e) => 
+                                setSelected({
+                                  ...selected,
+                                  [e.target.name]: e.target.value
+                                })
+                              }
                             >
                               <option key={index} value="">
                                 {item.placeholder}

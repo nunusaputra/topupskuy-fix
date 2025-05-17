@@ -84,10 +84,6 @@ const Profile = () => {
                   </a>
                 </div>
 
-                {/* Konten Card */}
-                <h2 className="relative text-white text-sm font-bold mb-1">
-                  topupskuy
-                </h2>
                 <p className="relative text-white text-xs sm:text-zs md:text-xs mb-5 sm:mb-3 md:mb-5">
                   Ingin dapat harga lebih murah?
                 </p>
