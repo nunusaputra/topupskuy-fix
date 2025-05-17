@@ -251,7 +251,7 @@ const DetailContent = ({
         <div className="flex flex-col gap-5 lg:overflow-auto lg:sticky lg:top-32">
           <div className="w-full h-20 bg-slate-800 rounded-lg flex items-center px-4 gap-2 overflow-hidden">
             <div className="w-14 h-14 flex items-center justify-center">
-              <i class="bi bi-headphones text-4xl text-white" />
+              <i className="bi bi-headphones text-4xl text-white" />
             </div>
             <div className="w-full h-14 flex flex-col justify-center">
               <h1 className="text-md text-white font-bold">Butuh Bantuan?</h1>
@@ -392,7 +392,7 @@ const DetailContent = ({
             disabled={isDisabled}
             onClick={() => handleModalSummary()}
           >
-            <i class="bi bi-bag-check text-white text-xl" />
+            <i className="bi bi-bag-check text-white text-xl" />
             <p>Pesan Sekarang!</p>
           </button>
         </div>
@@ -1439,7 +1439,7 @@ const DetailContent = ({
         <div className="flex flex-col gap-5 lg:overflow-auto lg:sticky lg:top-32">
           <div className="w-full h-20 bg-slate-800 rounded-lg flex items-center px-4 gap-2 overflow-hidden">
             <div className="w-14 h-14 flex items-center justify-center">
-              <i class="bi bi-headphones text-4xl text-white" />
+              <i className="bi bi-headphones text-4xl text-white" />
             </div>
             <div className="w-full h-14 flex flex-col justify-center">
               <h1 className="text-md text-white font-bold">Butuh Bantuan?</h1>
@@ -1580,7 +1580,7 @@ const DetailContent = ({
             disabled={isDisabled}
             onClick={() => handleModalSummary()}
           >
-            <i class="bi bi-bag-check text-white text-xl" />
+            <i className="bi bi-bag-check text-white text-xl" />
             <p>Pesan Sekarang!</p>
           </button>
         </div>

@@ -9,7 +9,7 @@ const AuthLayouts = (props) => {
   const { data: metadata } = useQuery({
     queryKey: ["metadata"],
     queryFn: fetchMetadata,
-    staleTime: 21600000, 
+    staleTime: 21600000,
   });
 
   useEffect(() => {
@@ -36,7 +36,7 @@ const AuthLayouts = (props) => {
             <div className="w-full h-full p-2">
               <a href="/">
                 <div className="icon-close w-10 h-10 mb-3 rounded-full bg-slate-800/90 flex items-center justify-center group ring-2 ring-offset-0 ring-slate-600 cursor-pointer hover:ring-offset-4 hover:ring-offset-primary transition-all duration-300">
-                  <i class="bi bi-x-lg text-2xl text-white group-hover:scale-125 transition-all duration-300 inline-block" />
+                  <i className="bi bi-x-lg text-2xl text-white group-hover:scale-125 transition-all duration-300 inline-block" />
                 </div>
               </a>
               <div className="w-full mt-5 md:mt-0 h-[90%] flex flex-col justify-center items-center px-2 lg:px-10 xl:px-16 py-4">

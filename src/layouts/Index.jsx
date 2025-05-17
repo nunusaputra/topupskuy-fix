@@ -20,7 +20,7 @@ const Index = () => {
   useEffect(() => {
     const fetchColor = async () => {
       try {
-        if(colorTemplate != null || colorTemplate != undefined) {
+        if (colorTemplate != null || colorTemplate != undefined) {
           localStorage.setItem("theme-colors", JSON.stringify(colorTemplate));
           setThemeColors(colorTemplate);
         }
@@ -30,10 +30,10 @@ const Index = () => {
           setThemeColors(JSON.parse(savedColors));
         }
       }
-    }
+    };
 
-    fetchColor()
-  }, [colorTemplate])
+    fetchColor();
+  }, [colorTemplate]);
 
   function hexToRgba(hex, opacity = 1) {
     hex = hex?.replace("#", "");
@@ -67,7 +67,10 @@ const Index = () => {
         .map((color) => color.value_);
 
       auroraColors.forEach((color, index) => {
-        document.documentElement.style.setProperty(`--aurora-${index + 1}`, color);
+        document.documentElement.style.setProperty(
+          `--aurora-${index + 1}`,
+          color
+        );
       });
 
       document.documentElement.style.setProperty(

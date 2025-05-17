@@ -10,9 +10,8 @@ import { fetchMetadata } from "../services";
 const LandingPage = () => {
   const { data: metadata } = useQuery({
     queryKey: ["metadata"],
-    queryFn: fetchMetadata
+    queryFn: fetchMetadata,
   });
-
 
   useEffect(() => {
     if (metadata?.settings[0].value_) {
@@ -31,8 +30,7 @@ const LandingPage = () => {
 
   return (
     <div>
-      <HeroBanner metadata={metadata?.banners} />
-
+      <HeroBanner metadata={metadata?.images} />
       <div className="container relative">
         {/* <Promo />
         <Popular /> */}
