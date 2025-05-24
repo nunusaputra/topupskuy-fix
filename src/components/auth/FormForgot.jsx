@@ -23,6 +23,24 @@ const FormForgot = () => {
     });
   };
 
+  const handleInputTelp = (e) => {
+    let { name, value } = e.target;
+
+    if (name === "telp") {
+      value = value.replace(/\D/g, "");
+    }
+
+    if (value.startsWith("62")) {
+      value = value.slice(2);
+    }
+
+    if (value.startsWith("0")) {
+      value = value.slice(1);
+    }
+
+    setTelp(value);
+  };
+
   const telpRef = useRef(null);
 
   useEffect(() => {
@@ -30,9 +48,7 @@ const FormForgot = () => {
   }, []);
 
   const request = () => {
-    let phone = !telp.startsWith("+62")
-    ? `+62${telp}`
-    : telp;
+    let phone = !telp.startsWith("+62") ? `+62${telp}` : telp;
 
     axios
       .post(`${API_URL}/user/request-otp/${phone}`, {
@@ -87,9 +103,7 @@ const FormForgot = () => {
       input.confPassword !== null
     ) {
       const object = {
-        username: !telp.startsWith("+62")
-        ? `+62${telp}`
-        : telp,
+        username: !telp.startsWith("+62") ? `+62${telp}` : telp,
         newPassword: input.password,
       };
 
@@ -129,7 +143,7 @@ const FormForgot = () => {
               id="telp"
               placeholder="81234567890"
               value={telp}
-              onChange={(e) => setTelp(e.target.value)}
+              onChange={handleInputTelp}
               ref={telpRef}
             />
           </div>
