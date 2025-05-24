@@ -16,9 +16,23 @@ const FormRegister = () => {
   });
 
   const handleInput = (e) => {
+    let { name, value } = e.target;
+
+    if (name === "telpon") {
+      value = value.replace(/\D/g, "");
+    }
+
+    if (value.startsWith("62")) {
+      value = value.slice(2);
+    }
+
+    if (value.startsWith("0")) {
+      value = value.slice(1);
+    }
+
     setInput({
       ...input,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
 
@@ -26,7 +40,7 @@ const FormRegister = () => {
     const object = {
       name: input.nama,
       password: input.password,
-      phoneNumber: input.telpon,
+      phoneNumber: `+62${input.telpon}`,
     };
 
     axios
@@ -73,8 +87,8 @@ const FormRegister = () => {
           <input
             type="telp"
             className="outline-none flex-1 bg-transparent text-sm"
-            name="telp"
-            id="telp"
+            name="telpon"
+            id="telpon"
             placeholder="81234567890"
             value={input.telpon}
             onChange={handleInput}
