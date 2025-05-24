@@ -7,7 +7,7 @@ import Footer from "../components/Footer";
 import Sidebar from "../components/dashboard/Sidebar";
 
 const DashboardLayouts = () => {
-  const { data: metadata } = useQuery({
+  const { data: metadata, error, isLoading } = useQuery({
     queryKey: ["metadata"],
     queryFn: fetchMetadata,
     staleTime: 21600000,
@@ -35,7 +35,7 @@ const DashboardLayouts = () => {
         <Sidebar />
         <Outlet />
       </section>
-      <Footer metadata={metadata} />
+      <Footer metadata={metadata?.images} />
     </div>
   );
 };

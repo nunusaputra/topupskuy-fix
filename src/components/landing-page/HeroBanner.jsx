@@ -27,7 +27,7 @@ const Heroimages = (props) => {
   }, [colors]);
 
   const minMetadata = (() => {
-    const original = props.metadata || [];
+    const original = props.metadata?.filter(item => item.id.includes("BANNER")) || [];
     if (original.length >= 5) return original;
     const result = [];
     while (result.length < 5) {
@@ -68,7 +68,7 @@ const Heroimages = (props) => {
                 >
                   <button>
                     <img
-                      src={image}
+                      src={image?.value_}
                       alt={`Image ${index + 1}`}
                       width="400"
                       height="300"
