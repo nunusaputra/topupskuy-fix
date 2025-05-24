@@ -451,10 +451,10 @@ const DetailContent = ({
                             <select
                               name={item.name}
                               className="w-full h-9 border border-white/70 bg-slate-800 text-slate-300 rounded-md p-1 text-sm"
-                              onChange={(e) => 
+                              onChange={(e) =>
                                 setSelected({
                                   ...selected,
-                                  [e.target.name]: e.target.value
+                                  [e.target.name]: e.target.value,
                                 })
                               }
                             >
@@ -1403,12 +1403,20 @@ const DetailContent = ({
                         type="number"
                         className="outline-none flex-1 bg-transparent text-white text-sm"
                         value={selected.phone || ""}
-                        onChange={(e) =>
+                        onChange={(e) => {
+                          let value = e.target.value.replace(/\D/g, "");
+
+                          if (value.startsWith("62")) {
+                            value = value.slice(2);
+                          } else if (value.startsWith("0")) {
+                            value = value.slice(1);
+                          }
+
                           setSelected({
                             ...selected,
-                            phone: e.target.value,
-                          })
-                        }
+                            phone: value,
+                          });
+                        }}
                         placeholder="81234567890"
                         disabled={!!member}
                       />

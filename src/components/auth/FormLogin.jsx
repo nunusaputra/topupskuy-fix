@@ -34,9 +34,23 @@ const FormLogin = () => {
   };
 
   const handleInput = (e) => {
+    let { name, value } = e.target;
+
+    if (name === "email") {
+      value = value.replace(/\D/g, "");
+    }
+
+    if (value.startsWith("62")) {
+      value = value.slice(2);
+    }
+
+    if (value.startsWith("0")) {
+      value = value.slice(1);
+    }
+
     setInput({
       ...input,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
 
