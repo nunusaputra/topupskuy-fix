@@ -2,13 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { fetchProducts } from "../../services";
 import { useQuery } from "@tanstack/react-query";
 
-const debounce = (func, delay) => {
-  let timer;
-  return (...args) => {
-    clearTimeout(timer), setTimeout(() => func(...args, delay));
-  };
-};
-
 const MainContent = () => {
   const [visibleCounts, setVisibleCounts] = useState(10);
   const sectionRef = useRef({});
@@ -34,16 +27,10 @@ const MainContent = () => {
 
   useEffect(() => {
     const handleSize = () => {
-      if (window.innerWidth > 360 && window.innerWidth < 500) {
+      if (window.innerWidth > 360 && window.innerWidth < 768) {
         setSize({
           min: 15,
           max: 12,
-          desc: 15,
-        });
-      } else if (window.innerWidth >= 500 && window.innerWidth < 768) {
-        setSize({
-          min: 15,
-          max: 13,
         });
       } else if (window.innerWidth >= 768 && window.innerWidth < 1280) {
         setSize({
@@ -52,8 +39,8 @@ const MainContent = () => {
         });
       } else if (window.innerWidth >= 1280) {
         setSize({
-          min: 20,
-          max: 18,
+          min: 30,
+          max: 20,
         });
       } else {
         setSize({
@@ -64,9 +51,9 @@ const MainContent = () => {
       }
     };
 
-    const debounceHandleSize = debounce(handleSize, 300);
-    window.addEventListener("resize", debounceHandleSize);
-    return () => window.removeEventListener("resize", debounceHandleSize);
+    handleSize();
+    window.addEventListener("resize", handleSize);
+    return () => window.removeEventListener("resize", handleSize);
   }, []);
 
   return (
