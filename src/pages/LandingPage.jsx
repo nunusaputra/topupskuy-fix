@@ -30,7 +30,7 @@ const LandingPage = () => {
 
   return (
     <div>
-      <HeroBanner metadata={metadata?.images} />
+      <HeroBanner metadata={metadata?.banners} />
       <div className="container relative">
         {/* <Promo />
         <Popular /> */}

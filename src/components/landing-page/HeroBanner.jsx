@@ -68,7 +68,7 @@ const Heroimages = (props) => {
                 >
                   <button>
                     <img
-                      src={image}
+                      src={image.asset.path}
                       alt={`Image ${index + 1}`}
                       width="400"
                       height="300"
