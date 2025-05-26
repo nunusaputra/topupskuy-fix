@@ -5,7 +5,7 @@ import "swiper/css/effect-cards";
 import { Autoplay, EffectCards } from "swiper/modules";
 import Aurora from "../animation/aurora/Aurora";
 
-const Heroimages = (props) => {
+const Heroimages = ({ metadata, isLoading }) => {
   const [auroraColors, setAuroraColors] = useState([]);
   const [colors, setColors] = useState([]);
 
@@ -26,13 +26,20 @@ const Heroimages = (props) => {
     }
   }, [colors]);
 
-  const minMetadata = (() => {
-    const original = props.metadata || [];
-    if (original.length >= 5) return original;
+  const images = (() => {
+    const bannerImages =
+      metadata?.filter((item) => item.id.includes("BANNER")) || [];
+
     const result = [];
+    const originalLength = bannerImages.length;
+
+    if (originalLength >= 5) return bannerImages.map((item) => item.value_);
+
     while (result.length < 5) {
-      result.push(original[result.length % original.length]);
+      const index = result.length % originalLength;
+      result.push(bannerImages[index].value_);
     }
+
     return result;
   })();
 
@@ -48,39 +55,7 @@ const Heroimages = (props) => {
       </div>
 
       <div className="container flex flex-col relative py-4 overflow-hidden">
-        {minMetadata?.length > 0 ? (
-          <div className="p-2 w-full max-h-[28rem] relative ">
-            <Swiper
-              effect={"cards"}
-              grabCursor={true}
-              loop={true}
-              autoplay={{
-                delay: 2500,
-                disableOnInteraction: false,
-              }}
-              modules={[EffectCards, Autoplay]}
-              className="w-[90%] h-full object-contain"
-            >
-              {minMetadata?.map((image, index) => (
-                <SwiperSlide
-                  key={index}
-                  className="rounded-lg overflow-hidden aspect-[3/1]"
-                >
-                  <button>
-                    <img
-                      src={image.asset.path}
-                      alt={`Image ${index + 1}`}
-                      width="400"
-                      height="300"
-                      className="object-cover w-full h-full"
-                      loading={index === 0 ? "eager" : "lazy"}
-                    />
-                  </button>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
-        ) : (
+        {isLoading ? (
           <div className="mx-auto w-full rounded-lg bg-gray-500 p-4">
             <div className="flex items-center animate-pulse space-x-4">
               <div className="size-56 rounded-full bg-gray-200"></div>
@@ -96,6 +71,40 @@ const Heroimages = (props) => {
               </div>
             </div>
           </div>
+        ) : (
+          images?.length > 0 && (
+            <div className="p-2 w-full max-h-[28rem] relative ">
+              <Swiper
+                effect={"cards"}
+                grabCursor={true}
+                loop={true}
+                autoplay={{
+                  delay: 2500,
+                  disableOnInteraction: false,
+                }}
+                modules={[EffectCards, Autoplay]}
+                className="w-[90%] h-full object-contain"
+              >
+                {images?.map((image, index) => (
+                  <SwiperSlide
+                    key={index}
+                    className="rounded-lg overflow-hidden aspect-[3/1]"
+                  >
+                    <button>
+                      <img
+                        src={image}
+                        alt={`Image ${index + 1}`}
+                        width="400"
+                        height="300"
+                        className="object-cover w-full h-full"
+                        loading={index === 0 ? "eager" : "lazy"}
+                      />
+                    </button>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
+          )
         )}
       </div>
     </section>
