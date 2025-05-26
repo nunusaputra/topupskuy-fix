@@ -4,7 +4,6 @@ import { Outlet } from "react-router-dom";
 import Footer from "../components/Footer";
 import { useQuery } from "@tanstack/react-query";
 import { fetchColorTemplate, fetchMetadata } from "../services";
-import { color } from "framer-motion";
 
 const Index = () => {
   const { data: metadata } = useQuery({
