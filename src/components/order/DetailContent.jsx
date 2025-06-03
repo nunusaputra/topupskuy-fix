@@ -1400,7 +1400,7 @@ const DetailContent = ({
                     <div className="flex items-center border border-gray-300 rounded-lg p-2 w-full overflow-hidden">
                       <span className="text-white mr-2">+62</span>
                       <input
-                        type="number"
+                        type="tel"
                         className="outline-none flex-1 bg-transparent text-white text-sm"
                         value={selected.phone || ""}
                         onChange={(e) => {
