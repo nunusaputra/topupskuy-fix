@@ -138,7 +138,7 @@ const MainContent = () => {
                       name="search"
                       placeholder="Search for anything..."
                       onChange={(e) => setSearchKeywords(e.target.value)}
-                      className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border-2 border-purple-500 rounded-md py-2 pl-9 pr-3 shadow-custom focus:outline-none sm:text-sm"
+                      className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border-2 border-border_color rounded-md py-2 pl-9 pr-3 shadow-custom focus:outline-none sm:text-sm"
                     />
                   </label>
                 )}
@@ -174,7 +174,7 @@ const MainContent = () => {
                 <div className="mt-5 flex items-center justify-center">
                   <div className="mt-5 flex items-center justify-center">
                     <button
-                      className="px-4 py-2 rounded-md bg-transparent border-2 border-border_color text-border_color font-semibold hover:bg-border_color hover:text-white transition-all duration-300 ease-in-out"
+                      className="px-4 py-2 rounded-md bg-transparent border-2 border-border_color text-border_color font-semibold cursor-pointer"
                       onClick={() => handleShowMore(category.id)}
                     >
                       Show More
