@@ -28,16 +28,18 @@ const Heroimages = ({ metadata, isLoading }) => {
 
   const images = (() => {
     const bannerImages =
-      metadata?.filter((item) => item.id.includes("BANNER")) || [];
+      metadata?.filter((item) => item.isActive && item.asset?.path) || [];
 
     const result = [];
     const originalLength = bannerImages.length;
 
-    if (originalLength >= 5) return bannerImages.map((item) => item.value_);
+    if (originalLength === 0) return [];
+
+    if (originalLength >= 5) return bannerImages.map((item) => item.asset.path);
 
     while (result.length < 5) {
       const index = result.length % originalLength;
-      result.push(bannerImages[index].value_);
+      result.push(bannerImages[index].asset.path);
     }
 
     return result;
