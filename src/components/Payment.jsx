@@ -260,7 +260,18 @@ const Payment = () => {
                         </div>
                       </>
                     )}
-
+                    {/* DISKON */}
+                    <div className="w-full flex justify-between">
+                      <h1 className="text-white text-sm sm:text-[15px] font-semibold">
+                        Diskon
+                      </h1>
+                      <h1 className="text-white text-sm sm:text-[15px] font-medium">
+                        - {new Intl.NumberFormat("id-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                        }).format(purchase?.discountPrice)}
+                      </h1>
+                    </div>
                     <div className="w-full flex justify-between">
                       <h1 className="text-white text-sm sm:text-[15px] font-semibold">
                         Biaya Tambahan
