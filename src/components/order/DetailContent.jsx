@@ -5,6 +5,8 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 
 import { API_URL } from "../../env";
+import SucessGIF from "../../assets/images/GIFSuccess.gif";
+import FailedGIF from "../../assets/images/GIFFailed.gif";
 
 const DetailContent = ({
   data,
@@ -19,6 +21,23 @@ const DetailContent = ({
   const paymentRef = useRef(null);
   const promoRef = useRef(null);
   const [showModal, setShowModal] = useState(false);
+
+  const [statusCode, setStatusCode] = useState(false);
+  const [showGif, setShowGif] = useState({
+    show: false,
+    status: "success",
+  });
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowGif((prev) => ({
+        ...prev,
+        show: true,
+      }));
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const groupedFields = attributes.reduce((acc, attr) => {
     const fieldId = attr.formField.id;
@@ -1386,7 +1405,10 @@ const DetailContent = ({
                         className="lg:col-span-2 w-full h-9 border border-white/70 bg-transparent rounded-md px-4 py-1 text-white text-sm"
                         placeholder="Masukan Kode Promo"
                       />
-                      <button className=" bg-seventh py-1 lg:py-0 rounded-lg text-white font-semibold shadow-md shadow-slate-900">
+                      <button
+                        className=" bg-seventh py-1 lg:py-0 rounded-lg text-white font-semibold shadow-md shadow-slate-900"
+                        onClick={() => setStatusCode(!statusCode)}
+                      >
                         Apply Code
                       </button>
                     </div>
@@ -1720,6 +1742,34 @@ const DetailContent = ({
               Batalkan
             </button>
           </div>
+        </div>
+      </Modal>
+
+      <Modal open={statusCode} close={() => setShowModal(!statusCode)}>
+        <div className="w-full min-h-48 flex flex-col items-center gap-4 justify-center">
+          <div className="w-40 h-40 bg-white rounded-full animate-scaleIn">
+            {showGif.show && (
+              <img
+                src={showGif.status === "success" ? SucessGIF : FailedGIF}
+                alt="sukses"
+                width={250}
+                height={250}
+                className="animate-fadeIn w-full h-full"
+              />
+            )}
+          </div>
+          <h1 className="text-white">
+            {showGif.status === "success"
+              ? "Yeayy kamu berhasil menggunakan kode promo ini 🥳🥳"
+              : "Yahhh kamu gagal menggunakan kode promo ini 😔😔"}
+          </h1>
+
+          <button
+            className="bg-slate-800 shadow-md shadow-slate-900 w-full py-2 text-sm text-white rounded-lg"
+            onClick={() => setStatusCode(false)}
+          >
+            Close
+          </button>
         </div>
       </Modal>
     </>
