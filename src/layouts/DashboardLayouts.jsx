@@ -35,7 +35,7 @@ const DashboardLayouts = () => {
         <Sidebar />
         <Outlet />
       </section>
-      <Footer metadata={metadata?.images} />
+      <Footer images={metadata?.images} settings={metadata?.settings} />
     </div>
   );
 };

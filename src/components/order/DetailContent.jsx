@@ -253,6 +253,7 @@ const DetailContent = ({
       alert("Kode promo belum ditulis");
       return;
     } else {
+      let isLoggedIn = (localStorage.getItem("unique-code") !== null) ? true : false;
       let account;
       if (groupedFields.length > 1) {
         account = `${selected.userId}-${selected.zoneId}`;
@@ -276,7 +277,7 @@ const DetailContent = ({
           }));
 
           axios
-            .get(`${API_URL}/promo/check-promo/${selected.code}/${selected.itemId}/${account}/${data.ip}`, {
+            .get(`${API_URL}/promo/check-promo/${selected.code}/${selected.itemId}/${account}/${data.ip}/${isLoggedIn}`, {
               headers: { "X-TOKEN-AUTH": token, "Content-Type": "application/json" },
             })
             .then((response) => {
@@ -305,7 +306,6 @@ const DetailContent = ({
                 setSelected((prev) => ({
                   ...prev,
                   discount: 0,
-                  code: "",
                   isApplyCode: false
                 }));
               }
@@ -321,7 +321,6 @@ const DetailContent = ({
                 setSelected((prev) => ({
                   ...prev,
                   discount: 0,
-                  code: "",
                   isApplyCode: false
                 }));
               }
@@ -337,7 +336,6 @@ const DetailContent = ({
                 setSelected((prev) => ({
                   ...prev,
                   discount: 0,
-                  code: "",
                   isApplyCode: false
                 }));
               }
@@ -353,7 +351,6 @@ const DetailContent = ({
                 setSelected((prev) => ({
                   ...prev,
                   discount: 0,
-                  code: "",
                   isApplyCode: false
                 }));
               }
@@ -369,7 +366,6 @@ const DetailContent = ({
                 setSelected((prev) => ({
                   ...prev,
                   discount: 0,
-                  code: "",
                   isApplyCode: false
                 }));
               }
@@ -385,7 +381,6 @@ const DetailContent = ({
                 setSelected((prev) => ({
                   ...prev,
                   discount: 0,
-                  code: "",
                   isApplyCode: false
                 }));
               }
@@ -396,12 +391,11 @@ const DetailContent = ({
                   ...prev,
                   status: false,
                   show: true,
-                  message: "Nominal pembelian tidak sesuai ketentuan kode promo"
+                  message: "Nominal pembelian tidak sesuai dengan minimum harga yang ditentukan"
                 }));
                 setSelected((prev) => ({
                   ...prev,
                   discount: 0,
-                  code: "",
                   isApplyCode: false
                 }));
               }
@@ -417,7 +411,6 @@ const DetailContent = ({
                 setSelected((prev) => ({
                   ...prev,
                   discount: 0,
-                  code: "",
                   isApplyCode: false
                 }));
               }
@@ -433,7 +426,6 @@ const DetailContent = ({
                 setSelected((prev) => ({
                   ...prev,
                   discount: 0,
-                  code: "",
                   isApplyCode: false
                 }));
               }
@@ -449,7 +441,6 @@ const DetailContent = ({
                 setSelected((prev) => ({
                   ...prev,
                   discount: 0,
-                  code: "",
                   isApplyCode: false
                 }));
               }
@@ -465,7 +456,6 @@ const DetailContent = ({
                 setSelected((prev) => ({
                   ...prev,
                   discount: 0,
-                  code: "",
                   isApplyCode: false
                 }));
               }

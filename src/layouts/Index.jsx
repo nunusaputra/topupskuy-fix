@@ -123,7 +123,7 @@ const Index = () => {
       <div className="">
         <Outlet />
       </div>
-      <Footer metadata={metadata} />
+      <Footer images={metadata?.images} settings={metadata?.settings} />
     </div>
   );
 };
