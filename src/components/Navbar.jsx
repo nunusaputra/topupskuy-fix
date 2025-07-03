@@ -83,11 +83,11 @@ const Navbar = (props) => {
             </DisclosureButton>
           </div>
           <div className="flex flex-1 items-center justify-center sm:ml-[25%] lg:ml-0 lg:justify-start">
-            <div className="flex shrink-0 items-center w-20 h-14 p-2 overflow-hidden">
+            <div className="flex shrink-0 items-center w-20 h-14 overflow-hidden">
               <img
                 alt="Your Company"
                 src={logo}
-                className="h-full w-full object-cover"
+                className="h-full w-full object-contain"
                 loading="lazy"
                 width={50}
                 height={50}

@@ -2,17 +2,18 @@ import React from "react";
 
 const Footer = (props) => {
   const logoFooter =
-    props.metadata?.images.find((item) => item.id === "LOGO-FOOTER")?.value_ ||
+    props.images?.find((item) => item.id === "LOGO-FOOTER")?.value_ ||
     "";
   const applicationName =
-    props.metadata?.settings.find((item) => item.id === "APPLICATION_NAME")
+    props.settings?.find((item) => item.id === "APPLICATION_NAME")
       ?.value_ || "";
   const address =
-    props.metadata?.settings.find((item) => item.id === "FOOTER_ADDRESS")
+    props.settings?.find((item) => item.id === "FOOTER_ADDRESS")
       ?.value_ || "";
   const email =
-    props.metadata?.settings.find((item) => item.id === "FOOTER_EMAIL")
+    props.settings?.find((item) => item.id === "FOOTER_EMAIL")
       ?.value_ || "";
+
   return (
     <div className="relative mt-16 bg-secondary_opacity backdrop-blur-2xl min-h-[300px]">
       <div className="px-4 pt-12 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">

@@ -1020,6 +1020,15 @@ const MainContent = () => {
   const [visibleCounts, setVisibleCounts] = useState(10);
   const [searchKeywords, setSearchKeywords] = useState("");
   const sectionRef = useRef({});
+  const scrollRef = useRef(null);
+
+  const scrollLeft = () => {
+    scrollRef.current.scrollBy({ left: -150, behavior: "smooth" });
+  };
+
+  const scrollRight = () => {
+    scrollRef.current.scrollBy({ left: 150, behavior: "smooth" });
+  };
 
   const handleShowMore = (categoryId) => {
     setVisibleCounts((prev) => ({
@@ -1037,7 +1046,7 @@ const MainContent = () => {
   const [size, setSize] = useState({
     min: 0,
     max: 0,
-    desc: 20,
+    desc: 0,
   });
 
   useEffect(() => {
@@ -1045,23 +1054,26 @@ const MainContent = () => {
       if (window.innerWidth > 360 && window.innerWidth < 500) {
         setSize({
           min: 15,
-          max: 12,
-          desc: 15,
+          max: 13,
+          desc: 13,
         });
       } else if (window.innerWidth >= 500 && window.innerWidth < 768) {
         setSize({
           min: 15,
-          max: 13,
+          max: 15,
+          desc: 15,
         });
       } else if (window.innerWidth >= 768 && window.innerWidth < 1280) {
         setSize({
           min: 15,
-          max: 15,
+          max: 18,
+          desc: 18,
         });
       } else if (window.innerWidth >= 1280) {
         setSize({
           min: 20,
-          max: 18,
+          max: 20,
+          desc: 20,
         });
       } else {
         setSize({
@@ -1078,22 +1090,59 @@ const MainContent = () => {
   }, []);
 
   return (
-    <div className="w-full p-4 md:px-8 md:py-6 bg-secondary_opacity backdrop-blur-4xl rounded-xl flex flex-col gap-20 mb-[10rem]">
+    <div className="w-full p-4 md:px-8 md:py-6 bg-secondary_opacity backdrop-blur-4xl rounded-xl flex flex-col gap-20 mb-[3rem]">
       {/* Button navigate */}
-      <div className="flex flex-wrap gap-4">
-        {product?.categories.map((category) => (
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div className="lg:col-span-2 relative">
+          {/* Tombol Panah Kiri */}
           <button
-            className="bg-third px-4 py-2 rounded-md font-semibold "
-            key={category.id}
-            onClick={() =>
-              sectionRef.current[category.id]?.scrollIntoView({
-                behavior: "smooth",
-              })
-            }
+            onClick={scrollLeft}
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-white rounded-full shadow sm:hidden"
           >
-            {category.name}
+            <i className="bi bi-chevron-left" />
           </button>
-        ))}
+
+          {/* Container Scroll */}
+          <div
+            ref={scrollRef}
+            className="flex gap-2 sm:gap-4 overflow-x-auto whitespace-nowrap scrollbar-hide px-10 sm:px-0"
+          >
+            {product?.categories.map((category) => (
+              <button
+                key={category.id}
+                className="bg-third px-4 py-2 rounded-md font-semibold text-xs sm:text-sm shrink-0"
+                onClick={() =>
+                  sectionRef.current[category.id]?.scrollIntoView({
+                    behavior: "smooth",
+                  })
+                }
+              >
+                {category.name}
+              </button>
+            ))}
+          </div>
+
+          {/* Tombol Panah Kanan */}
+          <button
+            onClick={scrollRight}
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-white rounded-full shadow sm:hidden"
+          >
+            <i className="bi bi-chevron-right" />
+          </button>
+        </div>
+        <label htmlFor="" className="relative block w-full">
+          <span className="sr-only">Search</span>
+          <span className="absolute inset-y-0 left-0 flex items-center pl-2">
+            <i className="bi bi-search w-5 h-5"></i>
+          </span>
+          <input
+            type="text"
+            name="search"
+            placeholder="Search for anything..."
+            onChange={(e) => setSearchKeywords(e.target.value)}
+            className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border-2 border-border_color rounded-md py-2 pl-9 pr-3 shadow-custom focus:outline-none sm:text-sm"
+          />
+        </label>
       </div>
 
       {product?.categories
@@ -1137,29 +1186,11 @@ const MainContent = () => {
                     {category.name}
                   </h1>
                 </div>
-                {category.id === 1 && (
-                  <label
-                    htmlFor=""
-                    className="relative block w-full sm:w-[50%] lg:w-[30%]"
-                  >
-                    <span className="sr-only">Search</span>
-                    <span className="absolute inset-y-0 left-0 flex items-center pl-2">
-                      <i className="bi bi-search w-5 h-5"></i>
-                    </span>
-                    <input
-                      type="text"
-                      name="search"
-                      placeholder="Search for anything..."
-                      onChange={(e) => setSearchKeywords(e.target.value)}
-                      className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border-2 border-border_color rounded-md py-2 pl-9 pr-3 shadow-custom focus:outline-none sm:text-sm"
-                    />
-                  </label>
-                )}
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-5 lg:gap-7">
+              <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-5 lg:gap-7">
                 {displayedProducts.map((item) => (
                   <a href={`/order/${item.slug}`} key={item.slug}>
-                    <div className="w-[100%] h-[12.5] md:h-[16.5rem] flex flex-col bg-[#060911] rounded-lg ring-2 ring-purple-500 ring-offset-0 transition-all duration-300 hover:ring-offset-8 hover:rotate-3 hover:ring-offset-secondary hover:cursor-pointer overflow-hidden">
+                    <div className="w-[100%] h-[9rem] md:h-[16.5rem] flex flex-col bg-[#060911] rounded-lg ring-2 ring-border_color ring-offset-0 transition-all duration-300 hover:ring-offset-8 hover:rotate-3 hover:ring-offset-secondary hover:cursor-pointer overflow-hidden">
                       <div className="w-full h-[8.8rem] md:h-[12.5rem] bg-white">
                         <img
                           src={item.logo.path}
@@ -1168,13 +1199,13 @@ const MainContent = () => {
                         />
                       </div>
                       <div className="w-full h-16 bg-sixth/20 px-2 py-1 flex flex-col">
-                        <h1 className="text-white text-sm sm:text-lg font-bold">
-                          {item.title.length > size.desc
+                        <h1 className="text-white text-zs sm:text-sm font-bold">
+                          {item.title.length > size.min
                             ? `${item.title.substring(0, size.desc)}...`
                             : item.title}
                         </h1>
-                        <h1 className="text-white text-sm">
-                          {item.sub_title.length > size.desc
+                        <h1 className="text-white text-zs sm:text-sm">
+                          {item.sub_title.length > size.min
                             ? `${item.sub_title.substring(0, size.desc)}...`
                             : `${item.sub_title}`}
                         </h1>

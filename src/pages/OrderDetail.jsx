@@ -732,7 +732,7 @@ const OrderDetail = () => {
             }`}
             onClick={scrollToTop}
           >
-            <FaArrowAltCircleUp className="w-full h-full text-orange-500" />
+            <i className="bi bi-arrow-up-short text-3xl text-orange-500" />
           </div>
         </>
       )}

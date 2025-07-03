@@ -40,7 +40,7 @@ const CoverHeader = ({ data, features }) => {
               ))}
           </div>
         </div>
-        <img src={coverBottom} alt="" className="w-full h-full object-cover" />
+        {/* <img src={coverBottom} alt="" className="w-full h-full object-cover" /> */}
       </div>
 
       {/* Profile Image Content */}

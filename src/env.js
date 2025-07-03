@@ -7,3 +7,4 @@ export const API_URL = "http://localhost:9002/api";
 // export const API_URL = "https://jdhymxwpyf.montopup.com/api";
 // export const API_URL = "https://ovtlzkbsbo.nightcrownstore.com/api";
 // export const API_URL = "https://roymeemjff.harumistore.com/api"
+// export const API_URL = "https://ojiqxyhhjr23.wiztopup.com/api";

@@ -5,7 +5,7 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 
 import { API_URL } from "../../env";
-import SucessGIF from "../../assets/images/GIFSuccess.gif";
+import SuccessGIF from "../../assets/images/GIFSuccess.gif";
 import FailedGIF from "../../assets/images/GIFFailed.gif";
 
 const DetailContent = ({
@@ -26,6 +26,7 @@ const DetailContent = ({
   const [showGif, setShowGif] = useState({
     show: false,
     status: "success",
+    message: "",
   });
 
   useEffect(() => {
@@ -77,6 +78,10 @@ const DetailContent = ({
     productId: product.id,
     userId: null,
     zoneId: null,
+    discount: null,
+    ip: null,
+    code: null,
+    isApplyCode: false,
     userInputFF: groupedFields[0]?.ffId,
     zoneInputFF: groupedFields[1]?.ffId ? groupedFields[1].ffId : null,
   });
@@ -160,6 +165,20 @@ const DetailContent = ({
   };
 
   const order = () => {
+    let account;
+    if (groupedFields.length > 1) {
+      account = `${selected.userId}-${selected.zoneId}`;
+    } else if (groupedFields.length == 1) {
+      account = `${selected.userId}`;
+    }
+
+    let promoCodeApplied;
+    if (selected.isApplyCode) {
+      promoCodeApplied = selected.code;
+    } else {
+      promoCodeApplied = "";
+    }
+
     let object = null;
     const phoneNumber = selected.phone
       ? selected.phone.startsWith("62")
@@ -185,6 +204,9 @@ const DetailContent = ({
             id: selected.zoneInputFF,
           },
         ],
+        accountGame: account,
+        promoCode: promoCodeApplied,
+        ipAddress: selected.ip,
       };
     } else {
       object = {
@@ -200,6 +222,9 @@ const DetailContent = ({
             id: selected.userInputFF,
           },
         ],
+        accountGame: account,
+        promoCode: promoCodeApplied,
+        ipAddress: selected.ip,
       };
     }
 
@@ -208,7 +233,7 @@ const DetailContent = ({
         headers: { "X-TOKEN-AUTH": token, "Content-Type": "application/json" },
       })
       .then((response) => {
-        if (response.data !== "goodbye") {
+        if (response.data !== "goodbye" || response.data !== "") {
           window.location.href = `/payment/${response.data}`;
         } else {
           window.alert(
@@ -221,6 +246,269 @@ const DetailContent = ({
           "terjadi kesalahan pada saat order, silahkan kontak admin"
         );
       });
+  };
+
+  const applyPromo = async () => {
+    if (selected.code === null) {
+      alert("Kode promo belum ditulis");
+      return;
+    } else {
+      let isLoggedIn =
+        localStorage.getItem("unique-code") !== null ? true : false;
+      let account;
+      if (groupedFields.length > 1) {
+        account = `${selected.userId}-${selected.zoneId}`;
+      } else if (groupedFields.length == 1) {
+        account = `${selected.userId}`;
+      } else {
+        account = "";
+      }
+
+      if (account === "") {
+        alert("promo tidak bisa digunakan");
+        return;
+      }
+
+      await fetch("https://ipinfo.io/json?token=b9b90ab3bc3983")
+        .then((res) => res.json())
+        .then((data) => {
+          setSelected((prev) => ({
+            ...prev,
+            ip: data.ip,
+          }));
+
+          axios
+            .get(
+              `${API_URL}/promo/check-promo/${selected.code}/${selected.itemId}/${account}/${data.ip}/${isLoggedIn}`,
+              {
+                headers: {
+                  "X-TOKEN-AUTH": token,
+                  "Content-Type": "application/json",
+                },
+              }
+            )
+            .then((response) => {
+              if (
+                response.data.message === "promo aktif digunakan" &&
+                response.data.data !== 0
+              ) {
+                setStatusCode(true);
+                setShowGif((prev) => ({
+                  ...prev,
+                  show: true,
+                  message: "Promo berhasil digunakan",
+                }));
+                setSelected((prev) => ({
+                  ...prev,
+                  discount: response.data.data,
+                  isApplyCode: true,
+                }));
+              }
+
+              if (response.data.message === "promo tidak ditemukan") {
+                setStatusCode(true);
+                setShowGif((prev) => ({
+                  ...prev,
+                  status: false,
+                  show: true,
+                  message: "Kode promo tidak ditemukan",
+                }));
+                setSelected((prev) => ({
+                  ...prev,
+                  discount: 0,
+                  isApplyCode: false,
+                }));
+              }
+
+              if (response.data.message === "promo tidak aktif") {
+                setStatusCode(true);
+                setShowGif((prev) => ({
+                  ...prev,
+                  status: false,
+                  show: true,
+                  message: "Kode promo tidak bisa digunakan",
+                }));
+                setSelected((prev) => ({
+                  ...prev,
+                  discount: 0,
+                  isApplyCode: false,
+                }));
+              }
+
+              if (response.data.message === "promo bukan untuk publik") {
+                setStatusCode(true);
+                setShowGif((prev) => ({
+                  ...prev,
+                  status: false,
+                  show: true,
+                  message: "Kode promo hanya bisa digunakan untuk member",
+                }));
+                setSelected((prev) => ({
+                  ...prev,
+                  discount: 0,
+                  isApplyCode: false,
+                }));
+              }
+
+              if (response.data.message === "promo hari ini tidak aktif") {
+                setStatusCode(true);
+                setShowGif((prev) => ({
+                  ...prev,
+                  status: false,
+                  show: true,
+                  message: "Kode promo tidak bisa digunakan pada hari ini",
+                }));
+                setSelected((prev) => ({
+                  ...prev,
+                  discount: 0,
+                  isApplyCode: false,
+                }));
+              }
+
+              if (
+                response.data.message ===
+                "produk ini tidak bisa menggunakan promo"
+              ) {
+                setStatusCode(true);
+                setShowGif((prev) => ({
+                  ...prev,
+                  status: false,
+                  show: true,
+                  message:
+                    "Kode promo tidak bisa digunakan untuk pembelian produk ini",
+                }));
+                setSelected((prev) => ({
+                  ...prev,
+                  discount: 0,
+                  isApplyCode: false,
+                }));
+              }
+
+              if (
+                response.data.message ===
+                "promo belum dimulai / promo sudah expired"
+              ) {
+                setStatusCode(true);
+                setShowGif((prev) => ({
+                  ...prev,
+                  status: false,
+                  show: true,
+                  message:
+                    "Kode promo yang digunakan tidak sesuai tanggal awal dan akhir",
+                }));
+                setSelected((prev) => ({
+                  ...prev,
+                  discount: 0,
+                  isApplyCode: false,
+                }));
+              }
+
+              if (
+                response.data.message ===
+                "nominal pembelian tidak sesuai ketentuan"
+              ) {
+                setStatusCode(true);
+                setShowGif((prev) => ({
+                  ...prev,
+                  status: false,
+                  show: true,
+                  message:
+                    "Nominal pembelian tidak sesuai dengan minimum harga yang ditentukan",
+                }));
+                setSelected((prev) => ({
+                  ...prev,
+                  discount: 0,
+                  isApplyCode: false,
+                }));
+              }
+
+              if (
+                response.data.message ===
+                "kode promo sudah masuk limit penggunaan"
+              ) {
+                setStatusCode(true);
+                setShowGif((prev) => ({
+                  ...prev,
+                  status: false,
+                  show: true,
+                  message: "Kode promo sudah masuk dalam limit penggunaan",
+                }));
+                setSelected((prev) => ({
+                  ...prev,
+                  discount: 0,
+                  isApplyCode: false,
+                }));
+              }
+
+              if (
+                response.data.message ===
+                "kode promo sudah masuk limit penggunaan harian"
+              ) {
+                setStatusCode(true);
+                setShowGif((prev) => ({
+                  ...prev,
+                  status: false,
+                  show: true,
+                  message:
+                    "Kode promo sudah masuk dalam limit penggunaan harian",
+                }));
+                setSelected((prev) => ({
+                  ...prev,
+                  discount: 0,
+                  isApplyCode: false,
+                }));
+              }
+
+              if (
+                response.data.message ===
+                "akun ini sudah masuk limit penggunaan"
+              ) {
+                setStatusCode(true);
+                setShowGif((prev) => ({
+                  ...prev,
+                  status: false,
+                  show: true,
+                  message: "Akun ini sudah masuk dalam limit penggunaan",
+                }));
+                setSelected((prev) => ({
+                  ...prev,
+                  discount: 0,
+                  isApplyCode: false,
+                }));
+              }
+
+              if (
+                response.data.message === "ip ini sudah masuk limit penggunaan"
+              ) {
+                setStatusCode(true);
+                setShowGif((prev) => ({
+                  ...prev,
+                  status: false,
+                  show: true,
+                  message:
+                    "Promo tidak bisa digunakan / sudah masuk dalam limit penggunaan",
+                }));
+                setSelected((prev) => ({
+                  ...prev,
+                  discount: 0,
+                  isApplyCode: false,
+                }));
+              }
+            })
+            .catch((error) => {
+              setStatusCode(true);
+              setShowGif((prev) => ({
+                ...prev,
+                status: false,
+                show: true,
+                message: "Terjadi kesalahan, silahkan kontak admin",
+              }));
+            });
+        })
+        .catch((err) => {
+          // console.error('Gagal mengambil IP:', err);
+        });
+    }
   };
 
   const setItem = () => {
@@ -338,7 +626,7 @@ const DetailContent = ({
                 </div>
                 <hr className="text-slate-600/60" />
               </div>
-            ) : (
+            ) : groupedFields.length === 1 ? (
               <div className="w-full min-h-[5.5rem] flex flex-col gap-2">
                 <div className="flex justify-between">
                   <h1 className="text-white text-md font-semibold">User</h1>
@@ -348,6 +636,8 @@ const DetailContent = ({
                 </div>
                 <hr className="text-slate-600/60" />
               </div>
+            ) : (
+              ""
             )}
             <div className="w-full min-h-[5.5rem] flex flex-col gap-2">
               <div className="flex justify-between">
@@ -364,6 +654,18 @@ const DetailContent = ({
                         style: "currency",
                         currency: "IDR",
                       }).format(selected.price)
+                    : "Rp 0"}
+                </p>
+              </div>
+              <div className="flex justify-between">
+                <h1 className="text-white text-md font-semibold">Diskon</h1>
+                <p className="text-white text-md">
+                  -{" "}
+                  {selected.discount
+                    ? new Intl.NumberFormat("id-ID", {
+                        style: "currency",
+                        currency: "IDR",
+                      }).format(selected.discount)
                     : "Rp 0"}
                 </p>
               </div>
@@ -398,7 +700,9 @@ const DetailContent = ({
                       style: "currency",
                       currency: "IDR",
                     }).format(
-                      Number(selected.price) + Number(selected.feePayment)
+                      Number(selected.price) -
+                        Number(selected.discount) +
+                        Number(selected.feePayment)
                     )
                   : "Rp 0"}
               </p>
@@ -664,7 +968,8 @@ const DetailContent = ({
                                           selected.price +
                                             (selected.price *
                                               (value.feePercent / 100) +
-                                              value.feeFlat)
+                                              value.feeFlat) -
+                                            selected.discount
                                         )}
                                       </h1>
                                     </div>
@@ -803,7 +1108,8 @@ const DetailContent = ({
                                           selected.price +
                                             (selected.price *
                                               (value.feePercent / 100) +
-                                              value.feeFlat)
+                                              value.feeFlat) -
+                                            selected.discount
                                         )}
                                       </h1>
                                     </div>
@@ -940,7 +1246,8 @@ const DetailContent = ({
                                           selected.price +
                                             (selected.price *
                                               (value.feePercent / 100) +
-                                              value.feeFlat)
+                                              value.feeFlat) -
+                                            selected.discount
                                         )}
                                       </h1>
                                     </div>
@@ -1079,7 +1386,8 @@ const DetailContent = ({
                                           selected.price +
                                             (selected.price *
                                               (value.feePercent / 100) +
-                                              value.feeFlat)
+                                              value.feeFlat) -
+                                            selected.discount
                                         )}
                                       </h1>
                                     </div>
@@ -1221,7 +1529,8 @@ const DetailContent = ({
                                           selected.price +
                                             (selected.price *
                                               (value.feePercent / 100) +
-                                              value.feeFlat)
+                                              value.feeFlat) -
+                                            selected.discount
                                         )}
                                       </h1>
                                     </div>
@@ -1360,7 +1669,8 @@ const DetailContent = ({
                                           selected.price +
                                             (selected.price *
                                               (value.feePercent / 100) +
-                                              value.feeFlat)
+                                              value.feeFlat) -
+                                            selected.discount
                                         )}
                                       </h1>
                                     </div>
@@ -1401,13 +1711,19 @@ const DetailContent = ({
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-2">
                       <input
                         type="text"
-                        name="kode"
+                        name="code"
                         className="lg:col-span-2 w-full h-9 border border-white/70 bg-transparent rounded-md px-4 py-1 text-white text-sm"
                         placeholder="Masukan Kode Promo"
+                        onChange={(e) =>
+                          setSelected({
+                            ...selected,
+                            [e.target.name]: e.target.value,
+                          })
+                        }
                       />
                       <button
+                        onClick={() => applyPromo()}
                         className=" bg-seventh py-1 lg:py-0 rounded-lg text-white font-semibold shadow-md shadow-slate-900"
-                        onClick={() => setStatusCode(!statusCode)}
                       >
                         Apply Code
                       </button>
@@ -1543,7 +1859,7 @@ const DetailContent = ({
                 </div>
                 <hr className="text-slate-600/60" />
               </div>
-            ) : (
+            ) : groupedFields.length === 1 ? (
               <div className="w-full min-h-[5.5rem] flex flex-col gap-2">
                 <div className="flex justify-between">
                   <h1 className="text-white text-md font-semibold">User</h1>
@@ -1553,6 +1869,8 @@ const DetailContent = ({
                 </div>
                 <hr className="text-slate-600/60" />
               </div>
+            ) : (
+              ""
             )}
             <div className="w-full min-h-[5.5rem] flex flex-col gap-2">
               <div className="flex justify-between">
@@ -1569,6 +1887,18 @@ const DetailContent = ({
                         style: "currency",
                         currency: "IDR",
                       }).format(selected.price)
+                    : "Rp 0"}
+                </p>
+              </div>
+              <div className="flex justify-between">
+                <h1 className="text-white text-md font-semibold">Diskon</h1>
+                <p className="text-white text-md">
+                  -{" "}
+                  {selected.discount
+                    ? new Intl.NumberFormat("id-ID", {
+                        style: "currency",
+                        currency: "IDR",
+                      }).format(selected.discount)
                     : "Rp 0"}
                 </p>
               </div>
@@ -1603,7 +1933,9 @@ const DetailContent = ({
                       style: "currency",
                       currency: "IDR",
                     }).format(
-                      Number(selected.price) + Number(selected.feePayment)
+                      Number(selected.price) -
+                        Number(selected.discount) +
+                        Number(selected.feePayment)
                     )
                   : "Rp 0"}
               </p>
@@ -1654,7 +1986,7 @@ const DetailContent = ({
               <>
                 <div className="flex items-center px-4">
                   <div className="w-[40%] flex items-center h-7 sm:h-8 ">
-                    <h1 className="text-xs sm:text-sm text-white">User ID</h1>
+                    <h1 className="text-xs sm:text-sm text-white">User</h1>
                   </div>
                   <div className="w-[60%] flex items-center h-7 sm:h-8">
                     <h1 className="text-xs sm:text-sm text-white">
@@ -1664,7 +1996,7 @@ const DetailContent = ({
                 </div>
                 <div className="flex items-center px-4">
                   <div className="w-[40%] flex items-center h-7 sm:h-8 ">
-                    <h1 className="text-xs sm:text-sm text-white">Zone ID</h1>
+                    <h1 className="text-xs sm:text-sm text-white">Zone</h1>
                   </div>
                   <div className="w-[60%] flex items-center h-7 sm:h-8">
                     <h1 className="text-xs sm:text-sm text-white">
@@ -1677,7 +2009,7 @@ const DetailContent = ({
               <>
                 <div className="flex items-center px-4">
                   <div className="w-[40%] flex items-center h-7 sm:h-8 ">
-                    <h1 className="text-xs sm:text-sm text-white">User ID</h1>
+                    <h1 className="text-xs sm:text-sm text-white">User</h1>
                   </div>
                   <div className="w-[60%] flex items-center h-7 sm:h-8">
                     <h1 className="text-xs sm:text-sm text-white">
@@ -1750,7 +2082,7 @@ const DetailContent = ({
           <div className="w-40 h-40 bg-white rounded-full animate-scaleIn">
             {showGif.show && (
               <img
-                src={showGif.status === "success" ? SucessGIF : FailedGIF}
+                src={showGif.status === "success" ? SuccessGIF : FailedGIF}
                 alt="sukses"
                 width={250}
                 height={250}
@@ -1759,9 +2091,7 @@ const DetailContent = ({
             )}
           </div>
           <h1 className="text-white">
-            {showGif.status === "success"
-              ? "Yeayy kamu berhasil menggunakan kode promo ini 🥳🥳"
-              : "Yahhh kamu gagal menggunakan kode promo ini 😔😔"}
+            {showGif.status === "success" ? showGif.message : showGif.message}
           </h1>
 
           <button

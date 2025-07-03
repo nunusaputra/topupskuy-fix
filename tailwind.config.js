@@ -18,11 +18,12 @@ export default {
         aurora_2: "var(--aurora-2)",
         aurora_3: "var(--aurora-3)",
         border_color: "var(--border-color)",
+        dots: "var(--dots-color)",
       },
       fontSize: {
         md: "1.125rem",
         tm: "0.825rem",
-        zs: "0.675rem",
+        zs: "9px",
       },
       keyframes: {
         scaleIn: {
@@ -41,4 +42,5 @@ export default {
       },
     },
   },
+  plugins: [],
 };
