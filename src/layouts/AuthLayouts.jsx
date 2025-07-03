@@ -3,77 +3,18 @@ import { Link } from "react-router-dom";
 import banner from "../assets/images/login.png";
 
 import { useQuery } from "@tanstack/react-query";
-import { fetchMetadata } from "../services";
+import { fetchColorTemplate, fetchMetadata } from "../services";
 import ContactUs from "../components/ContactUs";
-
-const colorTemplate = [
-  {
-    id: "AURORA_ANIMATION_COLOR_1",
-    value_: "#005eff",
-    notes: null,
-    category: "color-template",
-  },
-  {
-    id: "AURORA_ANIMATION_COLOR_2",
-    value_: "#ffcc00",
-    notes: null,
-    category: "color-template",
-  },
-  {
-    id: "AURORA_ANIMATION_COLOR_3",
-    value_: "#38a9ff",
-    notes: null,
-    category: "color-template",
-  },
-  {
-    id: "BACKGROUND_COLOR",
-    value_: "#0a0a0a",
-    notes: null,
-    category: "color-template",
-  },
-  {
-    id: "BACKGROUND_CONTENT_COLOR",
-    value_: "#272730",
-    notes: null,
-    category: "color-template",
-  },
-  {
-    id: "BORDER_COLOR_PRODUCT",
-    value_: "#ffffff",
-    notes: null,
-    category: "color-template",
-  },
-  {
-    id: "CARD_CONTENT_COLOR",
-    value_: "#2b2b2b",
-    notes: null,
-    category: "color-template",
-  },
-  {
-    id: "DOT_ANIMATION_COLOR",
-    value_: "#a2ae4c",
-    notes: null,
-    category: "color-template",
-  },
-  {
-    id: "HOVER_CARD_ALL_BUTTON_COLOR",
-    value_: "#f5ec00",
-    notes: null,
-    category: "color-template",
-  },
-  {
-    id: "LOGIN_REGISTER_COLOR",
-    value_: "#ffffff",
-    notes: null,
-    category: "color-template",
-  },
-];
 
 const AuthLayouts = (props) => {
   const { data: metadata } = useQuery({
     queryKey: ["metadata"],
     queryFn: fetchMetadata,
     staleTime: 21600000,
+  });
+
+  const { data: colorTemplate } = useQuery({
+    queryFn: fetchColorTemplate,
   });
 
   useEffect(() => {
