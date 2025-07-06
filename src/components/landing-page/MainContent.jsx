@@ -58,9 +58,9 @@ const MainContent = () => {
         });
       } else if (window.innerWidth >= 1280) {
         setSize({
-          min: 20,
-          max: 20,
-          desc: 20,
+          min: 27,
+          max: 27,
+          desc: 27,
         });
       } else {
         setSize({
@@ -168,7 +168,15 @@ const MainContent = () => {
             >
               <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-5">
                 <div className="flex gap-2">
-                  <i className="bi bi-controller text-2xl md:text-3xl text-purple-300 mt-[0.1rem]" />
+                  {category.name === "Game Populer" && (
+                    <i className="bi bi-controller text-2xl md:text-3xl text-purple-300 mt-[0.1rem]" />
+                  )}
+                  {category.name === "Voucher & E-Wallet" && (
+                    <i className="bi bi-wallet2 text-2xl md:text-3xl text-purple-300 mt-[0.1rem]" />
+                  )}
+                  {category.name === "Pulsa & PLN" && (
+                    <i className="bi bi-lightning-fill text-2xl md:text-3xl text-purple-300 mt-[0.1rem]" />
+                  )}
                   <h1 className="text-lg md:text-2xl text-white font-semibold mb-2">
                     {category.name}
                   </h1>

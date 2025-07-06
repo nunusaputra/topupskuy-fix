@@ -48,7 +48,7 @@ export const fetchMetadata = async () => {
 export const fetchColorTemplate = async () => {
   const { data } = await axios.get(`${API_URL}/color-template`);
   return data;
-}
+};
 
 export const fetchProducts = async () => {
   const { data } = await axios.get(`${API_URL}/products`);
@@ -89,6 +89,11 @@ export const fetchUpgradeMembership = async () => {
 
 export const fetchPayment = async () => {
   const { data } = await axios.get(`${API_URL}/channel`);
+  return data;
+};
+
+export const fetchSosmed = async () => {
+  const { data } = await axios.get(`${API_URL}/social-media`);
   return data;
 };
 

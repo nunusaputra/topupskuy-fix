@@ -50,7 +50,7 @@
   }
 
   .shadow-custom {
-    box-shadow: 5px 5px rgb(168 85 247 / 0.6);
+    box-shadow: 5px 5px var(--border-color);
   }
 }
 
