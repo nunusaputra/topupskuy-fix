@@ -25,18 +25,34 @@ const FormLogin = () => {
         headers: { "Content-Type": "application/json" },
       })
       .then((response) => {
+        // console.log(response);
         localStorage.setItem("unique-code", response.data.data.id);
         window.location.href = "/";
       })
       .catch((error) => {
+        // console.log(error);
         toast.error("terjadi kesalahan pada saat order, silahkan kontak admin");
       });
   };
 
   const handleInput = (e) => {
+    let { name, value } = e.target;
+
+    if (name === "email") {
+      value = value.replace(/\D/g, "");
+    }
+
+    if (value.startsWith("62")) {
+      value = value.slice(2);
+    }
+
+    if (value.startsWith("0")) {
+      value = value.slice(1);
+    }
+
     setInput({
       ...input,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
 

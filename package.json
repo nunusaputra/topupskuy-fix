@@ -11,8 +11,10 @@
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",
+    "@lottiefiles/dotlottie-react": "^0.14.1",
     "@reduxjs/toolkit": "^2.6.0",
     "@tanstack/react-query": "^5.67.1",
+    "@tanstack/react-query-devtools": "^5.77.1",
     "axios": "^1.8.1",
     "bootstrap-icons": "^1.11.3",
     "datatables.net": "^2.2.2",
@@ -31,6 +33,7 @@
     "react-redux": "^9.2.0",
     "react-router-dom": "^6.14.2",
     "react-toastify": "^10.0.5",
+    "react-virtualized": "^9.22.6",
     "swiper": "^11.2.5"
   },
   "devDependencies": {

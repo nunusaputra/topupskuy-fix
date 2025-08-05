@@ -5,6 +5,9 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 
 import { API_URL } from "../../env";
+import SuccessGIF from "../../assets/images/GIFSuccess.gif";
+import FailedGIF from "../../assets/images/GIFFailed.gif";
+import Pay from "../../assets/images/pay.png";
 
 const DetailContent = ({
   data,
@@ -19,6 +22,24 @@ const DetailContent = ({
   const paymentRef = useRef(null);
   const promoRef = useRef(null);
   const [showModal, setShowModal] = useState(false);
+
+  const [statusCode, setStatusCode] = useState(false);
+  const [showGif, setShowGif] = useState({
+    show: false,
+    status: "success",
+    message: "",
+  });
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowGif((prev) => ({
+        ...prev,
+        show: true,
+      }));
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const groupedFields = attributes.reduce((acc, attr) => {
     const fieldId = attr.formField.id;
@@ -58,6 +79,10 @@ const DetailContent = ({
     productId: product.id,
     userId: null,
     zoneId: null,
+    discount: null,
+    ip: null,
+    code: null,
+    isApplyCode: false,
     userInputFF: groupedFields[0]?.ffId,
     zoneInputFF: groupedFields[1]?.ffId ? groupedFields[1].ffId : null,
   });
@@ -141,6 +166,20 @@ const DetailContent = ({
   };
 
   const order = () => {
+    let account;
+    if (groupedFields.length > 1) {
+      account = `${selected.userId}-${selected.zoneId}`;
+    } else if (groupedFields.length == 1) {
+      account = `${selected.userId}`;
+    }
+
+    let promoCodeApplied;
+    if (selected.isApplyCode) {
+      promoCodeApplied = selected.code;
+    } else {
+      promoCodeApplied = "";
+    }
+
     let object = null;
     const phoneNumber = selected.phone
       ? selected.phone.startsWith("62")
@@ -166,6 +205,9 @@ const DetailContent = ({
             id: selected.zoneInputFF,
           },
         ],
+        accountGame: account,
+        promoCode: promoCodeApplied,
+        ipAddress: selected.ip,
       };
     } else {
       object = {
@@ -181,6 +223,9 @@ const DetailContent = ({
             id: selected.userInputFF,
           },
         ],
+        accountGame: account,
+        promoCode: promoCodeApplied,
+        ipAddress: selected.ip,
       };
     }
 
@@ -189,7 +234,7 @@ const DetailContent = ({
         headers: { "X-TOKEN-AUTH": token, "Content-Type": "application/json" },
       })
       .then((response) => {
-        if (response.data !== "goodbye") {
+        if (response.data !== "goodbye" || response.data !== "") {
           window.location.href = `/payment/${response.data}`;
         } else {
           window.alert(
@@ -202,6 +247,269 @@ const DetailContent = ({
           "terjadi kesalahan pada saat order, silahkan kontak admin"
         );
       });
+  };
+
+  const applyPromo = async () => {
+    if (selected.code === null) {
+      alert("Kode promo belum ditulis");
+      return;
+    } else {
+      let isLoggedIn =
+        localStorage.getItem("unique-code") !== null ? true : false;
+      let account;
+      if (groupedFields.length > 1) {
+        account = `${selected.userId}-${selected.zoneId}`;
+      } else if (groupedFields.length == 1) {
+        account = `${selected.userId}`;
+      } else {
+        account = "";
+      }
+
+      if (account === "") {
+        alert("promo tidak bisa digunakan");
+        return;
+      }
+
+      await fetch("https://ipinfo.io/json?token=b9b90ab3bc3983")
+        .then((res) => res.json())
+        .then((data) => {
+          setSelected((prev) => ({
+            ...prev,
+            ip: data.ip,
+          }));
+
+          axios
+            .get(
+              `${API_URL}/promo/check-promo/${selected.code}/${selected.itemId}/${account}/${data.ip}/${isLoggedIn}`,
+              {
+                headers: {
+                  "X-TOKEN-AUTH": token,
+                  "Content-Type": "application/json",
+                },
+              }
+            )
+            .then((response) => {
+              if (
+                response.data.message === "promo aktif digunakan" &&
+                response.data.data !== 0
+              ) {
+                setStatusCode(true);
+                setShowGif((prev) => ({
+                  ...prev,
+                  show: true,
+                  message: "Promo berhasil digunakan",
+                }));
+                setSelected((prev) => ({
+                  ...prev,
+                  discount: response.data.data,
+                  isApplyCode: true,
+                }));
+              }
+
+              if (response.data.message === "promo tidak ditemukan") {
+                setStatusCode(true);
+                setShowGif((prev) => ({
+                  ...prev,
+                  status: false,
+                  show: true,
+                  message: "Kode promo tidak ditemukan",
+                }));
+                setSelected((prev) => ({
+                  ...prev,
+                  discount: 0,
+                  isApplyCode: false,
+                }));
+              }
+
+              if (response.data.message === "promo tidak aktif") {
+                setStatusCode(true);
+                setShowGif((prev) => ({
+                  ...prev,
+                  status: false,
+                  show: true,
+                  message: "Kode promo tidak bisa digunakan",
+                }));
+                setSelected((prev) => ({
+                  ...prev,
+                  discount: 0,
+                  isApplyCode: false,
+                }));
+              }
+
+              if (response.data.message === "promo bukan untuk publik") {
+                setStatusCode(true);
+                setShowGif((prev) => ({
+                  ...prev,
+                  status: false,
+                  show: true,
+                  message: "Kode promo hanya bisa digunakan untuk member",
+                }));
+                setSelected((prev) => ({
+                  ...prev,
+                  discount: 0,
+                  isApplyCode: false,
+                }));
+              }
+
+              if (response.data.message === "promo hari ini tidak aktif") {
+                setStatusCode(true);
+                setShowGif((prev) => ({
+                  ...prev,
+                  status: false,
+                  show: true,
+                  message: "Kode promo tidak bisa digunakan pada hari ini",
+                }));
+                setSelected((prev) => ({
+                  ...prev,
+                  discount: 0,
+                  isApplyCode: false,
+                }));
+              }
+
+              if (
+                response.data.message ===
+                "produk ini tidak bisa menggunakan promo"
+              ) {
+                setStatusCode(true);
+                setShowGif((prev) => ({
+                  ...prev,
+                  status: false,
+                  show: true,
+                  message:
+                    "Kode promo tidak bisa digunakan untuk pembelian produk ini",
+                }));
+                setSelected((prev) => ({
+                  ...prev,
+                  discount: 0,
+                  isApplyCode: false,
+                }));
+              }
+
+              if (
+                response.data.message ===
+                "promo belum dimulai / promo sudah expired"
+              ) {
+                setStatusCode(true);
+                setShowGif((prev) => ({
+                  ...prev,
+                  status: false,
+                  show: true,
+                  message:
+                    "Kode promo yang digunakan tidak sesuai tanggal awal dan akhir",
+                }));
+                setSelected((prev) => ({
+                  ...prev,
+                  discount: 0,
+                  isApplyCode: false,
+                }));
+              }
+
+              if (
+                response.data.message ===
+                "nominal pembelian tidak sesuai ketentuan"
+              ) {
+                setStatusCode(true);
+                setShowGif((prev) => ({
+                  ...prev,
+                  status: false,
+                  show: true,
+                  message:
+                    "Nominal pembelian tidak sesuai dengan minimum harga yang ditentukan",
+                }));
+                setSelected((prev) => ({
+                  ...prev,
+                  discount: 0,
+                  isApplyCode: false,
+                }));
+              }
+
+              if (
+                response.data.message ===
+                "kode promo sudah masuk limit penggunaan"
+              ) {
+                setStatusCode(true);
+                setShowGif((prev) => ({
+                  ...prev,
+                  status: false,
+                  show: true,
+                  message: "Kode promo sudah masuk dalam limit penggunaan",
+                }));
+                setSelected((prev) => ({
+                  ...prev,
+                  discount: 0,
+                  isApplyCode: false,
+                }));
+              }
+
+              if (
+                response.data.message ===
+                "kode promo sudah masuk limit penggunaan harian"
+              ) {
+                setStatusCode(true);
+                setShowGif((prev) => ({
+                  ...prev,
+                  status: false,
+                  show: true,
+                  message:
+                    "Kode promo sudah masuk dalam limit penggunaan harian",
+                }));
+                setSelected((prev) => ({
+                  ...prev,
+                  discount: 0,
+                  isApplyCode: false,
+                }));
+              }
+
+              if (
+                response.data.message ===
+                "akun ini sudah masuk limit penggunaan"
+              ) {
+                setStatusCode(true);
+                setShowGif((prev) => ({
+                  ...prev,
+                  status: false,
+                  show: true,
+                  message: "Akun ini sudah masuk dalam limit penggunaan",
+                }));
+                setSelected((prev) => ({
+                  ...prev,
+                  discount: 0,
+                  isApplyCode: false,
+                }));
+              }
+
+              if (
+                response.data.message === "ip ini sudah masuk limit penggunaan"
+              ) {
+                setStatusCode(true);
+                setShowGif((prev) => ({
+                  ...prev,
+                  status: false,
+                  show: true,
+                  message:
+                    "Promo tidak bisa digunakan / sudah masuk dalam limit penggunaan",
+                }));
+                setSelected((prev) => ({
+                  ...prev,
+                  discount: 0,
+                  isApplyCode: false,
+                }));
+              }
+            })
+            .catch((error) => {
+              setStatusCode(true);
+              setShowGif((prev) => ({
+                ...prev,
+                status: false,
+                show: true,
+                message: "Terjadi kesalahan, silahkan kontak admin",
+              }));
+            });
+        })
+        .catch((err) => {
+          // console.error('Gagal mengambil IP:', err);
+        });
+    }
   };
 
   const setItem = () => {
@@ -251,7 +559,7 @@ const DetailContent = ({
         <div className="flex flex-col gap-5 lg:overflow-auto lg:sticky lg:top-32">
           <div className="w-full h-20 bg-slate-800 rounded-lg flex items-center px-4 gap-2 overflow-hidden">
             <div className="w-14 h-14 flex items-center justify-center">
-              <i class="bi bi-headphones text-4xl text-white" />
+              <i className="bi bi-headphones text-4xl text-white" />
             </div>
             <div className="w-full h-14 flex flex-col justify-center">
               <h1 className="text-md text-white font-bold">Butuh Bantuan?</h1>
@@ -319,7 +627,7 @@ const DetailContent = ({
                 </div>
                 <hr className="text-slate-600/60" />
               </div>
-            ) : (
+            ) : groupedFields.length === 1 ? (
               <div className="w-full min-h-[5.5rem] flex flex-col gap-2">
                 <div className="flex justify-between">
                   <h1 className="text-white text-md font-semibold">User</h1>
@@ -329,6 +637,8 @@ const DetailContent = ({
                 </div>
                 <hr className="text-slate-600/60" />
               </div>
+            ) : (
+              ""
             )}
             <div className="w-full min-h-[5.5rem] flex flex-col gap-2">
               <div className="flex justify-between">
@@ -345,6 +655,18 @@ const DetailContent = ({
                         style: "currency",
                         currency: "IDR",
                       }).format(selected.price)
+                    : "Rp 0"}
+                </p>
+              </div>
+              <div className="flex justify-between">
+                <h1 className="text-white text-md font-semibold">Diskon</h1>
+                <p className="text-white text-md">
+                  -{" "}
+                  {selected.discount
+                    ? new Intl.NumberFormat("id-ID", {
+                        style: "currency",
+                        currency: "IDR",
+                      }).format(selected.discount)
                     : "Rp 0"}
                 </p>
               </div>
@@ -373,13 +695,15 @@ const DetailContent = ({
             </div>
             <div className="w-full h-14 flex items-center justify-between">
               <h1 className="text-lg text-white font-bold">Total Pembayaran</h1>
-              <p className="text-orange-400 text-md font-bold">
+              <p className="text-white text-md font-bold">
                 {selected.price !== null || selected.feePayment !== null
                   ? new Intl.NumberFormat("id-ID", {
                       style: "currency",
                       currency: "IDR",
                     }).format(
-                      Number(selected.price) + Number(selected.feePayment)
+                      Number(selected.price) -
+                        Number(selected.discount) +
+                        Number(selected.feePayment)
                     )
                   : "Rp 0"}
               </p>
@@ -392,7 +716,7 @@ const DetailContent = ({
             disabled={isDisabled}
             onClick={() => handleModalSummary()}
           >
-            <i class="bi bi-bag-check text-white text-xl" />
+            <i className="bi bi-bag-check text-white text-xl" />
             <p>Pesan Sekarang!</p>
           </button>
         </div>
@@ -416,7 +740,7 @@ const DetailContent = ({
               >
                 <div key={index} className="flex items-center gap-2">
                   <i
-                    className={`bi bi-${renderedIndex}-circle-fill text-2xl text-orange-500`}
+                    className={`bi bi-${renderedIndex}-circle-fill text-2xl text-seventh`}
                   />
                   <h1 className="text-xl text-white font-semibold">
                     {item.label}
@@ -451,6 +775,12 @@ const DetailContent = ({
                             <select
                               name={item.name}
                               className="w-full h-9 border border-white/70 bg-slate-800 text-slate-300 rounded-md p-1 text-sm"
+                              onChange={(e) =>
+                                setSelected({
+                                  ...selected,
+                                  [e.target.name]: e.target.value,
+                                })
+                              }
                             >
                               <option key={index} value="">
                                 {item.placeholder}
@@ -488,9 +818,10 @@ const DetailContent = ({
                     rounded-lg px-4 py-2 flex flex-col gap-1 justify-center hover:cursor-pointer
                     hover:bg-seventh hover:ring-seventh ${
                       selected.itemId === item.id
-                        ? "bg-seventh ring-orange-500 ring-offset-4"
+                        ? "bg-seventh ring-seventh ring-offset-4 ring-offset-secondary_opacity"
                         : "bg-fourth_opacity_one backdrop-blur-xl ring-0 ring-fourth"
-                    }`}
+                    } transition-all ease-in-out
+                     duration-150`}
                         key={item.id}
                         onClick={() => {
                           setSelected({
@@ -555,7 +886,7 @@ const DetailContent = ({
                                 .filter((item) => item.category === "Saldo")
                                 .map((value) => (
                                   <div
-                                    className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${
+                                    className={`w-full h-auto ring-offset-secondary_opacity rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${
                                       selected.payment === value.id
                                         ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
                                         : "bg-white"
@@ -587,6 +918,9 @@ const DetailContent = ({
                                     >
                                       <img
                                         src={value.icon.path}
+                                        onError={(e) => {
+                                          e.target.src = Pay;
+                                        }}
                                         alt=""
                                         className="w-full h-full object-contain"
                                       />
@@ -639,7 +973,8 @@ const DetailContent = ({
                                           selected.price +
                                             (selected.price *
                                               (value.feePercent / 100) +
-                                              value.feeFlat)
+                                              value.feeFlat) -
+                                            selected.discount
                                         )}
                                       </h1>
                                     </div>
@@ -648,7 +983,7 @@ const DetailContent = ({
                             </div>
                           </div>
                         ) : (
-                          <div className="w-full min-h-10 bg-amber-50 px-4 py-2 flex gap-3">
+                          <div className="w-full min-h-10 bg-white px-4 py-2 flex gap-3">
                             {payment
                               .filter((item) => item.category === "Saldo")
                               .map((value) => (
@@ -658,8 +993,11 @@ const DetailContent = ({
                                 >
                                   <img
                                     src={value.icon.path}
+                                    onError={(e) => {
+                                      e.target.src = Pay;
+                                    }}
                                     alt=""
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-full object-contain"
                                   />
                                 </div>
                               ))}
@@ -696,7 +1034,7 @@ const DetailContent = ({
                                 .filter((item) => item.category === "QRIS")
                                 .map((value) => (
                                   <div
-                                    className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${
+                                    className={`w-full h-auto ring-offset-secondary_opacity rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${
                                       selected.payment === value.id
                                         ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
                                         : "bg-white"
@@ -732,6 +1070,9 @@ const DetailContent = ({
                                     >
                                       <img
                                         src={value.icon.path}
+                                        onError={(e) => {
+                                          e.target.src = Pay;
+                                        }}
                                         alt=""
                                         className="w-full h-full object-contain"
                                       />
@@ -778,7 +1119,8 @@ const DetailContent = ({
                                           selected.price +
                                             (selected.price *
                                               (value.feePercent / 100) +
-                                              value.feeFlat)
+                                              value.feeFlat) -
+                                            selected.discount
                                         )}
                                       </h1>
                                     </div>
@@ -787,7 +1129,7 @@ const DetailContent = ({
                             </div>
                           </div>
                         ) : (
-                          <div className="w-full min-h-10 bg-amber-50 px-4 py-2 flex gap-3">
+                          <div className="w-full min-h-10 bg-white px-4 py-2 flex gap-3">
                             {payment
                               .filter((item) => item.category === "QRIS")
                               .map((value) => (
@@ -797,8 +1139,11 @@ const DetailContent = ({
                                 >
                                   <img
                                     src={value.icon.path}
+                                    onError={(e) => {
+                                      e.target.src = Pay;
+                                    }}
                                     alt=""
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-full object-contain"
                                   />
                                 </div>
                               ))}
@@ -833,7 +1178,7 @@ const DetailContent = ({
                                 .filter((item) => item.category === "E-Wallet")
                                 .map((value) => (
                                   <div
-                                    className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${
+                                    className={`w-full h-auto ring-offset-secondary_opacity rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${
                                       selected.payment === value.id
                                         ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
                                         : "bg-white"
@@ -869,6 +1214,9 @@ const DetailContent = ({
                                     >
                                       <img
                                         src={value.icon.path}
+                                        onError={(e) => {
+                                          e.target.src = Pay;
+                                        }}
                                         alt=""
                                         className="w-full h-full object-contain"
                                       />
@@ -915,7 +1263,8 @@ const DetailContent = ({
                                           selected.price +
                                             (selected.price *
                                               (value.feePercent / 100) +
-                                              value.feeFlat)
+                                              value.feeFlat) -
+                                            selected.discount
                                         )}
                                       </h1>
                                     </div>
@@ -924,7 +1273,7 @@ const DetailContent = ({
                             </div>
                           </div>
                         ) : (
-                          <div className="w-full min-h-10 bg-amber-50 px-4 py-2 flex gap-3">
+                          <div className="w-full min-h-10 bg-white px-4 py-2 flex gap-3">
                             {payment
                               .filter((item) => item.category === "E-Wallet")
                               .map((value) => (
@@ -934,8 +1283,11 @@ const DetailContent = ({
                                 >
                                   <img
                                     src={value.icon.path}
+                                    onError={(e) => {
+                                      e.target.src = Pay;
+                                    }}
                                     alt=""
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-full object-contain"
                                   />
                                 </div>
                               ))}
@@ -972,7 +1324,7 @@ const DetailContent = ({
                                 )
                                 .map((value) => (
                                   <div
-                                    className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${
+                                    className={`w-full h-auto ring-offset-secondary_opacity rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${
                                       selected.payment === value.id
                                         ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
                                         : "bg-white"
@@ -1008,6 +1360,9 @@ const DetailContent = ({
                                     >
                                       <img
                                         src={value.icon.path}
+                                        onError={(e) => {
+                                          e.target.src = Pay;
+                                        }}
                                         alt=""
                                         className="w-full h-full object-contain"
                                       />
@@ -1054,7 +1409,8 @@ const DetailContent = ({
                                           selected.price +
                                             (selected.price *
                                               (value.feePercent / 100) +
-                                              value.feeFlat)
+                                              value.feeFlat) -
+                                            selected.discount
                                         )}
                                       </h1>
                                     </div>
@@ -1063,7 +1419,7 @@ const DetailContent = ({
                             </div>
                           </div>
                         ) : (
-                          <div className="w-full min-h-10 bg-amber-50 px-4 py-2 flex gap-3">
+                          <div className="w-full min-h-10 bg-white px-4 py-2 flex gap-3">
                             {payment
                               .filter(
                                 (item) => item.category === "Virtual Account"
@@ -1075,8 +1431,11 @@ const DetailContent = ({
                                 >
                                   <img
                                     src={value.icon.path}
+                                    onError={(e) => {
+                                      e.target.src = Pay;
+                                    }}
                                     alt=""
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-full object-contain"
                                   />
                                 </div>
                               ))}
@@ -1114,7 +1473,7 @@ const DetailContent = ({
                                 )
                                 .map((value) => (
                                   <div
-                                    className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${
+                                    className={`w-full h-auto ring-offset-secondary_opacity rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${
                                       selected.payment === value.id
                                         ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
                                         : "bg-white"
@@ -1150,6 +1509,9 @@ const DetailContent = ({
                                     >
                                       <img
                                         src={value.icon.path}
+                                        onError={(e) => {
+                                          e.target.src = Pay;
+                                        }}
                                         alt=""
                                         className="w-full h-full object-contain"
                                       />
@@ -1196,7 +1558,8 @@ const DetailContent = ({
                                           selected.price +
                                             (selected.price *
                                               (value.feePercent / 100) +
-                                              value.feeFlat)
+                                              value.feeFlat) -
+                                            selected.discount
                                         )}
                                       </h1>
                                     </div>
@@ -1205,7 +1568,7 @@ const DetailContent = ({
                             </div>
                           </div>
                         ) : (
-                          <div className="w-full min-h-10 bg-amber-50 px-4 py-2 flex gap-3">
+                          <div className="w-full min-h-10 bg-white px-4 py-2 flex gap-3">
                             {payment
                               .filter(
                                 (item) => item.category === "Convenience Store"
@@ -1217,8 +1580,11 @@ const DetailContent = ({
                                 >
                                   <img
                                     src={value.icon.path}
+                                    onError={(e) => {
+                                      e.target.src = Pay;
+                                    }}
                                     alt=""
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-full object-contain"
                                   />
                                 </div>
                               ))}
@@ -1253,7 +1619,7 @@ const DetailContent = ({
                                 .filter((item) => item.category === "Bank")
                                 .map((value) => (
                                   <div
-                                    className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${
+                                    className={`w-full h-auto ring-offset-secondary_opacity rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${
                                       selected.payment === value.id
                                         ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
                                         : "bg-white"
@@ -1289,6 +1655,9 @@ const DetailContent = ({
                                     >
                                       <img
                                         src={value.icon.path}
+                                        onError={(e) => {
+                                          e.target.src = Pay;
+                                        }}
                                         alt=""
                                         className="w-full h-full object-contain"
                                       />
@@ -1335,7 +1704,8 @@ const DetailContent = ({
                                           selected.price +
                                             (selected.price *
                                               (value.feePercent / 100) +
-                                              value.feeFlat)
+                                              value.feeFlat) -
+                                            selected.discount
                                         )}
                                       </h1>
                                     </div>
@@ -1344,7 +1714,7 @@ const DetailContent = ({
                             </div>
                           </div>
                         ) : (
-                          <div className="w-full min-h-10 bg-amber-50 px-4 py-2 flex gap-3">
+                          <div className="w-full min-h-10 bg-white px-4 py-2 flex gap-3">
                             {payment
                               .filter((item) => item.category === "Bank")
                               .map((value) => (
@@ -1354,8 +1724,11 @@ const DetailContent = ({
                                 >
                                   <img
                                     src={value.icon.path}
+                                    onError={(e) => {
+                                      e.target.src = Pay;
+                                    }}
                                     alt=""
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-full object-contain"
                                   />
                                 </div>
                               ))}
@@ -1370,17 +1743,23 @@ const DetailContent = ({
 
                 {item.userInput.id === 4 ? (
                   <div ref={promoRef} className="flex flex-col gap-1">
-                    <label htmlFor="kode" className="text-sm text-white">
-                      Kode Promo
-                    </label>
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-2">
                       <input
                         type="text"
-                        name="kode"
+                        name="code"
                         className="lg:col-span-2 w-full h-9 border border-white/70 bg-transparent rounded-md px-4 py-1 text-white text-sm"
                         placeholder="Masukan Kode Promo"
+                        onChange={(e) =>
+                          setSelected({
+                            ...selected,
+                            [e.target.name]: e.target.value,
+                          })
+                        }
                       />
-                      <button className=" bg-seventh py-1 lg:py-0 rounded-lg text-white font-semibold shadow-md shadow-slate-900">
+                      <button
+                        onClick={() => applyPromo()}
+                        className=" bg-seventh py-1 lg:py-0 rounded-lg text-white font-semibold shadow-md shadow-slate-900"
+                      >
                         Apply Code
                       </button>
                     </div>
@@ -1394,15 +1773,23 @@ const DetailContent = ({
                     <div className="flex items-center border border-gray-300 rounded-lg p-2 w-full overflow-hidden">
                       <span className="text-white mr-2">+62</span>
                       <input
-                        type="number"
+                        type="tel"
                         className="outline-none flex-1 bg-transparent text-white text-sm"
                         value={selected.phone || ""}
-                        onChange={(e) =>
+                        onChange={(e) => {
+                          let value = e.target.value.replace(/\D/g, "");
+
+                          if (value.startsWith("62")) {
+                            value = value.slice(2);
+                          } else if (value.startsWith("0")) {
+                            value = value.slice(1);
+                          }
+
                           setSelected({
                             ...selected,
-                            phone: e.target.value,
-                          })
-                        }
+                            phone: value,
+                          });
+                        }}
                         placeholder="81234567890"
                         disabled={!!member}
                       />
@@ -1435,11 +1822,11 @@ const DetailContent = ({
         </Modal>
       </div>
 
-      <div className="lg:hidden lg:w-[35%] lg:min-h-screen">
+      <div className="mt-10 lg:hidden lg:w-[35%] lg:min-h-screen">
         <div className="flex flex-col gap-5 lg:overflow-auto lg:sticky lg:top-32">
           <div className="w-full h-20 bg-slate-800 rounded-lg flex items-center px-4 gap-2 overflow-hidden">
             <div className="w-14 h-14 flex items-center justify-center">
-              <i class="bi bi-headphones text-4xl text-white" />
+              <i className="bi bi-headphones text-4xl text-white" />
             </div>
             <div className="w-full h-14 flex flex-col justify-center">
               <h1 className="text-md text-white font-bold">Butuh Bantuan?</h1>
@@ -1507,7 +1894,7 @@ const DetailContent = ({
                 </div>
                 <hr className="text-slate-600/60" />
               </div>
-            ) : (
+            ) : groupedFields.length === 1 ? (
               <div className="w-full min-h-[5.5rem] flex flex-col gap-2">
                 <div className="flex justify-between">
                   <h1 className="text-white text-md font-semibold">User</h1>
@@ -1517,6 +1904,8 @@ const DetailContent = ({
                 </div>
                 <hr className="text-slate-600/60" />
               </div>
+            ) : (
+              ""
             )}
             <div className="w-full min-h-[5.5rem] flex flex-col gap-2">
               <div className="flex justify-between">
@@ -1533,6 +1922,18 @@ const DetailContent = ({
                         style: "currency",
                         currency: "IDR",
                       }).format(selected.price)
+                    : "Rp 0"}
+                </p>
+              </div>
+              <div className="flex justify-between">
+                <h1 className="text-white text-md font-semibold">Diskon</h1>
+                <p className="text-white text-md">
+                  -{" "}
+                  {selected.discount
+                    ? new Intl.NumberFormat("id-ID", {
+                        style: "currency",
+                        currency: "IDR",
+                      }).format(selected.discount)
                     : "Rp 0"}
                 </p>
               </div>
@@ -1561,13 +1962,15 @@ const DetailContent = ({
             </div>
             <div className="w-full h-14 flex items-center justify-between">
               <h1 className="text-lg text-white font-bold">Total Pembayaran</h1>
-              <p className="text-orange-400 text-md font-bold">
+              <p className="text-white text-md font-bold">
                 {selected.price !== null || selected.feePayment !== null
                   ? new Intl.NumberFormat("id-ID", {
                       style: "currency",
                       currency: "IDR",
                     }).format(
-                      Number(selected.price) + Number(selected.feePayment)
+                      Number(selected.price) -
+                        Number(selected.discount) +
+                        Number(selected.feePayment)
                     )
                   : "Rp 0"}
               </p>
@@ -1580,7 +1983,7 @@ const DetailContent = ({
             disabled={isDisabled}
             onClick={() => handleModalSummary()}
           >
-            <i class="bi bi-bag-check text-white text-xl" />
+            <i className="bi bi-bag-check text-white text-xl" />
             <p>Pesan Sekarang!</p>
           </button>
         </div>
@@ -1590,9 +1993,10 @@ const DetailContent = ({
         <div className="w-full min-h-96 flex flex-col gap-2">
           <div className="w-full min-h-48 flex flex-col items-center gap-4 justify-center">
             <div className="relative w-20 h-20 sm:w-28 sm:h-28 rounded-full flex items-center justify-center">
-              <i className="bi bi-patch-check-fill w-full h-full text-green-500 relative z-10" />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-white z-0"></div>
+              <div className="absolute inset-0 rounded-full bg-white z-0"></div>
+              <i className="bi bi-patch-check-fill text-green-500 text-7xl relative z-10" />
             </div>
+
             <div className="flex flex-col gap-1 items-center">
               <h1 className="text-lg sm:text-xl text-white font-semibold">
                 Buat Pesanan
@@ -1618,7 +2022,7 @@ const DetailContent = ({
               <>
                 <div className="flex items-center px-4">
                   <div className="w-[40%] flex items-center h-7 sm:h-8 ">
-                    <h1 className="text-xs sm:text-sm text-white">User ID</h1>
+                    <h1 className="text-xs sm:text-sm text-white">User</h1>
                   </div>
                   <div className="w-[60%] flex items-center h-7 sm:h-8">
                     <h1 className="text-xs sm:text-sm text-white">
@@ -1628,7 +2032,7 @@ const DetailContent = ({
                 </div>
                 <div className="flex items-center px-4">
                   <div className="w-[40%] flex items-center h-7 sm:h-8 ">
-                    <h1 className="text-xs sm:text-sm text-white">Zone ID</h1>
+                    <h1 className="text-xs sm:text-sm text-white">Zone</h1>
                   </div>
                   <div className="w-[60%] flex items-center h-7 sm:h-8">
                     <h1 className="text-xs sm:text-sm text-white">
@@ -1641,7 +2045,7 @@ const DetailContent = ({
               <>
                 <div className="flex items-center px-4">
                   <div className="w-[40%] flex items-center h-7 sm:h-8 ">
-                    <h1 className="text-xs sm:text-sm text-white">User ID</h1>
+                    <h1 className="text-xs sm:text-sm text-white">User</h1>
                   </div>
                   <div className="w-[60%] flex items-center h-7 sm:h-8">
                     <h1 className="text-xs sm:text-sm text-white">
@@ -1706,6 +2110,32 @@ const DetailContent = ({
               Batalkan
             </button>
           </div>
+        </div>
+      </Modal>
+
+      <Modal open={statusCode} close={() => setShowModal(!statusCode)}>
+        <div className="w-full min-h-48 flex flex-col items-center gap-4 justify-center">
+          <div className="w-40 h-40 bg-white rounded-full animate-scaleIn">
+            {showGif.show && (
+              <img
+                src={showGif.status === "success" ? SuccessGIF : FailedGIF}
+                alt="sukses"
+                width={250}
+                height={250}
+                className="animate-fadeIn w-full h-full"
+              />
+            )}
+          </div>
+          <h1 className="text-white">
+            {showGif.status === "success" ? showGif.message : showGif.message}
+          </h1>
+
+          <button
+            className="bg-slate-800 shadow-md shadow-slate-900 w-full py-2 text-sm text-white rounded-lg"
+            onClick={() => setStatusCode(false)}
+          >
+            Close
+          </button>
         </div>
       </Modal>
     </>

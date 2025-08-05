@@ -3,14 +3,112 @@ import { Link } from "react-router-dom";
 import banner from "../assets/images/login.png";
 
 import { useQuery } from "@tanstack/react-query";
-import { fetchMetadata } from "../services";
+import { fetchColorTemplate, fetchMetadata } from "../services";
+import ContactUs from "../components/ContactUs";
 
 const AuthLayouts = (props) => {
   const { data: metadata } = useQuery({
     queryKey: ["metadata"],
     queryFn: fetchMetadata,
-    staleTime: 21600000, 
+    staleTime: 21600000,
   });
+
+  const { data: colorTemplate } = useQuery({
+    queryFn: fetchColorTemplate,
+  });
+
+  useEffect(() => {
+    const savedColors = localStorage.getItem("theme-colors");
+    if (savedColors) {
+      setThemeColors(JSON.parse(savedColors));
+    }
+  }, []);
+
+  useEffect(() => {
+    const fetchColor = async () => {
+      try {
+        if (colorTemplate != null || colorTemplate != undefined) {
+          localStorage.setItem("theme-colors", JSON.stringify(colorTemplate));
+          setThemeColors(colorTemplate);
+        }
+      } catch (error) {
+        const savedColors = localStorage.getItem("theme-colors");
+        if (savedColors) {
+          setThemeColors(JSON.parse(savedColors));
+        }
+      }
+    };
+
+    fetchColor();
+  }, [colorTemplate]);
+
+  function hexToRgba(hex, opacity = 1) {
+    hex = hex?.replace("#", "");
+    const r = parseInt(hex?.substring(0, 2), 16);
+    const g = parseInt(hex?.substring(2, 4), 16);
+    const b = parseInt(hex?.substring(4, 6), 16);
+    return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+  }
+
+  const setThemeColors = (colors) => {
+    if (colors) {
+      document.documentElement.style.setProperty(
+        "--background-primary",
+        colors[3].value_
+      );
+      document.documentElement.style.setProperty(
+        "--background-secondary",
+        colors[4].value_
+      );
+      document.documentElement.style.setProperty(
+        "--button-auth",
+        colors[9].value_
+      );
+      document.documentElement.style.setProperty(
+        "--dots-color",
+        colors[7].value_
+      );
+
+      const auroraColors = colors
+        .filter((color) => color.id.startsWith("AURORA_ANIMATION_COLOR_"))
+        .map((color) => color.value_);
+
+      auroraColors.forEach((color, index) => {
+        document.documentElement.style.setProperty(
+          `--aurora-${index + 1}`,
+          color
+        );
+      });
+
+      document.documentElement.style.setProperty(
+        "--border-color",
+        colors[5].value_
+      );
+      document.documentElement.style.setProperty(
+        "--order-and-button-color",
+        colors[8].value_
+      );
+      document.documentElement.style.setProperty(
+        "--card-color",
+        colors[6].value_
+      );
+
+      document.documentElement.style.setProperty(
+        "--background-secondary-opacity",
+        hexToRgba(colors[4].value_, 0.8)
+      );
+
+      document.documentElement.style.setProperty(
+        "--card-color-opacity-one",
+        hexToRgba(colors[6].value_, 0.3)
+      );
+
+      document.documentElement.style.setProperty(
+        "--card-color-opacity-two",
+        hexToRgba(colors[6].value_, 0.2)
+      );
+    }
+  };
 
   useEffect(() => {
     if (metadata?.settings[0].value_) {
@@ -36,7 +134,7 @@ const AuthLayouts = (props) => {
             <div className="w-full h-full p-2">
               <a href="/">
                 <div className="icon-close w-10 h-10 mb-3 rounded-full bg-slate-800/90 flex items-center justify-center group ring-2 ring-offset-0 ring-slate-600 cursor-pointer hover:ring-offset-4 hover:ring-offset-primary transition-all duration-300">
-                  <i class="bi bi-x-lg text-2xl text-white group-hover:scale-125 transition-all duration-300 inline-block" />
+                  <i className="bi bi-x-lg text-2xl text-white group-hover:scale-125 transition-all duration-300 inline-block" />
                 </div>
               </a>
               <div className="w-full mt-5 md:mt-0 h-[90%] flex flex-col justify-center items-center px-2 lg:px-10 xl:px-16 py-4">
@@ -79,6 +177,7 @@ const AuthLayouts = (props) => {
               </div>
             </div>
           </div>
+          <ContactUs />
           <div className="hidden md:block w-[60%] max-h-screen bg-red-500 overflow-hidden">
             <img src={banner} alt="" className="w-full h-full object-cover" />
           </div>

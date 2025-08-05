@@ -50,7 +50,7 @@ const Transaction = () => {
                   onClick={() => submit()}
                   className="w-full py-2 bg-seventh text-white font-semibold rounded-lg flex items-center justify-center gap-2 hover:cursor-pointer"
                 >
-                  <i class="bi bi-clipboard-check-fill text-white t"></i>
+                  <i className="bi bi-clipboard-check-fill text-white t"></i>
                   <p>Cari Pesanan</p>
                 </button>
               </div>

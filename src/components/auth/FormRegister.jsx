@@ -16,9 +16,23 @@ const FormRegister = () => {
   });
 
   const handleInput = (e) => {
+    let { name, value } = e.target;
+
+    if (name === "telpon") {
+      value = value.replace(/\D/g, "");
+    }
+
+    if (value.startsWith("62")) {
+      value = value.slice(2);
+    }
+
+    if (value.startsWith("0")) {
+      value = value.slice(1);
+    }
+
     setInput({
       ...input,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
 
@@ -26,7 +40,7 @@ const FormRegister = () => {
     const object = {
       name: input.nama,
       password: input.password,
-      phoneNumber: input.telpon,
+      phoneNumber: `+62${input.telpon}`,
     };
 
     axios
@@ -64,15 +78,23 @@ const FormRegister = () => {
         value={input.nama}
         onChange={handleInput}
       />
-      <InputForm
-        label="Nomor Telp"
-        type="tel"
-        name="telpon"
-        id="telpon"
-        placeholder="+6281322022050"
-        value={input.telepon}
-        onChange={handleInput}
-      />
+      <div className="flex flex-col gap-1 mb-3">
+        <label htmlFor="telp" className=" text-sm font-bold text-white mb-2">
+          Nomor WhatsApp
+        </label>
+        <div className="flex items-center bg-white rounded p-2 w-full overflow-hidden">
+          <span className="text-sm mr-2">+62</span>
+          <input
+            type="telp"
+            className="outline-none flex-1 bg-transparent text-sm"
+            name="telpon"
+            id="telpon"
+            placeholder="81234567890"
+            value={input.telpon}
+            onChange={handleInput}
+          />
+        </div>
+      </div>
       <InputPassword
         label={"Password"}
         name={"password"}

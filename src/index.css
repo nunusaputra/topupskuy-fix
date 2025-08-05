@@ -33,6 +33,7 @@
   --card-color-opacity-one: #475569;
   --card-color-opacity-two: #475569;
   --background-secondary-opacity: #0f172a;
+  --bg-history-opacity: #db2777;
 }
 
 @layer components {
@@ -50,7 +51,7 @@
   }
 
   .shadow-custom {
-    box-shadow: 5px 5px rgb(168 85 247 / 0.6);
+    box-shadow: 5px 5px var(--border-color);
   }
 }
 

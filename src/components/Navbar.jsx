@@ -12,7 +12,8 @@ import { useEffect, useState } from "react";
 import { fetchDataMember } from "../services";
 import { useQuery } from "@tanstack/react-query";
 import { LuLogOut } from "react-icons/lu";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { isDarkText } from "../services/helper";
 
 const navigation = [
   { name: "Topup", href: "/", current: false },
@@ -33,12 +34,16 @@ const Navbar = (props) => {
   const uniqueCode = localStorage.getItem("unique-code")
     ? localStorage.getItem("unique-code")
     : "";
+
   const { data: member } = useQuery({
     queryKey: ["uniqueCode", uniqueCode],
     queryFn: () => fetchDataMember(uniqueCode),
     staleTime: 21600000,
     enabled: !!uniqueCode,
   });
+
+  const memberName = member?.name?.split(" ");
+  const nameFinal = memberName?.map((name) => name.charAt(0)).join("");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -54,10 +59,21 @@ const Navbar = (props) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const bg = getComputedStyle(document.documentElement).getPropertyValue(
+    "--button-auth"
+  );
+  const isDark = isDarkText(bg);
+  const textDark = isDark ? "text-white" : "text-black";
+
+  const { pathname } = useLocation();
+  const isOrder = pathname.includes("/order");
+
   return (
     <Disclosure
       as="nav"
-      className={`sticky top-0 z-[100] py-2 w-full transition-all duration-300
+      className={`${
+        isOrder ? "fixed" : "sticky"
+      } top-0 z-[100] py-2 w-full transition-all duration-300
             ${
               scrolling
                 ? "bg-fourth_opacity_one backdrop-blur-2xl"
@@ -87,7 +103,10 @@ const Navbar = (props) => {
               <img
                 alt="Your Company"
                 src={logo}
-                className="h-full w-full object-cover"
+                className="h-full w-full object-contain"
+                loading="lazy"
+                width={50}
+                height={50}
               />
             </div>
             <div className="hidden lg:ml-6 lg:block">
@@ -98,13 +117,13 @@ const Navbar = (props) => {
                     href={item.href}
                     aria-current={item.current ? "page" : undefined}
                     className={classNames(
-                      item.current ? "text-purple-300" : "text-white ",
-                      "relative rounded-md py-2 text-sm font-medium group hover:text-purple-300 hover:cursor-pointer"
+                      item.current ? "text-border_color" : "text-white ",
+                      "relative rounded-md py-2 text-sm font-medium group hover:text-border_color hover:cursor-pointer"
                     )}
                   >
                     {item.name}
                     {/* Underline */}
-                    <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full group-hover:bg-purple-600"></span>
+                    <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full group-hover:bg-border_color"></span>
                   </a>
                 ))}
               </div>
@@ -116,17 +135,45 @@ const Navbar = (props) => {
               {member != null ? (
                 <Menu as="div" className="relative ml-3">
                   <div className="flex gap-4">
-                    <div className="hidden px-4 py-2 bg-transparent text-white ring-2 ring-sixth rounded-md md:flex items-center gap-2 hover:bg-sixth cursor-pointer transition-all duration-300">
-                      <i class="bi bi-person-lines-fill text-sm text-white" />
-                      <h1 className="text-sm text-white font-semibold">
+                    <div
+                      className={`hidden px-4 py-2 bg-transparent text-third ring-2 ring-third rounded-md md:flex items-center gap-2 hover:bg-third cursor-pointer transition-all duration-300 group`}
+                    >
+                      <i
+                        className={`bi bi-person-lines-fill text-sm text-third ${
+                          isDark
+                            ? "group-hover:text-white"
+                            : "group-hover:text-black"
+                        }`}
+                      />
+                      <h1
+                        className={`text-sm text-third ${
+                          isDark
+                            ? "group-hover:text-white"
+                            : "group-hover:text-black"
+                        } font-semibold`}
+                      >
                         {member.role}
                       </h1>
                     </div>
                     <MenuButton className="relative">
-                      <div className="px-4 py-2 bg-transparent text-white ring-2 ring-sixth rounded-md flex items-center gap-2 hover:bg-sixth cursor-pointer transition-all duration-300">
-                        <i class="bi bi-person-fill text-sm text-white" />
-                        <h1 className="text-sm text-white font-semibold">
-                          {member.name}
+                      <div
+                        className={`px-4 py-2 bg-transparent text-third ring-2 ring-third rounded-md flex items-center gap-2 hover:bg-third cursor-pointer transition-all duration-300 group`}
+                      >
+                        <i
+                          className={`bi bi-person-fill text-sm text-third ${
+                            isDark
+                              ? "group-hover:text-white"
+                              : "group-hover:text-black"
+                          }`}
+                        />
+                        <h1
+                          className={`text-sm text-third ${
+                            isDark
+                              ? "group-hover:text-white"
+                              : "group-hover:text-black"
+                          } font-semibold`}
+                        >
+                          {nameFinal}
                         </h1>
                       </div>
                     </MenuButton>
@@ -196,13 +243,13 @@ const Navbar = (props) => {
                 <div className="hidden md:flex items-center gap-3">
                   <a
                     href="/login"
-                    className="px-4 py-2 rounded-lg ring-2 ring-third text-third font-semibold hover:bg-third transition-all duration-300 hover:cursor-pointer hover:text-black"
+                    className={`px-4 py-2 rounded-lg ring-2 ring-third text-third font-semibold hover:bg-third transition-all duration-300 hover:cursor-pointer hover:${textDark}`}
                   >
                     Login
                   </a>
                   <a
                     href="/register"
-                    className="px-4 py-2 ring-2 ring-third rounded-lg bg-third font-semibold hover:cursor-pointer hover:text-black"
+                    className={`px-4 py-2 ring-2 ring-third rounded-lg bg-third font-semibold hover:cursor-pointer hover:${textDark}`}
                   >
                     Register
                   </a>

@@ -2,7 +2,8 @@ import React from "react";
 import Routers from "./router/Routers";
 import { fetchMetadata } from "./services";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react"
+import { useEffect } from "react";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const App = () => {
   const { data: metadata } = useQuery({
@@ -13,13 +14,13 @@ const App = () => {
 
   useEffect(() => {
     if (metadata) {
-      document.title = metadata.settings[0].value_
-      const favicon = document.querySelector("link[rel~='icon']")
+      document.title = metadata.settings[0].value_;
+      const favicon = document.querySelector("link[rel~='icon']");
       if (favicon) {
-        favicon.href = metadata.images[1].value_
+        favicon.href = metadata.images[1].value_;
       }
     }
-  }, [metadata])
+  }, [metadata]);
 
   return (
     <div>

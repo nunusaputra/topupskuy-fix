@@ -43,12 +43,12 @@ const History = () => {
       <section className="">
         <div className="bg-secondary p-4 md:px-8 md:py-6 backdrop-blur-4xl rounded-xl">
           <div className="w-full mb-5 flex items-center gap-2">
-            <i class="bi bi-arrow-repeat text-2xl text-white" />
+            <i className="bi bi-arrow-repeat text-2xl text-white" />
             <h1 className="text-xl font-bold text-white">Riwayat Pesanan</h1>
           </div>
           {currentItems?.map((item) => (
             <div
-              className="relative w-full min-h-[7.5rem] bg-sixth/40 rounded-lg ring-2 ring-purple-500 ring-offset-0 transition-all duration-300 hover:ring-offset-8 hover:ring-offset-secondary flex flex-col xl:flex-row px-4 py-2 gap-2 mb-8 hover:cursor-pointer overflow-hidden"
+              className="relative w-full min-h-[7.5rem] bg-seventh_opacity rounded-lg ring-2 ring-seventh ring-offset-0 transition-all duration-300 hover:ring-offset-8 hover:ring-offset-secondary flex flex-col xl:flex-row px-4 py-2 gap-2 mb-8 hover:cursor-pointer overflow-hidden"
               key={item.id}
               onClick={() => goto(item.id)}
             >
@@ -57,8 +57,11 @@ const History = () => {
                   <div className="w-[35%] sm:w-[25%] md:w-[45%] lg:w-[35%] h-20 md:h-28 bg-red-500 rounded-lg overflow-hidden">
                     <img
                       src={item.path}
-                      alt=""
+                      alt={item.title}
                       className="w-full h-full object-cover"
+                      width={60}
+                      height={50}
+                      loading="lazy"
                     />
                   </div>
                   <div className="w-[60%] sm:w-[72%] md:w-[50%] lg:w-[60%] flex flex-col items-start gap-1 md:gap-2 xl:gap-3">
@@ -69,7 +72,7 @@ const History = () => {
                       {item.name}
                     </h1>
                     <div className="flex items-center gap-2">
-                      <i class="bi bi-credit-card-2-front-fill text-sm xl:text-lg text-white" />
+                      <i className="bi bi-credit-card-2-front-fill text-sm xl:text-lg text-white" />
                       <h1 className="text-sm text-white">
                         {item.paymentMethod}
                       </h1>
@@ -104,6 +107,9 @@ const History = () => {
                   src={pattern}
                   alt=""
                   className="w-full h-full object-cover"
+                  width={100}
+                  height={100}
+                  loading="lazy"
                 />
               </div>
             </div>

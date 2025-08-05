@@ -21,7 +21,7 @@ const Profile = () => {
   return (
     <div className="w-full lg:w-[80%] mt-6 lg:mt-0 flex flex-col gap-10">
       <div className="w-full min-h-30 flex flex-col">
-        <div className="grid grid-cols-1 sm:grid-cols-3 sm:grid-rows-2 gap-2 sm:gap-4 items-start">
+        <div className="grid grid-cols-1 sm:grid-cols-3 sm:grid-rows-2 gap-2 sm:gap-4 items-start ">
           {/* Profile */}
           <div className="col-span-3 sm:col-span-2 bg-secondary_opacity rounded-md p-4">
             <div className="w-full flex flex-col justify-center gap-4">
@@ -84,10 +84,6 @@ const Profile = () => {
                   </a>
                 </div>
 
-                {/* Konten Card */}
-                <h2 className="relative text-white text-sm font-bold mb-1">
-                  topupskuy
-                </h2>
                 <p className="relative text-white text-xs sm:text-zs md:text-xs mb-5 sm:mb-3 md:mb-5">
                   Ingin dapat harga lebih murah?
                 </p>
@@ -161,7 +157,7 @@ const Profile = () => {
           </div>
 
           {/* Transaksi Saya */}
-          <div className="col-span-3 min-h-28 mt-5 lg:mt-0">
+          <div className="col-span-3 min-h-28 mt-5 lg:-mt-5">
             <h1 className="text-xl text-white font-semibold mb-3">
               Transaksi Hari Ini
             </h1>
@@ -178,6 +174,8 @@ const Profile = () => {
                   Total Penjualan
                 </p>
               </div>
+            </div>
+            <div className="bg-secondary mt-2 p-4 w-full grid grid-cols-2 xl:grid-cols-4 gap-4">
               <div
                 className="h-28 bg-yellow-500/60 backdrop-opacity-10 ring-1 ring-yellow-500 hover:ring-offset-2 
                 hover:ring-offset-[#060911] transition-all duration-200 hover:cursor-pointer ring-offset-0 rounded-md 

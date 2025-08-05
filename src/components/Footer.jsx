@@ -1,21 +1,32 @@
-import React from "react";
-import logo from "../assets/images/logo-fix.png";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { fetchSosmed } from "../services";
 
 const Footer = (props) => {
   const logoFooter =
-    props.metadata?.images.find((item) => item.id === "LOGO-FOOTER")?.value_ ||
-    "";
+    props.images?.find((item) => item.id === "LOGO-FOOTER")?.value_ || "";
   const applicationName =
-    props.metadata?.settings.find((item) => item.id === "APPLICATION_NAME")
-      ?.value_ || "";
+    props.settings?.find((item) => item.id === "APPLICATION_NAME")?.value_ ||
+    "";
   const address =
-    props.metadata?.settings.find((item) => item.id === "FOOTER_ADDRESS")
-      ?.value_ || "";
+    props.settings?.find((item) => item.id === "FOOTER_ADDRESS")?.value_ || "";
   const email =
-    props.metadata?.settings.find((item) => item.id === "FOOTER_EMAIL")
-      ?.value_ || "";
+    props.settings?.find((item) => item.id === "FOOTER_EMAIL")?.value_ || "";
+
+  const [isSosmed, setIsSosmed] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetchSosmed();
+      const filtered = response.filter((item) => item.isSosmed === true);
+      setIsSosmed(filtered);
+    };
+
+    fetchData();
+  }, []);
+
   return (
-    <div className="relative mt-16 bg-secondary_opacity backdrop-blur-2xl">
+    <div className="relative mt-16 bg-secondary_opacity backdrop-blur-2xl min-h-[300px]">
       <div className="px-4 pt-12 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
         <div className="grid gap-16 row-gap-10 mb-8 lg:grid-cols-6">
           <div className="md:max-w-md lg:col-span-2">
@@ -28,8 +39,11 @@ const Footer = (props) => {
               <div className="w-14 h-14 overflow-hidden">
                 <img
                   src={logoFooter}
-                  alt=""
-                  className="w-full h-full object-cover"
+                  alt="logo footer"
+                  className="object-cover"
+                  width={50}
+                  height={50}
+                  loading="lazy"
                 />
               </div>
               <span className="ml-2 text-xl font-bold tracking-wide uppercase text-white">
@@ -50,7 +64,7 @@ const Footer = (props) => {
                 <li>
                   <a
                     href="/"
-                    className="transition-all text-sm duration-300 text-white hover:text-purple-300"
+                    className="transition-all text-sm duration-300 text-white hover:text-border_color"
                   >
                     Reseller
                   </a>
@@ -58,7 +72,7 @@ const Footer = (props) => {
                 <li>
                   <a
                     href="/"
-                    className="transition-all text-sm duration-300 text-white hover:text-purple-300"
+                    className="transition-all text-sm duration-300 text-white hover:text-border_color"
                   >
                     Web Topup
                   </a>
@@ -66,7 +80,7 @@ const Footer = (props) => {
                 <li>
                   <a
                     href="/"
-                    className="transition-all text-sm duration-300 text-white hover:text-purple-300"
+                    className="transition-all text-sm duration-300 text-white hover:text-border_color"
                   >
                     Affiliasi
                   </a>
@@ -79,7 +93,7 @@ const Footer = (props) => {
                 <li>
                   <a
                     href="/"
-                    className="transition-all text-sm duration-300 text-white hover:text-purple-300"
+                    className="transition-all text-sm duration-300 text-white hover:text-border_color"
                   >
                     Topup
                   </a>
@@ -87,7 +101,7 @@ const Footer = (props) => {
                 <li>
                   <a
                     href="/transaction"
-                    className="transition-all text-sm duration-300 text-white hover:text-purple-300"
+                    className="transition-all text-sm duration-300 text-white hover:text-border_color"
                   >
                     Check Transaction
                   </a>
@@ -102,10 +116,10 @@ const Footer = (props) => {
             All rights reserved.
           </p>
           <div className="flex items-center mt-4 space-x-4 sm:mt-0">
-            {props.metadata?.socialMedias.map((x) => (
+            {isSosmed?.map((x) => (
               <a key={x.id} href={x.link} title={x.id}>
                 <i
-                  className={`${x.logo} text-white transition-colors duration-300 tall text-smep-purple-100 hover:text-purple-300`}
+                  className={`${x.logo} text-white transition-colors duration-300 tall text-smep-purple-100 hover:text-border_color`}
                 ></i>
               </a>
             ))}

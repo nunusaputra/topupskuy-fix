@@ -2,11 +2,7 @@ import React, { useState, useEffect, useRef, useMemo } from "react";
 import coverBottom from "../assets/images/cover-bottom.png";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import {
-  fetchPurchaseDetail,
-  fetchUpgradeTopupDetail,
-  historyPayment,
-} from "../services";
+import { fetchPurchaseDetail, fetchUpgradeTopupDetail } from "../services";
 import Canceled from "../assets/images/canceled.png";
 import Expired from "../assets/images/expired.png";
 import Failed from "../assets/images/failed.png";
@@ -25,7 +21,6 @@ const Payment = () => {
   const [showInstruction, setShowInstruction] = useState(true);
   const [copied, setCopied] = useState(false);
 
-  const data = historyPayment.find((item) => item.id === parseInt(orderId));
   const nickname = localStorage.getItem("nickname")
     ? localStorage.getItem("nickname")
     : "-";
@@ -205,7 +200,8 @@ const Payment = () => {
 
                 {/* Rincian Pembayaran */}
                 <div
-                  className="w-full h-10 bg-fourth_opacity_one backdrop-blur-2xl rounded-lg flex justify-between items-center px-4 hover:cursor-pointer"
+                  className="w-full h-10 bg-secondary
+                   backdrop-blur-2xl rounded-lg flex justify-between items-center px-4 hover:cursor-pointer"
                   onClick={() => setShowPayment(!showPayment)}
                 >
                   <h1 className="text-sm sm:text-[15px] text-white font-semibold">
@@ -220,7 +216,7 @@ const Payment = () => {
 
                 {/* Konten Rincian Pembayaran */}
                 {showPayment && (
-                  <div className="w-full min-h-10 bg-fourth_opacity_one backdrop-blur-2xl rounded-lg flex flex-col p-6 gap-6">
+                  <div className="w-full min-h-10 bg-secondary backdrop-blur-2xl rounded-lg flex flex-col p-6 gap-6">
                     {result !== "UPGRADE" && result !== "TOPUP" ? (
                       <>
                         <div className="w-full flex justify-between">
@@ -266,7 +262,19 @@ const Payment = () => {
                         </div>
                       </>
                     )}
-
+                    {/* DISKON */}
+                    <div className="w-full flex justify-between">
+                      <h1 className="text-white text-sm sm:text-[15px] font-semibold">
+                        Diskon
+                      </h1>
+                      <h1 className="text-white text-sm sm:text-[15px] font-medium">
+                        -{" "}
+                        {new Intl.NumberFormat("id-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                        }).format(purchase?.discountPrice)}
+                      </h1>
+                    </div>
                     <div className="w-full flex justify-between">
                       <h1 className="text-white text-sm sm:text-[15px] font-semibold">
                         Biaya Tambahan
@@ -293,7 +301,7 @@ const Payment = () => {
                 )}
 
                 {/* Rincian Pembayaran */}
-                <div className="w-full h-16 bg-fourth_opacity_one backdrop-blur-2xl rounded-lg flex justify-between items-center px-4">
+                <div className="w-full h-16 bg-secondary backdrop-blur-2xl rounded-lg flex justify-between items-center px-4">
                   <h1 className="text-sm sm:text-[15px] text-white font-bold">
                     Total Pembayaran
                   </h1>
@@ -318,7 +326,7 @@ const Payment = () => {
               </div>
 
               {/* Metode Pembayaran */}
-              <div className="bg-fourth_opacity_one p-6 backdrop-blur-2xl w-full rounded-lg flex flex-col gap-4">
+              <div className="bg-secondary p-6 backdrop-blur-2xl w-full rounded-lg flex flex-col gap-4">
                 <div>
                   <h1 className="text-sm sm:text-[15px] text-white font-semibold">
                     Metode Pembayaran
@@ -371,12 +379,20 @@ const Payment = () => {
                             purchase?.categoryPayment === "Bank") && (
                             <div className="w-full min-h-[11.5rem] flex flex-col gap-3 items-center overflow-hidden">
                               <div className="w-[40%] p-2 h-full rounded-lg bg-white">
-                                <img
-                                  ref={qrCodeRef}
-                                  src={`https://api.qrserver.com/v1/create-qr-code/?data=${purchase?.paymentNumber}`}
-                                  alt=""
-                                  className="w-full h-full object-contain"
-                                />
+                                {purchase?.paymentNumber ? (
+                                  <img
+                                    ref={qrCodeRef}
+                                    src={`https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(
+                                      purchase.paymentNumber
+                                    )}`}
+                                    alt="QR Code"
+                                    className="w-full h-full object-contain"
+                                  />
+                                ) : (
+                                  <span className="text-gray-400">
+                                    Loading QR Code...
+                                  </span>
+                                )}
                               </div>
                               <button
                                 className="w-full h-10 py-2 bg-seventh text-sm text-white font-bold shadow-md shadow-slate-900 rounded-lg"
@@ -472,7 +488,7 @@ const Payment = () => {
                           {(purchase?.paymentMethodCategory === "QRIS" ||
                             purchase?.paymentMethodCategory === "Bank") && (
                             <div className="w-full min-h-[11.5rem] flex flex-col gap-3 items-center overflow-hidden">
-                              <div className="w-[40%] p-2 h-full rounded-lg bg-white">
+                              <div className="w-[40%] p-2 h-full rounded-lg bg-seventh">
                                 <img
                                   ref={qrCodeRef}
                                   src={`https://api.qrserver.com/v1/create-qr-code/?data=${purchase?.paymentNumber}`}
@@ -577,7 +593,7 @@ const Payment = () => {
                 Instruksi Pembayaran
               </h1>
               <div
-                className="w-full h-10 bg-fourth_opacity_one backdrop-blur-2xl rounded-lg flex justify-between items-center px-6 hover:cursor-pointer"
+                className="w-full h-10 bg-secondary backdrop-blur-2xl rounded-lg flex justify-between items-center px-6 hover:cursor-pointer"
                 onClick={() => setShowInstruction(!showInstruction)}
               >
                 <p className="text-sm text-white font-semibold">
@@ -590,7 +606,7 @@ const Payment = () => {
                 />
               </div>
               {showInstruction && (
-                <div className="w-full min-h-14 bg-fourth_opacity_one backdrop-blur-2xl rounded-lg flex items-center px-6">
+                <div className="w-full min-h-14 bg-secondary backdrop-blur-2xl rounded-lg flex items-center p-6">
                   <h1
                     className="text-sm text-white font-semibold"
                     dangerouslySetInnerHTML={{

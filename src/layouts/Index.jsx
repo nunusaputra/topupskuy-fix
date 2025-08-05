@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 import Footer from "../components/Footer";
 import { useQuery } from "@tanstack/react-query";
 import { fetchColorTemplate, fetchMetadata } from "../services";
-import { color } from "framer-motion";
+import ContactUs from "../components/ContactUs";
 
 const Index = () => {
   const { data: metadata } = useQuery({
@@ -18,9 +18,16 @@ const Index = () => {
   });
 
   useEffect(() => {
+    const savedColors = localStorage.getItem("theme-colors");
+    if (savedColors) {
+      setThemeColors(JSON.parse(savedColors));
+    }
+  }, []);
+
+  useEffect(() => {
     const fetchColor = async () => {
       try {
-        if(colorTemplate != null || colorTemplate != undefined) {
+        if (colorTemplate != null || colorTemplate != undefined) {
           localStorage.setItem("theme-colors", JSON.stringify(colorTemplate));
           setThemeColors(colorTemplate);
         }
@@ -30,10 +37,10 @@ const Index = () => {
           setThemeColors(JSON.parse(savedColors));
         }
       }
-    }
+    };
 
-    fetchColor()
-  }, [colorTemplate])
+    fetchColor();
+  }, [colorTemplate]);
 
   function hexToRgba(hex, opacity = 1) {
     hex = hex?.replace("#", "");
@@ -67,7 +74,10 @@ const Index = () => {
         .map((color) => color.value_);
 
       auroraColors.forEach((color, index) => {
-        document.documentElement.style.setProperty(`--aurora-${index + 1}`, color);
+        document.documentElement.style.setProperty(
+          `--aurora-${index + 1}`,
+          color
+        );
       });
 
       document.documentElement.style.setProperty(
@@ -75,9 +85,15 @@ const Index = () => {
         colors[5].value_
       );
       document.documentElement.style.setProperty(
-        "--order-color",
+        "--order-and-button-color",
         colors[8].value_
       );
+
+      document.documentElement.style.setProperty(
+        "--bg-history-opacity",
+        hexToRgba(colors[8].value_, 0.4)
+      );
+
       document.documentElement.style.setProperty(
         "--card-color",
         colors[6].value_
@@ -109,6 +125,7 @@ const Index = () => {
       const link =
         document.querySelector("link[rel~='icon']") ||
         document.createElement("link");
+
       link.rel = "icon";
       link.href = metadata?.images[1].value_;
       document.getElementsByTagName("head")[0].appendChild(link);
@@ -121,7 +138,8 @@ const Index = () => {
       <div className="">
         <Outlet />
       </div>
-      <Footer metadata={metadata} />
+      <ContactUs />
+      <Footer images={metadata?.images} settings={metadata?.settings} />
     </div>
   );
 };

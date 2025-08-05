@@ -1,17 +1,119 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect } from "react";
-import { fetchMetadata } from "../services";
+import { fetchColorTemplate, fetchMetadata } from "../services";
 import Navbar from "../components/Navbar";
 import { Outlet } from "react-router-dom";
 import Footer from "../components/Footer";
 import Sidebar from "../components/dashboard/Sidebar";
+import ContactUs from "../components/ContactUs";
 
 const DashboardLayouts = () => {
-  const { data: metadata } = useQuery({
+  const {
+    data: metadata,
+    error,
+    isLoading,
+  } = useQuery({
     queryKey: ["metadata"],
     queryFn: fetchMetadata,
     staleTime: 21600000,
   });
+
+  const { data: colorTemplate } = useQuery({
+    queryFn: fetchColorTemplate,
+  });
+
+  useEffect(() => {
+    const savedColors = localStorage.getItem("theme-colors");
+    if (savedColors) {
+      setThemeColors(JSON.parse(savedColors));
+    }
+  }, []);
+
+  useEffect(() => {
+    const fetchColor = async () => {
+      try {
+        if (colorTemplate != null || colorTemplate != undefined) {
+          localStorage.setItem("theme-colors", JSON.stringify(colorTemplate));
+          setThemeColors(colorTemplate);
+        }
+      } catch (error) {
+        const savedColors = localStorage.getItem("theme-colors");
+        if (savedColors) {
+          setThemeColors(JSON.parse(savedColors));
+        }
+      }
+    };
+
+    fetchColor();
+  }, [colorTemplate]);
+
+  function hexToRgba(hex, opacity = 1) {
+    hex = hex?.replace("#", "");
+    const r = parseInt(hex?.substring(0, 2), 16);
+    const g = parseInt(hex?.substring(2, 4), 16);
+    const b = parseInt(hex?.substring(4, 6), 16);
+    return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+  }
+
+  const setThemeColors = (colors) => {
+    if (colors) {
+      document.documentElement.style.setProperty(
+        "--background-primary",
+        colors[3].value_
+      );
+      document.documentElement.style.setProperty(
+        "--background-secondary",
+        colors[4].value_
+      );
+      document.documentElement.style.setProperty(
+        "--button-auth",
+        colors[9].value_
+      );
+      document.documentElement.style.setProperty(
+        "--dots-color",
+        colors[7].value_
+      );
+
+      const auroraColors = colors
+        .filter((color) => color.id.startsWith("AURORA_ANIMATION_COLOR_"))
+        .map((color) => color.value_);
+
+      auroraColors.forEach((color, index) => {
+        document.documentElement.style.setProperty(
+          `--aurora-${index + 1}`,
+          color
+        );
+      });
+
+      document.documentElement.style.setProperty(
+        "--border-color",
+        colors[5].value_
+      );
+      document.documentElement.style.setProperty(
+        "--order-and-button-color",
+        colors[8].value_
+      );
+      document.documentElement.style.setProperty(
+        "--card-color",
+        colors[6].value_
+      );
+
+      document.documentElement.style.setProperty(
+        "--background-secondary-opacity",
+        hexToRgba(colors[4].value_, 0.8)
+      );
+
+      document.documentElement.style.setProperty(
+        "--card-color-opacity-one",
+        hexToRgba(colors[6].value_, 0.3)
+      );
+
+      document.documentElement.style.setProperty(
+        "--card-color-opacity-two",
+        hexToRgba(colors[6].value_, 0.2)
+      );
+    }
+  };
 
   useEffect(() => {
     if (metadata?.settings[0].value_) {
@@ -35,7 +137,8 @@ const DashboardLayouts = () => {
         <Sidebar />
         <Outlet />
       </section>
-      <Footer metadata={metadata} />
+      <ContactUs />
+      <Footer images={metadata?.images} settings={metadata?.settings} />
     </div>
   );
 };
