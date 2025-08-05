@@ -33,6 +33,7 @@
   --card-color-opacity-one: #475569;
   --card-color-opacity-two: #475569;
   --background-secondary-opacity: #0f172a;
+  --bg-history-opacity: #db2777;
 }
 
 @layer components {

@@ -18,6 +18,13 @@ const Index = () => {
   });
 
   useEffect(() => {
+    const savedColors = localStorage.getItem("theme-colors");
+    if (savedColors) {
+      setThemeColors(JSON.parse(savedColors));
+    }
+  }, []);
+
+  useEffect(() => {
     const fetchColor = async () => {
       try {
         if (colorTemplate != null || colorTemplate != undefined) {
@@ -81,6 +88,12 @@ const Index = () => {
         "--order-and-button-color",
         colors[8].value_
       );
+
+      document.documentElement.style.setProperty(
+        "--bg-history-opacity",
+        hexToRgba(colors[8].value_, 0.4)
+      );
+
       document.documentElement.style.setProperty(
         "--card-color",
         colors[6].value_

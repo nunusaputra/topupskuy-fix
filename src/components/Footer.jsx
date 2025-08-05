@@ -1,18 +1,29 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { fetchSosmed } from "../services";
 
 const Footer = (props) => {
   const logoFooter =
-    props.images?.find((item) => item.id === "LOGO-FOOTER")?.value_ ||
-    "";
+    props.images?.find((item) => item.id === "LOGO-FOOTER")?.value_ || "";
   const applicationName =
-    props.settings?.find((item) => item.id === "APPLICATION_NAME")
-      ?.value_ || "";
+    props.settings?.find((item) => item.id === "APPLICATION_NAME")?.value_ ||
+    "";
   const address =
-    props.settings?.find((item) => item.id === "FOOTER_ADDRESS")
-      ?.value_ || "";
+    props.settings?.find((item) => item.id === "FOOTER_ADDRESS")?.value_ || "";
   const email =
-    props.settings?.find((item) => item.id === "FOOTER_EMAIL")
-      ?.value_ || "";
+    props.settings?.find((item) => item.id === "FOOTER_EMAIL")?.value_ || "";
+
+  const [isSosmed, setIsSosmed] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetchSosmed();
+      const filtered = response.filter((item) => item.isSosmed === true);
+      setIsSosmed(filtered);
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div className="relative mt-16 bg-secondary_opacity backdrop-blur-2xl min-h-[300px]">
@@ -105,7 +116,7 @@ const Footer = (props) => {
             All rights reserved.
           </p>
           <div className="flex items-center mt-4 space-x-4 sm:mt-0">
-            {props.metadata?.socialMedias.map((x) => (
+            {isSosmed?.map((x) => (
               <a key={x.id} href={x.link} title={x.id}>
                 <i
                   className={`${x.logo} text-white transition-colors duration-300 tall text-smep-purple-100 hover:text-border_color`}

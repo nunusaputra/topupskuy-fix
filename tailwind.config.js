@@ -14,6 +14,7 @@ export default {
         fifth: "#64748b",
         sixth: "#a855f7",
         seventh: "var(--order-and-button-color)",
+        seventh_opacity: "var(--bg-history-opacity)",
         aurora_1: "var(--aurora-1)",
         aurora_2: "var(--aurora-2)",
         aurora_3: "var(--aurora-3)",

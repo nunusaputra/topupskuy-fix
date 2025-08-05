@@ -18,6 +18,13 @@ const AuthLayouts = (props) => {
   });
 
   useEffect(() => {
+    const savedColors = localStorage.getItem("theme-colors");
+    if (savedColors) {
+      setThemeColors(JSON.parse(savedColors));
+    }
+  }, []);
+
+  useEffect(() => {
     const fetchColor = async () => {
       try {
         if (colorTemplate != null || colorTemplate != undefined) {
@@ -78,7 +85,7 @@ const AuthLayouts = (props) => {
         colors[5].value_
       );
       document.documentElement.style.setProperty(
-        "--order-color",
+        "--order-and-button-color",
         colors[8].value_
       );
       document.documentElement.style.setProperty(

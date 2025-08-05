@@ -48,7 +48,7 @@ const History = () => {
           </div>
           {currentItems?.map((item) => (
             <div
-              className="relative w-full min-h-[7.5rem] bg-sixth/40 rounded-lg ring-2 ring-purple-500 ring-offset-0 transition-all duration-300 hover:ring-offset-8 hover:ring-offset-secondary flex flex-col xl:flex-row px-4 py-2 gap-2 mb-8 hover:cursor-pointer overflow-hidden"
+              className="relative w-full min-h-[7.5rem] bg-seventh_opacity rounded-lg ring-2 ring-seventh ring-offset-0 transition-all duration-300 hover:ring-offset-8 hover:ring-offset-secondary flex flex-col xl:flex-row px-4 py-2 gap-2 mb-8 hover:cursor-pointer overflow-hidden"
               key={item.id}
               onClick={() => goto(item.id)}
             >

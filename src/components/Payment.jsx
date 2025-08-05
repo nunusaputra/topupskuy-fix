@@ -53,10 +53,10 @@ const Payment = () => {
         result === "UPGRADE" || result === "TOPUP"
           ? data
           : {
-            ...data.paymentDTO,
-            trxFFAttributePurchase:
-              data.trxFFAttributePurchase?.map((attr) => attr.value_) || [],
-          };
+              ...data.paymentDTO,
+              trxFFAttributePurchase:
+                data.trxFFAttributePurchase?.map((attr) => attr.value_) || [],
+            };
 
       return normalizedData;
     },
@@ -200,21 +200,23 @@ const Payment = () => {
 
                 {/* Rincian Pembayaran */}
                 <div
-                  className="w-full h-10 bg-fourth_opacity_one backdrop-blur-2xl rounded-lg flex justify-between items-center px-4 hover:cursor-pointer"
+                  className="w-full h-10 bg-secondary
+                   backdrop-blur-2xl rounded-lg flex justify-between items-center px-4 hover:cursor-pointer"
                   onClick={() => setShowPayment(!showPayment)}
                 >
                   <h1 className="text-sm sm:text-[15px] text-white font-semibold">
                     Rincian Pembayaran
                   </h1>
                   <i
-                    className={`bi bi-chevron-down text-white ${showPayment && "rotate-180"
-                      } transition-all duration-300`}
+                    className={`bi bi-chevron-down text-white ${
+                      showPayment && "rotate-180"
+                    } transition-all duration-300`}
                   />
                 </div>
 
                 {/* Konten Rincian Pembayaran */}
                 {showPayment && (
-                  <div className="w-full min-h-10 bg-fourth_opacity_one backdrop-blur-2xl rounded-lg flex flex-col p-6 gap-6">
+                  <div className="w-full min-h-10 bg-secondary backdrop-blur-2xl rounded-lg flex flex-col p-6 gap-6">
                     {result !== "UPGRADE" && result !== "TOPUP" ? (
                       <>
                         <div className="w-full flex justify-between">
@@ -266,7 +268,8 @@ const Payment = () => {
                         Diskon
                       </h1>
                       <h1 className="text-white text-sm sm:text-[15px] font-medium">
-                        - {new Intl.NumberFormat("id-ID", {
+                        -{" "}
+                        {new Intl.NumberFormat("id-ID", {
                           style: "currency",
                           currency: "IDR",
                         }).format(purchase?.discountPrice)}
@@ -298,7 +301,7 @@ const Payment = () => {
                 )}
 
                 {/* Rincian Pembayaran */}
-                <div className="w-full h-16 bg-fourth_opacity_one backdrop-blur-2xl rounded-lg flex justify-between items-center px-4">
+                <div className="w-full h-16 bg-secondary backdrop-blur-2xl rounded-lg flex justify-between items-center px-4">
                   <h1 className="text-sm sm:text-[15px] text-white font-bold">
                     Total Pembayaran
                   </h1>
@@ -323,7 +326,7 @@ const Payment = () => {
               </div>
 
               {/* Metode Pembayaran */}
-              <div className="bg-fourth_opacity_one p-6 backdrop-blur-2xl w-full rounded-lg flex flex-col gap-4">
+              <div className="bg-secondary p-6 backdrop-blur-2xl w-full rounded-lg flex flex-col gap-4">
                 <div>
                   <h1 className="text-sm sm:text-[15px] text-white font-semibold">
                     Metode Pembayaran
@@ -374,27 +377,31 @@ const Payment = () => {
                         <>
                           {(purchase?.categoryPayment === "QRIS" ||
                             purchase?.categoryPayment === "Bank") && (
-                              <div className="w-full min-h-[11.5rem] flex flex-col gap-3 items-center overflow-hidden">
-                                <div className="w-[40%] p-2 h-full rounded-lg bg-white">
-                                  {purchase?.paymentNumber ? (
-                                    <img
-                                      ref={qrCodeRef}
-                                      src={`https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(purchase.paymentNumber)}`}
-                                      alt="QR Code"
-                                      className="w-full h-full object-contain"
-                                    />
-                                  ) : (
-                                    <span className="text-gray-400">Loading QR Code...</span>
-                                  )}
-                                </div>
-                                <button
-                                  className="w-full h-10 py-2 bg-seventh text-sm text-white font-bold shadow-md shadow-slate-900 rounded-lg"
-                                  onClick={() => download()}
-                                >
-                                  Unduh Kode QR
-                                </button>
+                            <div className="w-full min-h-[11.5rem] flex flex-col gap-3 items-center overflow-hidden">
+                              <div className="w-[40%] p-2 h-full rounded-lg bg-white">
+                                {purchase?.paymentNumber ? (
+                                  <img
+                                    ref={qrCodeRef}
+                                    src={`https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(
+                                      purchase.paymentNumber
+                                    )}`}
+                                    alt="QR Code"
+                                    className="w-full h-full object-contain"
+                                  />
+                                ) : (
+                                  <span className="text-gray-400">
+                                    Loading QR Code...
+                                  </span>
+                                )}
                               </div>
-                            )}
+                              <button
+                                className="w-full h-10 py-2 bg-seventh text-sm text-white font-bold shadow-md shadow-slate-900 rounded-lg"
+                                onClick={() => download()}
+                              >
+                                Unduh Kode QR
+                              </button>
+                            </div>
+                          )}
 
                           {/* E-Wallet Method */}
                           {purchase?.categoryPayment === "E-Wallet" && (
@@ -427,20 +434,20 @@ const Payment = () => {
 
                           {purchase?.categoryPayment ===
                             "Convenience Store" && (
-                              <div className="w-full flex flex-col items-center justify-center gap-2">
-                                <h1 className="text-md font-semibold text-white">
-                                  {purchase?.paymentNumber}
-                                </h1>
-                                <button
-                                  className="w-full h-10 py-2 bg-seventh text-sm text-white font-bold shadow-md shadow-slate-900 rounded-lg"
-                                  onClick={() =>
-                                    handleCopy(purchase?.paymentNumber)
-                                  }
-                                >
-                                  {copied ? "Copied!" : "Copy to clipboard"}
-                                </button>
-                              </div>
-                            )}
+                            <div className="w-full flex flex-col items-center justify-center gap-2">
+                              <h1 className="text-md font-semibold text-white">
+                                {purchase?.paymentNumber}
+                              </h1>
+                              <button
+                                className="w-full h-10 py-2 bg-seventh text-sm text-white font-bold shadow-md shadow-slate-900 rounded-lg"
+                                onClick={() =>
+                                  handleCopy(purchase?.paymentNumber)
+                                }
+                              >
+                                {copied ? "Copied!" : "Copy to clipboard"}
+                              </button>
+                            </div>
+                          )}
 
                           {purchase?.categoryPayment !== "Saldo" && (
                             <div className="mt-3 w-full h-10 bg-red-500/60 backdrop-opacity-10 ring-2 ring-red-500 hover:ring-offset-4 hover:ring-offset-[#060911] transition-all duration-200 hover:cursor-pointer ring-offset-0 rounded-lg flex items-center justify-center gap-2">
@@ -480,23 +487,23 @@ const Payment = () => {
                         <>
                           {(purchase?.paymentMethodCategory === "QRIS" ||
                             purchase?.paymentMethodCategory === "Bank") && (
-                              <div className="w-full min-h-[11.5rem] flex flex-col gap-3 items-center overflow-hidden">
-                                <div className="w-[40%] p-2 h-full rounded-lg bg-white">
-                                  <img
-                                    ref={qrCodeRef}
-                                    src={`https://api.qrserver.com/v1/create-qr-code/?data=${purchase?.paymentNumber}`}
-                                    alt=""
-                                    className="w-full h-full object-contain"
-                                  />
-                                </div>
-                                <button
-                                  className="w-full h-10 py-2 bg-seventh text-sm text-white font-bold shadow-md shadow-slate-900 rounded-lg"
-                                  onClick={() => download()}
-                                >
-                                  Unduh Kode QR
-                                </button>
+                            <div className="w-full min-h-[11.5rem] flex flex-col gap-3 items-center overflow-hidden">
+                              <div className="w-[40%] p-2 h-full rounded-lg bg-seventh">
+                                <img
+                                  ref={qrCodeRef}
+                                  src={`https://api.qrserver.com/v1/create-qr-code/?data=${purchase?.paymentNumber}`}
+                                  alt=""
+                                  className="w-full h-full object-contain"
+                                />
                               </div>
-                            )}
+                              <button
+                                className="w-full h-10 py-2 bg-seventh text-sm text-white font-bold shadow-md shadow-slate-900 rounded-lg"
+                                onClick={() => download()}
+                              >
+                                Unduh Kode QR
+                              </button>
+                            </div>
+                          )}
 
                           {/* E-Wallet Method */}
                           {purchase?.paymentMethodCategory === "E-Wallet" && (
@@ -513,37 +520,37 @@ const Payment = () => {
                           {/* VA Method */}
                           {purchase?.paymentMethodCategory ===
                             "Virtual Account" && (
-                              <div className="w-full flex flex-col items-center justify-center gap-2">
-                                <h1 className="text-md font-semibold text-white">
-                                  {purchase?.paymentNumber}
-                                </h1>
-                                <button
-                                  className="w-full h-10 py-2 bg-seventh text-sm text-white font-bold shadow-md shadow-slate-900 rounded-lg"
-                                  onClick={() =>
-                                    handleCopy(purchase?.paymentNumber)
-                                  }
-                                >
-                                  {copied ? "Copied!" : "Copy to clipboard"}
-                                </button>
-                              </div>
-                            )}
+                            <div className="w-full flex flex-col items-center justify-center gap-2">
+                              <h1 className="text-md font-semibold text-white">
+                                {purchase?.paymentNumber}
+                              </h1>
+                              <button
+                                className="w-full h-10 py-2 bg-seventh text-sm text-white font-bold shadow-md shadow-slate-900 rounded-lg"
+                                onClick={() =>
+                                  handleCopy(purchase?.paymentNumber)
+                                }
+                              >
+                                {copied ? "Copied!" : "Copy to clipboard"}
+                              </button>
+                            </div>
+                          )}
 
                           {purchase?.paymentMethodCategory ===
                             "Convenience Store" && (
-                              <div className="w-full flex flex-col items-center justify-center gap-2">
-                                <h1 className="text-md font-semibold text-white">
-                                  {purchase?.paymentNumber}
-                                </h1>
-                                <button
-                                  className="w-full h-10 py-2 bg-seventh text-sm text-white font-bold shadow-md shadow-slate-900 rounded-lg"
-                                  onClick={() =>
-                                    handleCopy(purchase?.paymentNumber)
-                                  }
-                                >
-                                  {copied ? "Copied!" : "Copy to clipboard"}
-                                </button>
-                              </div>
-                            )}
+                            <div className="w-full flex flex-col items-center justify-center gap-2">
+                              <h1 className="text-md font-semibold text-white">
+                                {purchase?.paymentNumber}
+                              </h1>
+                              <button
+                                className="w-full h-10 py-2 bg-seventh text-sm text-white font-bold shadow-md shadow-slate-900 rounded-lg"
+                                onClick={() =>
+                                  handleCopy(purchase?.paymentNumber)
+                                }
+                              >
+                                {copied ? "Copied!" : "Copy to clipboard"}
+                              </button>
+                            </div>
+                          )}
 
                           {purchase?.paymentMethodCategory !== "Saldo" && (
                             <div className="mt-3 w-full h-10 bg-red-500/60 backdrop-opacity-10 ring-2 ring-red-500 hover:ring-offset-4 hover:ring-offset-[#060911] transition-all duration-200 hover:cursor-pointer ring-offset-0 rounded-lg flex items-center justify-center gap-2">
@@ -586,19 +593,20 @@ const Payment = () => {
                 Instruksi Pembayaran
               </h1>
               <div
-                className="w-full h-10 bg-fourth_opacity_one backdrop-blur-2xl rounded-lg flex justify-between items-center px-6 hover:cursor-pointer"
+                className="w-full h-10 bg-secondary backdrop-blur-2xl rounded-lg flex justify-between items-center px-6 hover:cursor-pointer"
                 onClick={() => setShowInstruction(!showInstruction)}
               >
                 <p className="text-sm text-white font-semibold">
                   Cara Melakukan Pembayaran
                 </p>
                 <i
-                  className={`bi bi-chevron-up text-xl text-white transition-all duration-300 ${showInstruction && "rotate-180"
-                    }`}
+                  className={`bi bi-chevron-up text-xl text-white transition-all duration-300 ${
+                    showInstruction && "rotate-180"
+                  }`}
                 />
               </div>
               {showInstruction && (
-                <div className="w-full min-h-14 bg-fourth_opacity_one backdrop-blur-2xl rounded-lg flex items-center px-6">
+                <div className="w-full min-h-14 bg-secondary backdrop-blur-2xl rounded-lg flex items-center p-6">
                   <h1
                     className="text-sm text-white font-semibold"
                     dangerouslySetInnerHTML={{

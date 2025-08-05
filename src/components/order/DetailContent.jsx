@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { API_URL } from "../../env";
 import SuccessGIF from "../../assets/images/GIFSuccess.gif";
 import FailedGIF from "../../assets/images/GIFFailed.gif";
+import Pay from "../../assets/images/pay.png";
 
 const DetailContent = ({
   data,
@@ -694,7 +695,7 @@ const DetailContent = ({
             </div>
             <div className="w-full h-14 flex items-center justify-between">
               <h1 className="text-lg text-white font-bold">Total Pembayaran</h1>
-              <p className="text-orange-400 text-md font-bold">
+              <p className="text-white text-md font-bold">
                 {selected.price !== null || selected.feePayment !== null
                   ? new Intl.NumberFormat("id-ID", {
                       style: "currency",
@@ -739,7 +740,7 @@ const DetailContent = ({
               >
                 <div key={index} className="flex items-center gap-2">
                   <i
-                    className={`bi bi-${renderedIndex}-circle-fill text-2xl text-orange-500`}
+                    className={`bi bi-${renderedIndex}-circle-fill text-2xl text-seventh`}
                   />
                   <h1 className="text-xl text-white font-semibold">
                     {item.label}
@@ -817,9 +818,10 @@ const DetailContent = ({
                     rounded-lg px-4 py-2 flex flex-col gap-1 justify-center hover:cursor-pointer
                     hover:bg-seventh hover:ring-seventh ${
                       selected.itemId === item.id
-                        ? "bg-seventh ring-orange-500 ring-offset-4"
+                        ? "bg-seventh ring-seventh ring-offset-4 ring-offset-secondary_opacity"
                         : "bg-fourth_opacity_one backdrop-blur-xl ring-0 ring-fourth"
-                    }`}
+                    } transition-all ease-in-out
+                     duration-150`}
                         key={item.id}
                         onClick={() => {
                           setSelected({
@@ -884,7 +886,7 @@ const DetailContent = ({
                                 .filter((item) => item.category === "Saldo")
                                 .map((value) => (
                                   <div
-                                    className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${
+                                    className={`w-full h-auto ring-offset-secondary_opacity rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${
                                       selected.payment === value.id
                                         ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
                                         : "bg-white"
@@ -916,6 +918,9 @@ const DetailContent = ({
                                     >
                                       <img
                                         src={value.icon.path}
+                                        onError={(e) => {
+                                          e.target.src = Pay;
+                                        }}
                                         alt=""
                                         className="w-full h-full object-contain"
                                       />
@@ -978,7 +983,7 @@ const DetailContent = ({
                             </div>
                           </div>
                         ) : (
-                          <div className="w-full min-h-10 bg-amber-50 px-4 py-2 flex gap-3">
+                          <div className="w-full min-h-10 bg-white px-4 py-2 flex gap-3">
                             {payment
                               .filter((item) => item.category === "Saldo")
                               .map((value) => (
@@ -988,8 +993,11 @@ const DetailContent = ({
                                 >
                                   <img
                                     src={value.icon.path}
+                                    onError={(e) => {
+                                      e.target.src = Pay;
+                                    }}
                                     alt=""
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-full object-contain"
                                   />
                                 </div>
                               ))}
@@ -1026,7 +1034,7 @@ const DetailContent = ({
                                 .filter((item) => item.category === "QRIS")
                                 .map((value) => (
                                   <div
-                                    className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${
+                                    className={`w-full h-auto ring-offset-secondary_opacity rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${
                                       selected.payment === value.id
                                         ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
                                         : "bg-white"
@@ -1062,6 +1070,9 @@ const DetailContent = ({
                                     >
                                       <img
                                         src={value.icon.path}
+                                        onError={(e) => {
+                                          e.target.src = Pay;
+                                        }}
                                         alt=""
                                         className="w-full h-full object-contain"
                                       />
@@ -1118,7 +1129,7 @@ const DetailContent = ({
                             </div>
                           </div>
                         ) : (
-                          <div className="w-full min-h-10 bg-amber-50 px-4 py-2 flex gap-3">
+                          <div className="w-full min-h-10 bg-white px-4 py-2 flex gap-3">
                             {payment
                               .filter((item) => item.category === "QRIS")
                               .map((value) => (
@@ -1128,8 +1139,11 @@ const DetailContent = ({
                                 >
                                   <img
                                     src={value.icon.path}
+                                    onError={(e) => {
+                                      e.target.src = Pay;
+                                    }}
                                     alt=""
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-full object-contain"
                                   />
                                 </div>
                               ))}
@@ -1164,7 +1178,7 @@ const DetailContent = ({
                                 .filter((item) => item.category === "E-Wallet")
                                 .map((value) => (
                                   <div
-                                    className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${
+                                    className={`w-full h-auto ring-offset-secondary_opacity rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${
                                       selected.payment === value.id
                                         ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
                                         : "bg-white"
@@ -1200,6 +1214,9 @@ const DetailContent = ({
                                     >
                                       <img
                                         src={value.icon.path}
+                                        onError={(e) => {
+                                          e.target.src = Pay;
+                                        }}
                                         alt=""
                                         className="w-full h-full object-contain"
                                       />
@@ -1256,7 +1273,7 @@ const DetailContent = ({
                             </div>
                           </div>
                         ) : (
-                          <div className="w-full min-h-10 bg-amber-50 px-4 py-2 flex gap-3">
+                          <div className="w-full min-h-10 bg-white px-4 py-2 flex gap-3">
                             {payment
                               .filter((item) => item.category === "E-Wallet")
                               .map((value) => (
@@ -1266,8 +1283,11 @@ const DetailContent = ({
                                 >
                                   <img
                                     src={value.icon.path}
+                                    onError={(e) => {
+                                      e.target.src = Pay;
+                                    }}
                                     alt=""
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-full object-contain"
                                   />
                                 </div>
                               ))}
@@ -1304,7 +1324,7 @@ const DetailContent = ({
                                 )
                                 .map((value) => (
                                   <div
-                                    className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${
+                                    className={`w-full h-auto ring-offset-secondary_opacity rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${
                                       selected.payment === value.id
                                         ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
                                         : "bg-white"
@@ -1340,6 +1360,9 @@ const DetailContent = ({
                                     >
                                       <img
                                         src={value.icon.path}
+                                        onError={(e) => {
+                                          e.target.src = Pay;
+                                        }}
                                         alt=""
                                         className="w-full h-full object-contain"
                                       />
@@ -1396,7 +1419,7 @@ const DetailContent = ({
                             </div>
                           </div>
                         ) : (
-                          <div className="w-full min-h-10 bg-amber-50 px-4 py-2 flex gap-3">
+                          <div className="w-full min-h-10 bg-white px-4 py-2 flex gap-3">
                             {payment
                               .filter(
                                 (item) => item.category === "Virtual Account"
@@ -1408,8 +1431,11 @@ const DetailContent = ({
                                 >
                                   <img
                                     src={value.icon.path}
+                                    onError={(e) => {
+                                      e.target.src = Pay;
+                                    }}
                                     alt=""
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-full object-contain"
                                   />
                                 </div>
                               ))}
@@ -1447,7 +1473,7 @@ const DetailContent = ({
                                 )
                                 .map((value) => (
                                   <div
-                                    className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${
+                                    className={`w-full h-auto ring-offset-secondary_opacity rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${
                                       selected.payment === value.id
                                         ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
                                         : "bg-white"
@@ -1483,6 +1509,9 @@ const DetailContent = ({
                                     >
                                       <img
                                         src={value.icon.path}
+                                        onError={(e) => {
+                                          e.target.src = Pay;
+                                        }}
                                         alt=""
                                         className="w-full h-full object-contain"
                                       />
@@ -1539,7 +1568,7 @@ const DetailContent = ({
                             </div>
                           </div>
                         ) : (
-                          <div className="w-full min-h-10 bg-amber-50 px-4 py-2 flex gap-3">
+                          <div className="w-full min-h-10 bg-white px-4 py-2 flex gap-3">
                             {payment
                               .filter(
                                 (item) => item.category === "Convenience Store"
@@ -1551,8 +1580,11 @@ const DetailContent = ({
                                 >
                                   <img
                                     src={value.icon.path}
+                                    onError={(e) => {
+                                      e.target.src = Pay;
+                                    }}
                                     alt=""
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-full object-contain"
                                   />
                                 </div>
                               ))}
@@ -1587,7 +1619,7 @@ const DetailContent = ({
                                 .filter((item) => item.category === "Bank")
                                 .map((value) => (
                                   <div
-                                    className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${
+                                    className={`w-full h-auto ring-offset-secondary_opacity rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${
                                       selected.payment === value.id
                                         ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
                                         : "bg-white"
@@ -1623,6 +1655,9 @@ const DetailContent = ({
                                     >
                                       <img
                                         src={value.icon.path}
+                                        onError={(e) => {
+                                          e.target.src = Pay;
+                                        }}
                                         alt=""
                                         className="w-full h-full object-contain"
                                       />
@@ -1679,7 +1714,7 @@ const DetailContent = ({
                             </div>
                           </div>
                         ) : (
-                          <div className="w-full min-h-10 bg-amber-50 px-4 py-2 flex gap-3">
+                          <div className="w-full min-h-10 bg-white px-4 py-2 flex gap-3">
                             {payment
                               .filter((item) => item.category === "Bank")
                               .map((value) => (
@@ -1689,8 +1724,11 @@ const DetailContent = ({
                                 >
                                   <img
                                     src={value.icon.path}
+                                    onError={(e) => {
+                                      e.target.src = Pay;
+                                    }}
                                     alt=""
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-full object-contain"
                                   />
                                 </div>
                               ))}
@@ -1705,9 +1743,6 @@ const DetailContent = ({
 
                 {item.userInput.id === 4 ? (
                   <div ref={promoRef} className="flex flex-col gap-1">
-                    <label htmlFor="kode" className="text-sm text-white">
-                      Kode Promo
-                    </label>
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-2">
                       <input
                         type="text"
@@ -1787,7 +1822,7 @@ const DetailContent = ({
         </Modal>
       </div>
 
-      <div className="lg:hidden lg:w-[35%] lg:min-h-screen">
+      <div className="mt-10 lg:hidden lg:w-[35%] lg:min-h-screen">
         <div className="flex flex-col gap-5 lg:overflow-auto lg:sticky lg:top-32">
           <div className="w-full h-20 bg-slate-800 rounded-lg flex items-center px-4 gap-2 overflow-hidden">
             <div className="w-14 h-14 flex items-center justify-center">
@@ -1927,7 +1962,7 @@ const DetailContent = ({
             </div>
             <div className="w-full h-14 flex items-center justify-between">
               <h1 className="text-lg text-white font-bold">Total Pembayaran</h1>
-              <p className="text-orange-400 text-md font-bold">
+              <p className="text-white text-md font-bold">
                 {selected.price !== null || selected.feePayment !== null
                   ? new Intl.NumberFormat("id-ID", {
                       style: "currency",
@@ -1958,9 +1993,10 @@ const DetailContent = ({
         <div className="w-full min-h-96 flex flex-col gap-2">
           <div className="w-full min-h-48 flex flex-col items-center gap-4 justify-center">
             <div className="relative w-20 h-20 sm:w-28 sm:h-28 rounded-full flex items-center justify-center">
-              <i className="bi bi-patch-check-fill w-full h-full text-green-500 relative z-10" />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-white z-0"></div>
+              <div className="absolute inset-0 rounded-full bg-white z-0"></div>
+              <i className="bi bi-patch-check-fill text-green-500 text-7xl relative z-10" />
             </div>
+
             <div className="flex flex-col gap-1 items-center">
               <h1 className="text-lg sm:text-xl text-white font-semibold">
                 Buat Pesanan

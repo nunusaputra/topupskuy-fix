@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { fetchProducts } from "../../services";
 
 import { useQuery } from "@tanstack/react-query";
+import { isDarkText } from "../../services/helper";
 
 const MainContent = () => {
   const [visibleCounts, setVisibleCounts] = useState(10);
@@ -76,6 +77,13 @@ const MainContent = () => {
     return () => window.removeEventListener("resize", handleSize);
   }, []);
 
+  const bg = getComputedStyle(document.documentElement).getPropertyValue(
+    "--order-and-button-color"
+  );
+
+  const isDark = isDarkText(bg);
+  const textDark = isDark ? "text-white" : "text-black";
+
   return (
     <div className="w-full p-4 md:px-8 md:py-6 bg-secondary_opacity backdrop-blur-4xl rounded-xl flex flex-col gap-20 mb-[3rem]">
       {/* Button navigate */}
@@ -97,7 +105,7 @@ const MainContent = () => {
             {product?.categories.map((category) => (
               <button
                 key={category.id}
-                className="bg-third px-4 py-2 rounded-md font-semibold text-xs sm:text-sm shrink-0"
+                className={`px-4 mx-2 py-2 rounded-lg ring-2 ring-seventh text-seventh font-semibold hover:bg-seventh transition-all duration-300 hover:cursor-pointer hover:${textDark} text-xs sm:text-sm shrink-0`}
                 onClick={() =>
                   sectionRef.current[category.id]?.scrollIntoView({
                     behavior: "smooth",
@@ -134,7 +142,7 @@ const MainContent = () => {
 
       {product?.categories
         .filter((x) => x.active === true)
-        .map((category) => {
+        .map((category, index) => {
           let filteredProducts = [];
           if (searchKeywords !== "") {
             let value = searchKeywords.toLowerCase();
@@ -168,14 +176,14 @@ const MainContent = () => {
             >
               <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-5">
                 <div className="flex gap-2">
-                  {category.name === "Game Populer" && (
-                    <i className="bi bi-controller text-2xl md:text-3xl text-purple-300 mt-[0.1rem]" />
+                  {index === 0 && (
+                    <i className="bi bi-fire text-2xl md:text-3xl text-white mt-[0.1rem]" />
                   )}
-                  {category.name === "Voucher & E-Wallet" && (
-                    <i className="bi bi-wallet2 text-2xl md:text-3xl text-purple-300 mt-[0.1rem]" />
+                  {index === 1 && (
+                    <i className="bi bi-lightning-fill text-2xl md:text-3xl text-white mt-[0.1rem]" />
                   )}
-                  {category.name === "Pulsa & PLN" && (
-                    <i className="bi bi-lightning-fill text-2xl md:text-3xl text-purple-300 mt-[0.1rem]" />
+                  {index === 2 && (
+                    <i className="bi bi-ticket-perforated-fill text-2xl md:text-3xl text-white mt-[0.1rem]" />
                   )}
                   <h1 className="text-lg md:text-2xl text-white font-semibold mb-2">
                     {category.name}
