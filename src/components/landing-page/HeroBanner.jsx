@@ -56,7 +56,7 @@ const Heroimages = ({ metadata, isLoading }) => {
         />
       </div>
 
-      <div className="container flex flex-col relative py-4 overflow-hidden">
+      <div className="container flex flex-col relative overflow-hidden">
         {isLoading ? (
           <div className="mx-auto w-full rounded-lg bg-gray-500 p-4">
             <div className="flex items-center animate-pulse space-x-4">

@@ -100,7 +100,7 @@ const MainContent = () => {
           {/* Container Scroll */}
           <div
             ref={scrollRef}
-            className="flex gap-2 sm:gap-4 overflow-x-auto whitespace-nowrap scrollbar-hide px-10 sm:px-0"
+            className="flex gap-2 py-2 sm:gap-4 overflow-x-auto whitespace-nowrap scrollbar-hide px-10 sm:px-0"
           >
             {product?.categories.map((category) => (
               <button
@@ -128,7 +128,7 @@ const MainContent = () => {
         <label htmlFor="" className="relative block w-full">
           <span className="sr-only">Search</span>
           <span className="absolute inset-y-0 left-0 flex items-center pl-2">
-            <i className="bi bi-search w-5 h-5"></i>
+            <i className="bi bi-search w-5 h-5 -mt-1 lg:-mt-4"></i>
           </span>
           <input
             type="text"
@@ -171,10 +171,10 @@ const MainContent = () => {
           return (
             <div
               key={category.id}
-              className="flex flex-col gap-5"
+              className="flex flex-col gap-2 -mt-14 sm:gap-5 sm:mt-0"
               ref={(el) => (sectionRef.current[category.id] = el)}
             >
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-5">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between md:mb-5">
                 <div className="flex gap-2">
                   {index === 0 && (
                     <i className="bi bi-fire text-2xl md:text-3xl text-white mt-[0.1rem]" />

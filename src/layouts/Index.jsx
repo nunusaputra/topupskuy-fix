@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { Outlet } from "react-router-dom";
 import Footer from "../components/Footer";
 import { useQuery } from "@tanstack/react-query";
 import { fetchColorTemplate, fetchMetadata } from "../services";
 import ContactUs from "../components/ContactUs";
+import AbstracBackground from "../components/AbstracBackground";
 
 const Index = () => {
   const { data: metadata } = useQuery({
@@ -16,6 +17,11 @@ const Index = () => {
   const { data: colorTemplate } = useQuery({
     queryFn: fetchColorTemplate,
   });
+
+  const [color, setColor] = useState(
+    // getComputedStyle(document.documentElement).getPropertyValue("--button-auth")
+    "#fde047"
+  );
 
   useEffect(() => {
     const savedColors = localStorage.getItem("theme-colors");
@@ -135,6 +141,8 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-primary background-dots">
       <Navbar metadata={metadata?.images} />
+
+      <AbstracBackground color={color} />
       <div className="">
         <Outlet />
       </div>
