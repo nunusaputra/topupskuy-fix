@@ -1,4 +1,6 @@
 export const API_URL = "http://localhost:9002/api";
+export const API_PRODUCT_URL = "http://localhost:8888/api";
+export const STORE = "Topupskuyy";
 // export const API_URL = "https://djueksmuee.topupskuyy.id/api";
 // export const API_URL = "https://yuiertzxcv.vouchergamer.id/api";
 // export const API_URL = "https://xpgmfnzcta.uarstore.com/api";

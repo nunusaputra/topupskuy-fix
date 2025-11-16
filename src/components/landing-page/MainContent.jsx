@@ -28,7 +28,11 @@ const MainContent = () => {
   const { data: product } = useQuery({
     queryKey: ["product"],
     queryFn: fetchProducts,
-    staleTime: 21600000,
+    staleTime: 21600000, // 6 jam
+    cacheTime: 21600000, // simpan cache juga
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
   });
 
   const [size, setSize] = useState({
@@ -102,7 +106,7 @@ const MainContent = () => {
             ref={scrollRef}
             className="flex gap-2 sm:gap-4 overflow-x-auto whitespace-nowrap scrollbar-hide px-10 sm:px-0"
           >
-            {product?.categories.map((category) => (
+            {product?.data.categories.filter(x => x.status === true).map((category) => (
               <button
                 key={category.id}
                 className={`px-4 mx-2 py-2 rounded-lg ring-2 ring-seventh text-seventh font-semibold hover:bg-seventh transition-all duration-300 hover:cursor-pointer hover:${textDark} text-xs sm:text-sm shrink-0`}
@@ -140,24 +144,24 @@ const MainContent = () => {
         </label>
       </div>
 
-      {product?.categories
-        .filter((x) => x.active === true)
+      {product?.data.categories
+        .filter((x) => x.status === true)
         .map((category, index) => {
           let filteredProducts = [];
           if (searchKeywords !== "") {
             let value = searchKeywords.toLowerCase();
             filteredProducts =
-              product?.myProducts.filter(
+              product?.data.myProducts.filter(
                 (item) =>
-                  item.category.name === category.name &&
+                  item.category === category.name &&
                   item.active === true &&
                   item.title.toLowerCase().includes(value)
               ) || [];
           } else {
             filteredProducts =
-              product?.myProducts.filter(
+              product?.data.myProducts.filter(
                 (item) =>
-                  item.category.name === category.name && item.active === true
+                  item.category === category.name && item.active === true
               ) || [];
           }
 
@@ -196,7 +200,7 @@ const MainContent = () => {
                     <div className="w-[100%] h-[9rem] md:h-[16.5rem] flex flex-col bg-[#060911] rounded-lg ring-2 ring-border_color ring-offset-0 transition-all duration-300 hover:ring-offset-8 hover:rotate-3 hover:ring-offset-secondary hover:cursor-pointer overflow-hidden">
                       <div className="w-full h-[8.8rem] md:h-[12.5rem] bg-white">
                         <img
-                          src={item.logo.path}
+                          src={item.logo}
                           alt=""
                           className="w-full h-full object-cover"
                         />
@@ -208,9 +212,9 @@ const MainContent = () => {
                             : item.title}
                         </h1>
                         <h1 className="text-white text-zs sm:text-sm">
-                          {item.sub_title.length > size.min
-                            ? `${item.sub_title.substring(0, size.desc)}...`
-                            : `${item.sub_title}`}
+                          {item.subTitle.length > size.min
+                            ? `${item.subTitle.substring(0, size.desc)}...`
+                            : `${item.subTitle}`}
                         </h1>
                       </div>
                     </div>

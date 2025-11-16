@@ -6,6 +6,7 @@ import MainContent from "../components/landing-page/MainContent";
 
 import { useQuery } from "@tanstack/react-query";
 import { fetchMetadata } from "../services";
+import { data } from "autoprefixer";
 
 const LandingPage = () => {
   const { data: metadata, isLoading } = useQuery({

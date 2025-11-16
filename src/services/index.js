@@ -38,7 +38,7 @@ import banner2 from "../assets/images/gusion-banner.png";
 import banner3 from "../assets/images/genshin-banner.png";
 
 import axios from "axios";
-import { API_URL } from "../env";
+import { API_URL, API_PRODUCT_URL, STORE } from "../env";
 
 export const fetchMetadata = async () => {
   const { data } = await axios.get(`${API_URL}/layout`);
@@ -51,16 +51,50 @@ export const fetchColorTemplate = async () => {
 };
 
 export const fetchProducts = async () => {
-  const { data } = await axios.get(`${API_URL}/products`);
+  const { data } = await axios.get(`${API_PRODUCT_URL}/products`, {
+    headers: {
+      "X-API-KEY": STORE,
+      "Content-Type": "application/json",
+    },
+  });
   return data;
 };
 
 export const fetchProduct = async (slug, unique) => {
-  const { data } = await axios.get(
-    `${API_URL}/product-detail/${slug}/${unique}`
-  );
-  return data;
-};
+  unique = (unique == null) ? 0 : unique;
+  const [productRes, paymentRes] = await Promise.all([
+    await axios.get(`${API_PRODUCT_URL}/product-detail/${slug}/${unique}`, {
+      headers: {
+        "X-API-KEY": STORE,
+        "Content-Type": "application/json",
+      },
+    }),
+    await axios.get(`${API_URL}/payment-active`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }),
+  ]);
+
+  const product = productRes.data?.data ?? null;
+  const payments = paymentRes.data ?? [];
+
+  const response = {
+    data: {
+      product: product,
+      trxUserInputs: product?.trxUserInputs ?? [],
+      ffAttributes: product?.ffAttributes ?? null,
+      myItems: product?.myItems ?? [],
+      trxFeatures: product?.trxFeatures ?? [],
+      channel: payments,
+      data: product.data,
+    },
+    message: "success",
+    status: "OK",
+  };
+
+  return response;
+}
 
 export const fetchHistory = async (phone) => {
   const { data } = await axios.get(`${API_URL}/purchases/${phone}`);

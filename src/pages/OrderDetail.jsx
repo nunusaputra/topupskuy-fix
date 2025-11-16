@@ -16,8 +16,7 @@ const OrderDetail = () => {
 
   const { data: product } = useQuery({
     queryKey: ["product", slug, uniqueCode],
-    queryFn: () => fetchProduct(slug, uniqueCode),
-    staleTime: 21600000,
+    queryFn: () => fetchProduct(slug, uniqueCode)
   });
 
   const [showButton, setShowButton] = useState(false);
@@ -46,16 +45,16 @@ const OrderDetail = () => {
     <div className="relative mb-10">
       {product != null && (
         <>
-          <CoverHeader data={product.product} features={product?.trxFeatures} />
+          <CoverHeader data={product.data.product} features={product?.data.trxFeatures} />
           <div className="container relative w-full min-h-screen mx-auto lg:flex lg:gap-10">
             {/* <SideContent data={product.product} /> */}
             <DetailContent
-              data={product.trxUserInputs}
-              product={product.product}
-              attributes={product.ffAttributes}
-              myItems={product.myItems}
-              payment={product.channels}
-              token={product.data}
+              data={product.data.trxUserInputs}
+              product={product.data.product}
+              attributes={product.data.ffAttributes}
+              myItems={product.data.myItems}
+              payment={product.data.channel}
+              token={product.data.data}
             />
           </div>
 
