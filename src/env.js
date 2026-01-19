@@ -1,4 +1,4 @@
-export const API_URL = "http://localhost:9002/api";
+// export const API_URL = "http://localhost:9002/api";
 // export const API_URL = "https://djueksmuee.topupskuyy.id/api";
 // export const API_URL = "https://yuiertzxcv.vouchergamer.id/api";
 // export const API_URL = "https://xpgmfnzcta.uarstore.com/api";
@@ -9,3 +9,4 @@ export const API_URL = "http://localhost:9002/api";
 // export const API_URL = "https://roymeemjff.harumistore.com/api";
 // export const API_URL = "https://ojiqxyhhjr23.wiztopup.com/api";
 // export const API_URL = "https://izovmhshue.agassistore.id/api";
+export const API_URL = "https://demo-live-sword.topupskuyy.id";

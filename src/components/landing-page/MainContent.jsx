@@ -102,19 +102,21 @@ const MainContent = () => {
             ref={scrollRef}
             className="flex gap-2 py-2 sm:gap-4 overflow-x-auto whitespace-nowrap scrollbar-hide px-10 sm:px-0"
           >
-            {product?.categories.map((category) => (
-              <button
-                key={category.id}
-                className={`px-4 mx-2 py-2 rounded-lg ring-2 ring-seventh text-seventh font-semibold hover:bg-seventh transition-all duration-300 hover:cursor-pointer hover:${textDark} text-xs sm:text-sm shrink-0`}
-                onClick={() =>
-                  sectionRef.current[category.id]?.scrollIntoView({
-                    behavior: "smooth",
-                  })
-                }
-              >
-                {category.name}
-              </button>
-            ))}
+            {product?.categories
+              ?.filter((x) => x.active === true)
+              .map((category) => (
+                <button
+                  key={category.id}
+                  className={`px-4 mx-2 py-2 rounded-lg ring-2 ring-seventh text-seventh font-semibold hover:bg-seventh transition-all duration-300 hover:cursor-pointer hover:${textDark} text-xs sm:text-sm shrink-0`}
+                  onClick={() =>
+                    sectionRef.current[category.id]?.scrollIntoView({
+                      behavior: "smooth",
+                    })
+                  }
+                >
+                  {category.name}
+                </button>
+              ))}
           </div>
 
           {/* Tombol Panah Kanan */}

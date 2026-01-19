@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import banner from "../assets/images/login.png";
 
 import { useQuery } from "@tanstack/react-query";
 import { fetchColorTemplate, fetchMetadata } from "../services";
 import ContactUs from "../components/ContactUs";
+import LightningBackground from "../components/LightningBackground";
+import AbstracBackground from "../components/AbstracBackground";
 
 const AuthLayouts = (props) => {
   const { data: metadata } = useQuery({
@@ -14,8 +16,13 @@ const AuthLayouts = (props) => {
   });
 
   const { data: colorTemplate } = useQuery({
+    queryKey: ["colorTemplate"],
     queryFn: fetchColorTemplate,
   });
+
+  const themeColor = JSON.parse(localStorage.getItem("theme-colors"))?.find(
+    (c) => c.id === "THEME_COLOR"
+  )?.value_;
 
   useEffect(() => {
     const savedColors = localStorage.getItem("theme-colors");
@@ -62,11 +69,11 @@ const AuthLayouts = (props) => {
       );
       document.documentElement.style.setProperty(
         "--button-auth",
-        colors[9].value_
+        colors[8].value_
       );
       document.documentElement.style.setProperty(
-        "--dots-color",
-        colors[7].value_
+        "--theme-color",
+        colors[9].value_
       );
 
       const auroraColors = colors
@@ -86,7 +93,7 @@ const AuthLayouts = (props) => {
       );
       document.documentElement.style.setProperty(
         "--order-and-button-color",
-        colors[8].value_
+        colors[7].value_
       );
       document.documentElement.style.setProperty(
         "--card-color",
@@ -127,7 +134,17 @@ const AuthLayouts = (props) => {
 
   const { type, children, title } = props;
   return (
-    <div className="w-full min-h-screen bg-primary background-dots">
+    <div
+      className={`w-full min-h-screen bg-primary ${
+        metadata?.theme === "dot" ? "background-dots" : ""
+      }`}
+    >
+      {metadata?.theme === "thunder" && (
+        <LightningBackground color={themeColor} />
+      )}
+      {metadata?.theme === "abstract" && (
+        <AbstracBackground color={themeColor} />
+      )}
       <div className="w-full max-h-screen">
         <div className="md:flex ">
           <div className="relative w-full flex flex-col md:flex-none justify-center md:w-[40%] min-h-screen px-4 py-8">
@@ -178,7 +195,7 @@ const AuthLayouts = (props) => {
             </div>
           </div>
           <ContactUs />
-          <div className="hidden md:block w-[60%] max-h-screen bg-red-500 overflow-hidden">
+          <div className="hidden md:block w-[60%] max-h-screen bg-red-500 overflow-hidden z-[100]">
             <img src={banner} alt="" className="w-full h-full object-cover" />
           </div>
         </div>

@@ -1,11 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { fetchColorTemplate, fetchMetadata } from "../services";
 import Navbar from "../components/Navbar";
 import { Outlet } from "react-router-dom";
 import Footer from "../components/Footer";
 import Sidebar from "../components/dashboard/Sidebar";
 import ContactUs from "../components/ContactUs";
+import LightningBackground from "../components/LightningBackground";
+import AbstracBackground from "../components/AbstracBackground";
 
 const DashboardLayouts = () => {
   const {
@@ -19,8 +21,13 @@ const DashboardLayouts = () => {
   });
 
   const { data: colorTemplate } = useQuery({
+    queryKey: ["colorTemplate"],
     queryFn: fetchColorTemplate,
   });
+
+  const themeColor = JSON.parse(localStorage.getItem("theme-colors"))?.find(
+    (c) => c.id === "THEME_COLOR"
+  )?.value_;
 
   useEffect(() => {
     const savedColors = localStorage.getItem("theme-colors");
@@ -67,11 +74,11 @@ const DashboardLayouts = () => {
       );
       document.documentElement.style.setProperty(
         "--button-auth",
-        colors[9].value_
+        colors[8].value_
       );
       document.documentElement.style.setProperty(
-        "--dots-color",
-        colors[7].value_
+        "--theme-color",
+        colors[9].value_
       );
 
       const auroraColors = colors
@@ -91,7 +98,7 @@ const DashboardLayouts = () => {
       );
       document.documentElement.style.setProperty(
         "--order-and-button-color",
-        colors[8].value_
+        colors[7].value_
       );
       document.documentElement.style.setProperty(
         "--card-color",
@@ -131,8 +138,18 @@ const DashboardLayouts = () => {
   }, [metadata]);
 
   return (
-    <div className="min-h-screen bg-primary background-dots">
+    <div
+      className={`min-h-screen bg-primary ${
+        metadata?.theme === "dot" ? "background-dots" : ""
+      }`}
+    >
       <Navbar metadata={metadata?.images} />
+      {metadata?.theme === "thunder" && (
+        <LightningBackground color={themeColor} />
+      )}
+      {metadata?.theme === "abstract" && (
+        <AbstracBackground color={themeColor} />
+      )}
       <section className="container relative w-full min-h-screen mx-auto lg:flex lg:gap-10">
         <Sidebar />
         <Outlet />

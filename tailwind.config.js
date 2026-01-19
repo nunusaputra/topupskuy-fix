@@ -19,7 +19,7 @@ export default {
         aurora_2: "var(--aurora-2)",
         aurora_3: "var(--aurora-3)",
         border_color: "var(--border-color)",
-        dots: "var(--dots-color)",
+        dots: "var(--theme-color)",
       },
       fontSize: {
         md: "1.125rem",
