@@ -1,6 +1,8 @@
-export const API_URL = "http://localhost:9002/api";
-export const API_PRODUCT_URL = "http://localhost:8888/api";
-export const STORE = "Topupskuyy";
+export const API_URL = "http://localhost:9000/api";
+export const API_PRODUCT_URL = "http://localhost:9015/api";
+export const STORE = "5b27f88e-c93a-4d81-a128-142943c06dc1";
+// export const API_PRODUCT_URL = "https://ty4cf6c44y.topupskuyy.id/api";
+// export const API_URL = "https://ohsjpeclua.topupskuyy.id/api";
 // export const API_URL = "https://djueksmuee.topupskuyy.id/api";
 // export const API_URL = "https://yuiertzxcv.vouchergamer.id/api";
 // export const API_URL = "https://xpgmfnzcta.uarstore.com/api";

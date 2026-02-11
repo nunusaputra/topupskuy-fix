@@ -61,7 +61,17 @@ export const fetchProducts = async () => {
 };
 
 export const fetchProduct = async (slug, unique) => {
+  console.log(unique)
   unique = (unique == null) ? 0 : unique;
+  if (unique !== 0) {
+    const membership = await axios.get(`${API_URL}/check-member/${unique}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    unique = membership.data.data;
+  }
+
   const [productRes, paymentRes] = await Promise.all([
     await axios.get(`${API_PRODUCT_URL}/product-detail/${slug}/${unique}`, {
       headers: {

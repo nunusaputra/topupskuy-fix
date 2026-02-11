@@ -25,12 +25,14 @@ const FormLogin = () => {
         headers: { "Content-Type": "application/json" },
       })
       .then((response) => {
-        // console.log(response);
-        localStorage.setItem("unique-code", response.data.data.id);
-        window.location.href = "/";
+        try {
+          localStorage.setItem("unique-code", response.data.data.id);
+          window.location.href = "/";
+        } catch (e) {
+          console.error(e);
+        }
       })
       .catch((error) => {
-        // console.log(error);
         toast.error("terjadi kesalahan pada saat order, silahkan kontak admin");
       });
   };

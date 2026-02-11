@@ -131,7 +131,7 @@ const Payment = () => {
             <div className="w-full min-h-32 grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
               <div className="flex flex-col gap-6">
                 {/* Informasi Akun */}
-                <div className="relative w-full min-h-50 rounded-lg flex flex-col gap-4 group hover:cursor-pointer bg-fourth_opacity_one backdrop-blur-2xl ring-2 ring-slate-700 overflow-hidden">
+                {/* <div className="relative w-full min-h-50 rounded-lg flex flex-col gap-4 group hover:cursor-pointer bg-fourth_opacity_one backdrop-blur-2xl ring-2 ring-slate-700 overflow-hidden">
                   {result !== "UPGRADE" && result !== "TOPUP" ? (
                     <>
                       <div className="w-full h-full flex gap-2 items-center z-20 p-4">
@@ -186,17 +186,17 @@ const Payment = () => {
                     </>
                   ) : (
                     ""
-                  )}
+                  )} */}
 
                   {/* Cover Background */}
-                  <div className="w-full h-full absolute z-10">
+                  {/* <div className="w-full h-full absolute z-10">
                     <img
                       src={coverBottom}
                       alt=""
                       className="w-full h-full object-cover"
                     />
                   </div>
-                </div>
+                </div> */}
 
                 {/* Rincian Pembayaran */}
                 <div
@@ -263,7 +263,7 @@ const Payment = () => {
                       </>
                     )}
                     {/* DISKON */}
-                    <div className="w-full flex justify-between">
+                    {/* <div className="w-full flex justify-between">
                       <h1 className="text-white text-sm sm:text-[15px] font-semibold">
                         Diskon
                       </h1>
@@ -274,7 +274,7 @@ const Payment = () => {
                           currency: "IDR",
                         }).format(purchase?.discountPrice)}
                       </h1>
-                    </div>
+                    </div> */}
                     <div className="w-full flex justify-between">
                       <h1 className="text-white text-sm sm:text-[15px] font-semibold">
                         Biaya Tambahan

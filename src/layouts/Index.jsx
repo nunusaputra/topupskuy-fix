@@ -1,10 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { Outlet } from "react-router-dom";
 import Footer from "../components/Footer";
 import { useQuery } from "@tanstack/react-query";
 import { fetchColorTemplate, fetchMetadata } from "../services";
 import ContactUs from "../components/ContactUs";
+import AbstractBackground from "../components/AbstractBackground";
+import LightningBackground from "../components/LightningBackground";
+import axios from "axios";
 
 const Index = () => {
   const { data: metadata } = useQuery({
@@ -14,8 +17,13 @@ const Index = () => {
   });
 
   const { data: colorTemplate } = useQuery({
+    queryKey: ["colorTemplate"],
     queryFn: fetchColorTemplate,
   });
+
+  const themeColor = JSON.parse(localStorage.getItem("theme-colors"))?.find(
+    (c) => c.id === "THEME_COLOR"
+  )?.value_;
 
   useEffect(() => {
     const savedColors = localStorage.getItem("theme-colors");
@@ -62,11 +70,11 @@ const Index = () => {
       );
       document.documentElement.style.setProperty(
         "--button-auth",
-        colors[9].value_
+        colors[8].value_
       );
       document.documentElement.style.setProperty(
-        "--dots-color",
-        colors[7].value_
+        "--theme-color",
+        colors[9].value_
       );
 
       const auroraColors = colors
@@ -86,7 +94,7 @@ const Index = () => {
       );
       document.documentElement.style.setProperty(
         "--order-and-button-color",
-        colors[8].value_
+        colors[7].value_
       );
 
       document.documentElement.style.setProperty(
@@ -133,8 +141,18 @@ const Index = () => {
   }, [metadata]);
 
   return (
-    <div className="min-h-screen bg-primary background-dots">
+    <div
+      className={`min-h-screen bg-primary ${
+        metadata?.theme === "dot" ? "background-dots" : ""
+      }`}
+    >
       <Navbar metadata={metadata?.images} />
+      {metadata?.theme === "thunder" && (
+        <LightningBackground color={themeColor} />
+      )}
+      {metadata?.theme === "abstract" && (
+        <AbstractBackground color={themeColor} />
+      )}
       <div className="">
         <Outlet />
       </div>

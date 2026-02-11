@@ -60,7 +60,6 @@ const DetailContent = ({
     }
 
     existingField[attr.key_] = attr.value_;
-
     return acc;
   }, []);
 
@@ -168,7 +167,6 @@ const DetailContent = ({
 
   const order = () => {
     let account;
-    console.log(groupedFields);
     if (groupedFields.length > 1) {
       account = `${selected[groupedFields[0].name]}-${selected[groupedFields[1].name]}`;
     } else if (groupedFields.length == 1) {
@@ -234,7 +232,7 @@ const DetailContent = ({
         headers: { "X-TOKEN-AUTH": token, "Content-Type": "application/json" },
       })
       .then((response) => {
-        if (response.data !== "goodbye" || response.data !== "") {
+        if (response.data !== "goodbye" && response.data !== "") {
           window.location.href = `/payment/${response.data}`;
         } else {
           window.alert(
@@ -555,10 +553,6 @@ const DetailContent = ({
     }
   }, [selected.item]);
 
-  useEffect(() => {
-    console.log(selected)
-  }, [selected])
-
   return (
     <>
       {/* Bagian kiri */}
@@ -756,60 +750,74 @@ const DetailContent = ({
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {groupedFields?.map((item, index) =>
                     (
-                      <div key={index} className="flex flex-col gap-1">
-                        <label
-                          htmlFor={item.name}
-                          className="text-sm text-white"
-                        >
-                          {index === 0 ? "User ID" : "Additional ID"}
-                        </label>
-                        {item.element === "number" || item.element === "text" ? (
-                          <input
-                            type={item.type}
-                            name={item.name}
-                            className="w-full h-9 border border-white/70 bg-transparent rounded-md px-4 py-1 text-white text-sm"
-                            onChange={(e) =>
-                              setSelected({
-                                ...selected,
-                                [e.target.name]: e.target.value,
-                              })
-                            }
-                            placeholder={item.placeholder}
-                          />
+                      <>
+                        {item.element === "number" || item.element === "text" || item.element === "password" ? (
+                          <>
+                            <div key={index} className="flex flex-col gap-1">
+                              <label
+                                htmlFor={item.name}
+                                className="text-sm text-white"
+                              >
+                                {item.name}
+                              </label>
+                              <input
+                                type={item.type}
+                                name={item.name}
+                                className="w-full h-9 border border-white/70 bg-transparent rounded-md px-4 py-1 text-white text-sm"
+                                onChange={(e) =>
+                                  setSelected({
+                                    ...selected,
+                                    [e.target.name]: e.target.value,
+                                  })
+                                }
+                                placeholder={item.placeholder}
+                              />
+                            </div>
+                          </>
                         ) : (
-                          <div className="flex flex-col gap-1">
-                            <select
-                              name={item.name}
-                              className="w-full h-9 border border-white/70 bg-slate-800 text-slate-300 rounded-md p-1 text-sm"
-                              onChange={(e) =>
-                                setSelected({
-                                  ...selected,
-                                  [e.target.name]: e.target.value,
-                                })
-                              }
-                            >
-                              <option key={index} value="">
-                                {item.placeholder}
-                              </option>
-                              {Array.isArray(item.datas)
-                                ? item.datas.map((option, index) => (
-                                  <option key={index} value={option.value_}>
-                                    {option.key_}
-                                  </option>
-                                ))
-                                : Array.isArray(JSON.parse(item.datas))
-                                  ? JSON.parse(item.datas).map(
-                                    (option, index) => (
-                                      <option key={index} value={option.value_}>
+                          <>
+                            <div key={index} className="flex flex-col gap-1">
+                              <label
+                                htmlFor={item.name}
+                                className="text-sm text-white"
+                              >
+                                {item.name}
+                              </label>
+                              <select
+                                name={item.name}
+                                className="w-full h-9 border border-white/70 bg-slate-800 text-slate-300 rounded-md p-1 text-sm"
+                                onChange={(e) =>
+                                  setSelected({
+                                    ...selected,
+                                    [e.target.name]: e.target.value,
+                                  })
+                                }
+                              >
+                                <option key={index} value="">
+                                  {item.placeholder}
+                                </option>
+                                {(() => {
+                                  let datas;
+                                  try {
+                                    datas = typeof item.datas === "string"
+                                      ? JSON.parse(item.datas)
+                                      : item.datas;
+                                  } catch {
+                                    datas = [];
+                                  }
+
+                                  return Array.isArray(datas)
+                                    ? datas.map(option => (
+                                      <option key={option.id} value={option.values_}>
                                         {option.key_}
                                       </option>
-                                    )
-                                  )
-                                  : null}
-                            </select>
-                          </div>
-                        )}
-                      </div>
+                                    ))
+                                    : null;
+                                })()}
+                              </select>
+                            </div>
+                          </>)}
+                      </>
                     ))}
                   </div>
                 ) : (
@@ -833,7 +841,7 @@ const DetailContent = ({
                             ...selected,
                             itemId: item.id,
                             item: item.name,
-                            price: item.sellPrice,
+                            price: item.sellPrice === null ? item.sellPriceMembership : item.sellPrice,
                           });
                           setItem();
                         }}
@@ -848,7 +856,7 @@ const DetailContent = ({
                             minimumFractionDigits: 0,
                             maximumFractionDigits: 2,
                           }).format(
-                            item.sellPrice
+                            item.sellPrice === null ? item.sellPriceMembership : item.sellPrice
                           )}
                         </p>
                       </div>

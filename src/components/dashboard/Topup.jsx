@@ -33,8 +33,11 @@ const Topup = () => {
   });
 
   const { data: channel } = useQuery({
-    queryFn: () => fetchPayment(),
+    queryKey: ["payment-channel"],
+    queryFn: fetchPayment,
     staleTime: 21600000,
+    refetchOnWindowFocus: true,
+    keepPreviousData: true,
   });
 
   const formatIDR = (value) => {
@@ -64,6 +67,22 @@ const Topup = () => {
   };
 
   const submit = async () => {
+    if (!selected?.paymentCode) {
+      toast.warning("Metode pembayaran belum dipilih");
+      return;
+    }
+
+    if (!nominal || Number(nominal) <= 0) {
+      toast.warning("Nominal top up tidak valid");
+      return;
+    }
+
+    const uniqueCode = localStorage.getItem("unique-code");
+    if (!uniqueCode) {
+      toast.warning("Session login tidak valid, silakan login ulang");
+      return;
+    }
+
     try {
       const response = await axios.post(`${API_URL}/topup-member`, {
         paymentMethod: {
@@ -179,7 +198,7 @@ const Topup = () => {
 
         {nominal !== 0 && channel && (
           <>
-            <div className="w-full min-h-10 bg-fourth_opacity_one backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
+            {/* <div className="w-full min-h-10 bg-fourth_opacity_one backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
               <div
                 className="flex justify-between items-center px-4 py-2"
                 onClick={() => handleShow(1)}
@@ -310,7 +329,7 @@ const Topup = () => {
                     ))}
                 </div>
               )}
-            </div>
+            </div> */}
 
             <div className="w-full min-h-10 bg-fourth_opacity_one backdrop-blur-xl rounded-lg border border-slate-600 flex flex-col overflow-hidden">
               <div
@@ -336,8 +355,8 @@ const Topup = () => {
                       .map((value) => (
                         <div
                           className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${selected.payment === value.id
-                              ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
-                              : "bg-white"
+                            ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
+                            : "bg-white"
                             } ${nominal < value.minAmount
                               ? "pointer-events-none opacity-50"
                               : ""
@@ -360,8 +379,8 @@ const Topup = () => {
                         >
                           <div
                             className={`w-24 h-16 lg:w-50 lg:h-18 overflow-hidden flex justify-center ${selected.payment === value.id
-                                ? "bg-white p-1 rounded-md"
-                                : ""
+                              ? "bg-white p-1 rounded-md"
+                              : ""
                               }`}
                           >
                             <img
@@ -373,8 +392,8 @@ const Topup = () => {
                           <div className="w-full lg:w-70 flex flex-col justify-center text-center lg:text-left">
                             <h1
                               className={`text-lg font-semibold ${selected.payment === value.id
-                                  ? "text-white"
-                                  : ""
+                                ? "text-white"
+                                : ""
                                 }`}
                             >
                               {value.name}
@@ -382,8 +401,8 @@ const Topup = () => {
                             {nominal < value.minAmount ? (
                               <p
                                 className={`text-xs text-red-600 ${selected.payment === value.id
-                                    ? "text-red-200"
-                                    : ""
+                                  ? "text-red-200"
+                                  : ""
                                   }`}
                               >
                                 Tidak Tersedia.{" "}
@@ -396,8 +415,8 @@ const Topup = () => {
                             )}
                             <h1
                               className={`text-sm font-semibold ${selected.payment === value.id
-                                  ? "text-white"
-                                  : ""
+                                ? "text-white"
+                                : ""
                                 }`}
                             >
                               {new Intl.NumberFormat("id-ID", {
@@ -457,8 +476,8 @@ const Topup = () => {
                       .map((value) => (
                         <div
                           className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${selected.payment === value.id
-                              ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
-                              : "bg-white"
+                            ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
+                            : "bg-white"
                             } ${nominal < value.minAmount
                               ? "pointer-events-none opacity-50"
                               : ""
@@ -481,8 +500,8 @@ const Topup = () => {
                         >
                           <div
                             className={`w-24 h-16 lg:w-50 lg:h-18 overflow-hidden flex justify-center ${selected.payment === value.id
-                                ? "bg-white p-1 rounded-md"
-                                : ""
+                              ? "bg-white p-1 rounded-md"
+                              : ""
                               }`}
                           >
                             <img
@@ -494,8 +513,8 @@ const Topup = () => {
                           <div className="w-full lg:w-70 flex flex-col justify-center text-center lg:text-left">
                             <h1
                               className={`text-lg font-semibold ${selected.payment === value.id
-                                  ? "text-white"
-                                  : ""
+                                ? "text-white"
+                                : ""
                                 }`}
                             >
                               {value.name}
@@ -503,8 +522,8 @@ const Topup = () => {
                             {nominal < value.minAmount ? (
                               <p
                                 className={`text-xs text-red-600 ${selected.payment === value.id
-                                    ? "text-red-200"
-                                    : ""
+                                  ? "text-red-200"
+                                  : ""
                                   }`}
                               >
                                 Tidak Tersedia.{" "}
@@ -517,8 +536,8 @@ const Topup = () => {
                             )}
                             <h1
                               className={`text-sm font-semibold ${selected.payment === value.id
-                                  ? "text-white"
-                                  : ""
+                                ? "text-white"
+                                : ""
                                 }`}
                             >
                               {new Intl.NumberFormat("id-ID", {
@@ -580,8 +599,8 @@ const Topup = () => {
                       .map((value) => (
                         <div
                           className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${selected.payment === value.id
-                              ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
-                              : "bg-white"
+                            ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
+                            : "bg-white"
                             } ${nominal < value.minAmount
                               ? "pointer-events-none opacity-50"
                               : ""
@@ -604,8 +623,8 @@ const Topup = () => {
                         >
                           <div
                             className={`w-24 h-16 lg:w-50 lg:h-18 overflow-hidden flex justify-center ${selected.payment === value.id
-                                ? "bg-white p-1 rounded-md"
-                                : ""
+                              ? "bg-white p-1 rounded-md"
+                              : ""
                               }`}
                           >
                             <img
@@ -617,8 +636,8 @@ const Topup = () => {
                           <div className="w-full lg:w-70 flex flex-col justify-center text-center lg:text-left">
                             <h1
                               className={`text-lg font-semibold ${selected.payment === value.id
-                                  ? "text-white"
-                                  : ""
+                                ? "text-white"
+                                : ""
                                 }`}
                             >
                               {value.name}
@@ -626,8 +645,8 @@ const Topup = () => {
                             {nominal < value.minAmount ? (
                               <p
                                 className={`text-xs text-red-600 ${selected.payment === value.id
-                                    ? "text-red-200"
-                                    : ""
+                                  ? "text-red-200"
+                                  : ""
                                   }`}
                               >
                                 Tidak Tersedia.{" "}
@@ -640,8 +659,8 @@ const Topup = () => {
                             )}
                             <h1
                               className={`text-sm font-semibold ${selected.payment === value.id
-                                  ? "text-white"
-                                  : ""
+                                ? "text-white"
+                                : ""
                                 }`}
                             >
                               {new Intl.NumberFormat("id-ID", {
@@ -703,8 +722,8 @@ const Topup = () => {
                       .map((value) => (
                         <div
                           className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${selected.payment === value.id
-                              ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
-                              : "bg-white"
+                            ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
+                            : "bg-white"
                             } ${nominal < value.minAmount
                               ? "pointer-events-none opacity-50"
                               : ""
@@ -727,8 +746,8 @@ const Topup = () => {
                         >
                           <div
                             className={`w-24 h-16 lg:w-50 lg:h-18 overflow-hidden flex justify-center ${selected.payment === value.id
-                                ? "bg-white p-1 rounded-md"
-                                : ""
+                              ? "bg-white p-1 rounded-md"
+                              : ""
                               }`}
                           >
                             <img
@@ -740,8 +759,8 @@ const Topup = () => {
                           <div className="w-full lg:w-70 flex flex-col justify-center text-center lg:text-left">
                             <h1
                               className={`text-lg font-semibold ${selected.payment === value.id
-                                  ? "text-white"
-                                  : ""
+                                ? "text-white"
+                                : ""
                                 }`}
                             >
                               {value.name}
@@ -749,8 +768,8 @@ const Topup = () => {
                             {nominal < value.minAmount ? (
                               <p
                                 className={`text-xs text-red-600 ${selected.payment === value.id
-                                    ? "text-red-200"
-                                    : ""
+                                  ? "text-red-200"
+                                  : ""
                                   }`}
                               >
                                 Tidak Tersedia.{" "}
@@ -763,8 +782,8 @@ const Topup = () => {
                             )}
                             <h1
                               className={`text-sm font-semibold ${selected.payment === value.id
-                                  ? "text-white"
-                                  : ""
+                                ? "text-white"
+                                : ""
                                 }`}
                             >
                               {new Intl.NumberFormat("id-ID", {
@@ -824,8 +843,8 @@ const Topup = () => {
                       .map((value) => (
                         <div
                           className={`w-full h-auto ring-offset-secondary/80 rounded-lg flex flex-col lg:flex-row items-center p-4 justify-center gap-4 hover:cursor-pointer ${selected.payment === value.id
-                              ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
-                              : "bg-white"
+                            ? "bg-seventh ring-2 ring-seventh ring-offset-4 "
+                            : "bg-white"
                             } ${nominal < value.minAmount
                               ? "pointer-events-none opacity-50"
                               : ""
@@ -848,8 +867,8 @@ const Topup = () => {
                         >
                           <div
                             className={`w-24 h-16 lg:w-50 lg:h-18 overflow-hidden flex justify-center ${selected.payment === value.id
-                                ? "bg-white p-1 rounded-md"
-                                : ""
+                              ? "bg-white p-1 rounded-md"
+                              : ""
                               }`}
                           >
                             <img
@@ -861,8 +880,8 @@ const Topup = () => {
                           <div className="w-full lg:w-70 flex flex-col justify-center text-center lg:text-left">
                             <h1
                               className={`text-lg font-semibold ${selected.payment === value.id
-                                  ? "text-white"
-                                  : ""
+                                ? "text-white"
+                                : ""
                                 }`}
                             >
                               {value.name}
@@ -870,8 +889,8 @@ const Topup = () => {
                             {nominal < value.minAmount ? (
                               <p
                                 className={`text-xs text-red-600 ${selected.payment === value.id
-                                    ? "text-red-200"
-                                    : ""
+                                  ? "text-red-200"
+                                  : ""
                                   }`}
                               >
                                 Tidak Tersedia.{" "}
@@ -884,8 +903,8 @@ const Topup = () => {
                             )}
                             <h1
                               className={`text-sm font-semibold ${selected.payment === value.id
-                                  ? "text-white"
-                                  : ""
+                                ? "text-white"
+                                : ""
                                 }`}
                             >
                               {new Intl.NumberFormat("id-ID", {

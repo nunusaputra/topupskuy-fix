@@ -24,27 +24,22 @@ const DashboardLayouts = () => {
 
   useEffect(() => {
     const savedColors = localStorage.getItem("theme-colors");
+
     if (savedColors) {
-      setThemeColors(JSON.parse(savedColors));
-    }
-  }, []);
-
-  useEffect(() => {
-    const fetchColor = async () => {
       try {
-        if (colorTemplate != null || colorTemplate != undefined) {
-          localStorage.setItem("theme-colors", JSON.stringify(colorTemplate));
-          setThemeColors(colorTemplate);
-        }
-      } catch (error) {
-        const savedColors = localStorage.getItem("theme-colors");
-        if (savedColors) {
-          setThemeColors(JSON.parse(savedColors));
-        }
+        const parsed = JSON.parse(savedColors);
+        setThemeColors(parsed);
+        return; // STOP, jangan lanjut ke API
+      } catch (e) {
+        console.error("Invalid theme-colors in localStorage", e);
+        localStorage.removeItem("theme-colors");
       }
-    };
+    }
 
-    fetchColor();
+    if (Array.isArray(colorTemplate) && colorTemplate.length > 0) {
+      localStorage.setItem("theme-colors", JSON.stringify(colorTemplate));
+      setThemeColors(colorTemplate);
+    }
   }, [colorTemplate]);
 
   function hexToRgba(hex, opacity = 1) {

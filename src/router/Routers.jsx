@@ -17,6 +17,7 @@ import Membership from "../components/dashboard/Membership";
 import RiwayatTransaksi from "../components/dashboard/RiwayatTransaksi";
 import RiwayatMutasi from "../components/dashboard/RiwayatMutasi";
 import Topup from "../components/dashboard/Topup";
+import PrivateRoute from "../layouts/PrivateRoute";
 
 const Routers = () => {
   return (
@@ -38,19 +39,21 @@ const Routers = () => {
         </Route>
 
         {/* Dashboard Profile */}
-        <Route element={<DashboardLayouts />}>
-          <Route path="/dashboard/profile" element={<Profile />} />
-          <Route path="/dashboard/edit-profile" element={<EditProfile />} />
-          <Route
-            path="/dashboard/upgrade-membership"
-            element={<Membership />}
-          />
-          <Route
-            path="/dashboard/riwayat-transaksi"
-            element={<RiwayatTransaksi />}
-          />
-          <Route path="/dashboard/riwayat-mutasi" element={<RiwayatMutasi />} />
-          <Route path="/dashboard/topup" element={<Topup />} />
+        <Route element={<PrivateRoute />}>
+          <Route element={<DashboardLayouts />}>
+            <Route path="/dashboard/profile" element={<Profile />} />
+            <Route path="/dashboard/edit-profile" element={<EditProfile />} />
+            <Route
+              path="/dashboard/upgrade-membership"
+              element={<Membership />}
+            />
+            <Route
+              path="/dashboard/riwayat-transaksi"
+              element={<RiwayatTransaksi />}
+            />
+            <Route path="/dashboard/riwayat-mutasi" element={<RiwayatMutasi />} />
+            <Route path="/dashboard/topup" element={<Topup />} />
+          </Route>
         </Route>
       </Routes>
     </div>
