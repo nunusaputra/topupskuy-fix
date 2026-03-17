@@ -224,7 +224,7 @@ const Payment = () => {
                             Produk
                           </h1>
                           <h1 className="text-white text-sm sm:text-[15px] font-medium">
-                            {purchase?.title}
+                            {purchase?.name}
                           </h1>
                         </div>
                         <div className="w-full flex justify-between">
@@ -232,7 +232,7 @@ const Payment = () => {
                             Item
                           </h1>
                           <h1 className="text-white text-sm sm:text-[15px] font-medium">
-                            {purchase?.name}
+                            {purchase?.title}
                           </h1>
                         </div>
                         <div className="w-full flex justify-between">
@@ -263,7 +263,7 @@ const Payment = () => {
                       </>
                     )}
                     {/* DISKON */}
-                    {/* <div className="w-full flex justify-between">
+                    <div className="w-full flex justify-between">
                       <h1 className="text-white text-sm sm:text-[15px] font-semibold">
                         Diskon
                       </h1>
@@ -274,7 +274,7 @@ const Payment = () => {
                           currency: "IDR",
                         }).format(purchase?.discountPrice)}
                       </h1>
-                    </div> */}
+                    </div>
                     <div className="w-full flex justify-between">
                       <h1 className="text-white text-sm sm:text-[15px] font-semibold">
                         Biaya Tambahan

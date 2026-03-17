@@ -933,7 +933,7 @@ const DetailContent = ({
                                         }`}
                                     >
                                       <img
-                                        src={value.icon.path}
+                                        src={value.icon}
                                         onError={(e) => {
                                           e.target.src = Pay;
                                         }}
@@ -1005,7 +1005,7 @@ const DetailContent = ({
                                   key={value.id}
                                 >
                                   <img
-                                    src={value.icon.path}
+                                    src={value.icon}
                                     onError={(e) => {
                                       e.target.src = Pay;
                                     }}
@@ -1079,7 +1079,7 @@ const DetailContent = ({
                                           }`}
                                       >
                                         <img
-                                          src={value.icon.path}
+                                          src={value.icon}
                                           onError={(e) => {
                                             e.target.src = Pay;
                                           }}
@@ -1145,7 +1145,7 @@ const DetailContent = ({
                                     key={value.id}
                                   >
                                     <img
-                                      src={value.icon.path}
+                                      src={value.icon}
                                       onError={(e) => {
                                         e.target.src = Pay;
                                       }}
@@ -1218,7 +1218,7 @@ const DetailContent = ({
                                           }`}
                                       >
                                         <img
-                                          src={value.icon.path}
+                                          src={value.icon}
                                           onError={(e) => {
                                             e.target.src = Pay;
                                           }}
@@ -1284,7 +1284,7 @@ const DetailContent = ({
                                     key={value.id}
                                   >
                                     <img
-                                      src={value.icon.path}
+                                      src={value.icon}
                                       onError={(e) => {
                                         e.target.src = Pay;
                                       }}
@@ -1359,7 +1359,7 @@ const DetailContent = ({
                                           }`}
                                       >
                                         <img
-                                          src={value.icon.path}
+                                          src={value.icon}
                                           onError={(e) => {
                                             e.target.src = Pay;
                                           }}
@@ -1427,7 +1427,7 @@ const DetailContent = ({
                                     key={value.id}
                                   >
                                     <img
-                                      src={value.icon.path}
+                                      src={value.icon}
                                       onError={(e) => {
                                         e.target.src = Pay;
                                       }}
@@ -1503,7 +1503,7 @@ const DetailContent = ({
                                           }`}
                                       >
                                         <img
-                                          src={value.icon.path}
+                                          src={value.icon}
                                           onError={(e) => {
                                             e.target.src = Pay;
                                           }}
@@ -1571,7 +1571,7 @@ const DetailContent = ({
                                     key={value.id}
                                   >
                                     <img
-                                      src={value.icon.path}
+                                      src={value.icon}
                                       onError={(e) => {
                                         e.target.src = Pay;
                                       }}
@@ -1644,7 +1644,7 @@ const DetailContent = ({
                                           }`}
                                       >
                                         <img
-                                          src={value.icon.path}
+                                          src={value.icon}
                                           onError={(e) => {
                                             e.target.src = Pay;
                                           }}
@@ -1710,7 +1710,7 @@ const DetailContent = ({
                                     key={value.id}
                                   >
                                     <img
-                                      src={value.icon.path}
+                                      src={value.icon}
                                       onError={(e) => {
                                         e.target.src = Pay;
                                       }}
